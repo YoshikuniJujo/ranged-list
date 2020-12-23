@@ -1,3 +1,4 @@
+{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -7,9 +8,9 @@
 
 module Data.List.Range (
 	-- * RANGED LIST LEFT
-	module Data.List.Range.RangeL,
+	module Data.List.Range.RangeL, repeatLMin, repeatLMax,
 	-- * RANGED LIST RIGHT
-	module Data.List.Range.RangeR,
+	module Data.List.Range.RangeR, repeatRMin, repeatRMax,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -19,6 +20,18 @@ import GHC.TypeNats
 
 import Data.List.Range.RangeL
 import Data.List.Range.RangeR
+
+repeatLMin :: UnfoldrMin n m => a -> RangeL n m a
+repeatLMin = unfoldrMin \x -> (x, x)
+
+repeatLMax :: UnfoldrMax n m => a -> RangeL n m a
+repeatLMax = unfoldrMax \x -> (x, x)
+
+repeatRMin :: UnfoldlMin n m => a -> RangeR n m a
+repeatRMin = unfoldlMin \x -> (x, x)
+
+repeatRMax :: UnfoldlMax n m => a -> RangeR n m a
+repeatRMax = unfoldlMax \x -> (x, x)
 
 infixl 5 ++.+
 
