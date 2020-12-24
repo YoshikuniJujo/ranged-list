@@ -8,10 +8,12 @@
 
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
-	UnfoldlMin, unfoldlMin, UnfoldlMax, unfoldlMax,
+	UnfoldlMin, unfoldlMin, unfoldlMinM,
+	UnfoldlMax, unfoldlMax,
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR ) where
 
 import GHC.TypeLits
+import Control.Monad.Identity
 
 infixl 6 :+, :++
 
@@ -119,14 +121,19 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	xs +++ ys :+ y = (xs +++ ys) :+ y
 	_ +++ _ = error "never occur"
 
-class UnfoldlMin n m where
-	unfoldlMin :: (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMin :: UnfoldlMin n m => (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMin f s = runIdentity $ unfoldlMinM (Identity . f) s
 
-instance UnfoldlMin 0 m where unfoldlMin _ _ = NilR
+class UnfoldlMin n w where
+	unfoldlMinM :: Monad m => (s -> m (a, s)) -> s -> m (RangeR n w a)
+
+instance UnfoldlMin 0 m where unfoldlMinM _ _ = pure NilR
 
 instance {-# OVERLAPPABLE #-}
 	UnfoldlMin (n - 1) (m - 1) => UnfoldlMin n m where
-	unfoldlMin f s = let (x, s') = f s in unfoldlMin f s' :+ x
+	unfoldlMinM f s = do
+		(x, s') <- f s
+		(:+ x) <$> unfoldlMinM f s'
 
 class UnfoldlMax n m where
 	unfoldlMax :: (s -> (a, s)) -> s -> RangeR n m a

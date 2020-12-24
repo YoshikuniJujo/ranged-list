@@ -13,6 +13,7 @@ module Data.List.Range.RangeL (
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
+import Control.Monad.Identity
 
 infixr 6 :., :..
 
@@ -121,16 +122,6 @@ instance {-# OVERLAPPABLE #-}
 	AddL (n - 1) (m - 1) n' m' => AddL n m n' m' where
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
-
-newtype Identity a = Identity { runIdentity :: a } deriving Show
-
-instance Functor Identity where fmap f = Identity . f . runIdentity
-
-instance Applicative Identity where
-	pure = Identity
-	Identity f <*> Identity x = Identity $ f x
-
-instance Monad Identity where Identity x >>= f = f x
 
 unfoldrMin :: UnfoldrMin n m => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
