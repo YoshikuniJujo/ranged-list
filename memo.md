@@ -13,6 +13,6 @@ todo
 * [x] consider to add Data.List.Length.LengthL
 * [x] consider to add Data.List.Length.LengthR
 * [x] remove UnfoldrMin
-* [ ] remove UnfoldrMax
+* [x] remove UnfoldrMax
 * [ ] remove UnfoldlMin
 * [ ] remove UnfoldlMax
