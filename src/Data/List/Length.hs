@@ -22,9 +22,6 @@ import Data.List.Range
 import Data.List.Length.LengthL
 import Data.List.Length.LengthR
 
-unfoldr :: Unfoldr 0 n => (s -> (a, s)) -> s -> LengthL n a
-unfoldr = unfoldrWithBase NilL
-
 repeatL :: Unfoldr 0 n => a -> LengthL n a
 repeatL = fillL NilL
 

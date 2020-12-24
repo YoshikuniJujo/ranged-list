@@ -8,7 +8,7 @@
 
 module Data.List.Range (
 	-- * RANGED LIST LEFT
-	module Data.List.Range.RangeL, repeatLMin, repeatLMax,
+	module Data.List.Range.RangeL, unfoldrMin, unfoldrMinM, repeatLMin, repeatLMax,
 	-- * RANGED LIST RIGHT
 	module Data.List.Range.RangeR, repeatRMin, repeatRMax,
 	-- * LEFT TO RIGHT
@@ -20,8 +20,16 @@ import GHC.TypeNats
 
 import Data.List.Range.RangeL
 import Data.List.Range.RangeR
+import Data.List.Length.LengthL
 
-repeatLMin :: UnfoldrMin n m => a -> RangeL n m a
+unfoldrMin :: (LoosenLMax n n m, Unfoldr 0 n) => (s -> (a, s)) -> s -> RangeL n m a
+unfoldrMin f = loosenLMax . unfoldr f
+
+unfoldrMinM :: (Monad m, LoosenLMax n n w, Unfoldr 0 n) =>
+	(s -> m (a, s)) -> s -> m (RangeL n w a)
+unfoldrMinM f s = loosenLMax <$> unfoldrM f s
+
+repeatLMin :: (LoosenLMax n n m, Unfoldr 0 n) => a -> RangeL n m a
 repeatLMin = unfoldrMin \x -> (x, x)
 
 repeatLMax :: UnfoldrMax n m => a -> RangeL n m a

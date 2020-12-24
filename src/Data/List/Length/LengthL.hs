@@ -6,27 +6,38 @@
 module Data.List.Length.LengthL where
 
 import GHC.TypeNats
+import Control.Monad.Identity
 import Data.List.Range.RangeL
 
 type LengthL n = RangeL n n
 
+unfoldr :: Unfoldr 0 n => (s -> (a, s)) -> s -> LengthL n a
+unfoldr = unfoldrWithBase NilL
+
+unfoldrWithBase :: Unfoldr n m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
+unfoldrWithBase xs f s = runIdentity $ unfoldrWithBaseM xs (Identity . f) s
+
+unfoldrM :: (Monad m, Unfoldr 0 n) => (s -> m (a, s)) -> s -> m (LengthL n a)
+unfoldrM = unfoldrWithBaseM NilL
+
 class Unfoldr n w where
-	unfoldrWithBase :: RangeL n w a -> (s -> (a, s)) -> s -> LengthL w a
+	unfoldrWithBaseM :: Monad m =>
+		RangeL n w a -> (s -> m (a, s)) -> s -> m (LengthL w a)
 
 instance Unfoldr 0 0 where
-	unfoldrWithBase NilL _ _ = NilL
-	unfoldrWithBase _ _ _ = error "never occur"
+	unfoldrWithBaseM NilL _ _ = pure NilL
+	unfoldrWithBaseM _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 (w - 1) => Unfoldr 0 w where
-	unfoldrWithBase NilL f s = let
-		(x, s') = f s in
-		x :. unfoldrWithBase NilL f s'
-	unfoldrWithBase (x :.. xs) f s = x :. unfoldrWithBase xs f s
-	unfoldrWithBase _ _ _ = error "never occur"
+	unfoldrWithBaseM NilL f s = do
+		(x, s') <- f s
+		(x :.) <$> unfoldrWithBaseM NilL f s'
+	unfoldrWithBaseM (x :.. xs) f s = (x :.) <$> unfoldrWithBaseM xs f s
+	unfoldrWithBaseM _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr (n - 1) (w - 1) => Unfoldr n w where
-	unfoldrWithBase (x :. xs) f s = x :. unfoldrWithBase xs f s
-	unfoldrWithBase _ _ _ = error "never occur"
+	unfoldrWithBaseM (x :. xs) f s = (x :.) <$> unfoldrWithBaseM xs f s
+	unfoldrWithBaseM _ _ _ = error "never occur"
 
 class ListToLengthL m where
 	listToLengthL :: [a] -> Either (RangeL 0 (m - 1) a) (LengthL m a, [a])

@@ -8,7 +8,6 @@
 
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
-	UnfoldrMin, unfoldrMin, unfoldrMinM,
 	UnfoldrMax, unfoldrMax, unfoldrMaxM,
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL ) where
 
@@ -122,20 +121,6 @@ instance {-# OVERLAPPABLE #-}
 	AddL (n - 1) (m - 1) n' m' => AddL n m n' m' where
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
-
-unfoldrMin :: UnfoldrMin n m => (s -> (a, s)) -> s -> RangeL n m a
-unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
-
-class UnfoldrMin n w where
-	unfoldrMinM :: Monad m => (s -> m (a, s)) -> s -> m (RangeL n w a)
-
-instance UnfoldrMin 0 m where unfoldrMinM _ _ = pure NilL
-
-instance {-# OVERLAPPABLE #-}
-	UnfoldrMin (n - 1) (m - 1) => UnfoldrMin n m where
-	unfoldrMinM f s = do
-		(x, s') <- f s
-		(x :.) <$> unfoldrMinM f s'
 
 unfoldrMax :: UnfoldrMax n m => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMax f s = runIdentity $ unfoldrMaxM (Identity . f) s

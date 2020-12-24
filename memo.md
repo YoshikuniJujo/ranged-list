@@ -12,3 +12,7 @@ todo
 	+ `unfoldlWithBase :: RangeR n m a -> (s -> (a, s)) -> s -> LengthR m a`
 * [x] consider to add Data.List.Length.LengthL
 * [x] consider to add Data.List.Length.LengthR
+* [x] remove UnfoldrMin
+* [ ] remove UnfoldrMax
+* [ ] remove UnfoldlMin
+* [ ] remove UnfoldlMax
