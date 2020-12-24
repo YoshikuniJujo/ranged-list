@@ -8,8 +8,9 @@
 
 module Data.List.Range (
 	-- * RANGED LIST LEFT
-	module Data.List.Range.RangeL,
-	unfoldrMin, unfoldrMinM, repeatLMin, unfoldrMax, unfoldrMaxM, repeatLMax,
+	module Data.List.Range.RangeL, Unfoldr,
+	unfoldrMin, unfoldrMinM, repeatLMin,
+	unfoldrMax, unfoldrMaxM, repeatLMax,
 	-- * RANGED LIST RIGHT
 	module Data.List.Range.RangeR, repeatRMin, repeatRMax,
 	-- * LEFT TO RIGHT

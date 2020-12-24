@@ -6,7 +6,7 @@
 module Data.List.Length (
 	-- * LENGTHED LIST LEFT
 	LengthL, RangeL(NilL, (:.)), AddL, (++.),
-	unfoldr, repeatL, fillL, listToLengthL, chunksL,
+	Unfoldr, unfoldr, repeatL, fillL, listToLengthL, chunksL,
 	-- * LENGTHED LIST RIGHT
 	LengthR, RangeR(NilR, (:+)), AddR, (+++),
 	unfoldl, repeatR, listToLengthR, chunksR,
