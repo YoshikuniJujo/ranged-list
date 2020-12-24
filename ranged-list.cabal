@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 32bab47e0c4d6d7f60cbdd83ada1e0b74d9de70978c34c603eea7607ac01abbe
+-- hash: 541e3173763211dd770d23bcd6da52dd5b4ce29ea4c02c4bae8863bb91bc5fb5
 
 name:           ranged-list
 version:        0.1.0.0
@@ -35,6 +35,7 @@ library
       Data.List.Length.LengthR
       Data.List.Range.RangeL
       Data.List.Range.RangeR
+      Foldr
       Paths_ranged_list
   hs-source-dirs:
       src
