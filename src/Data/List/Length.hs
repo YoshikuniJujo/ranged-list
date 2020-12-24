@@ -21,6 +21,11 @@ unfoldr = unfoldrMin
 repeatL :: UnfoldrMin n n => a -> LengthL n a
 repeatL = repeatLMin
 
+-- takeL :: [a] -> Maybe (LengthL n a, [a])
+-- takeL =
+
+-- chunksL :: [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
+
 type LengthR n = RangeR n n
 
 unfoldl :: UnfoldlMin n n => (s -> (a, s)) -> s -> LengthR n a

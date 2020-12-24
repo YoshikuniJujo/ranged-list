@@ -121,14 +121,29 @@ instance {-# OVERLAPPABLE #-}
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
 
+newtype Identity a = Identity { runIdentity :: a } deriving Show
+
+instance Functor Identity where fmap f = Identity . f . runIdentity
+
+instance Applicative Identity where
+	pure = Identity
+	Identity f <*> Identity x = Identity $ f x
+
+instance Monad Identity where Identity x >>= f = f x
+
 class UnfoldrMin n m where
+	unfoldrMinM :: Monad mnd => (s -> mnd (a, s)) -> s -> mnd (RangeL n m a)
 	unfoldrMin :: (s -> (a, s)) -> s -> RangeL n m a
 
-instance UnfoldrMin 0 m where unfoldrMin _ _ = NilL
+	unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
+
+instance UnfoldrMin 0 m where unfoldrMinM _ _ = pure NilL
 
 instance {-# OVERLAPPABLE #-}
 	UnfoldrMin (n - 1) (m - 1) => UnfoldrMin n m where
-	unfoldrMin f s = let (x, s') = f s in x :. unfoldrMin f s'
+	unfoldrMinM f s = do
+		(x, s') <- f s
+		(x :.) <$> unfoldrMinM f s'
 
 class UnfoldrMax n m where
 	unfoldrMax :: (s -> (a, s)) -> s -> RangeL n m a
