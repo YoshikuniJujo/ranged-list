@@ -8,7 +8,8 @@
 
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
-	UnfoldrMin, unfoldrMin, UnfoldrMax, unfoldrMax,
+	UnfoldrMin, unfoldrMin, unfoldrMinM,
+	UnfoldrMax, unfoldrMax,
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
@@ -131,11 +132,12 @@ instance Applicative Identity where
 
 instance Monad Identity where Identity x >>= f = f x
 
-class UnfoldrMin n m where
-	unfoldrMinM :: Monad mnd => (s -> mnd (a, s)) -> s -> mnd (RangeL n m a)
-	unfoldrMin :: (s -> (a, s)) -> s -> RangeL n m a
+unfoldrMin :: UnfoldrMin n m => (s -> (a, s)) -> s -> RangeL n m a
+unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
 
-	unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
+class UnfoldrMin n w where
+	unfoldrMinM :: Monad m => (s -> m (a, s)) -> s -> m (RangeL n w a)
+
 
 instance UnfoldrMin 0 m where unfoldrMinM _ _ = pure NilL
 
