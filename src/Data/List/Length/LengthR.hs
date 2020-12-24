@@ -29,7 +29,7 @@ instance Unfoldl 0 0 where
 	unfoldlWithBaseM _ _ NilR = pure NilR
 	unfoldlWithBaseM _ _ _ = error "never occur"
 
-instance {-# OVERLAPPABLE #-} Unfoldl 0 (m - 1) => Unfoldl 0 m where
+instance {-# OVERLAPPABLE #-} (1 <= m, Unfoldl 0 (m - 1)) => Unfoldl 0 m where
 	unfoldlWithBaseM f s NilR = do
 		(x, s') <- f s
 		(:+ x) <$> unfoldlWithBaseM f s' NilR

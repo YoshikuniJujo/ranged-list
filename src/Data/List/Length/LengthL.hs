@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
-{-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.List.Length.LengthL where
 
@@ -28,7 +28,7 @@ instance Unfoldr 0 0 where
 	unfoldrWithBaseM NilL _ _ = pure NilL
 	unfoldrWithBaseM _ _ _ = error "never occur"
 
-instance {-# OVERLAPPABLE #-} Unfoldr 0 (w - 1) => Unfoldr 0 w where
+instance {-# OVERLAPPABLE #-} (1 <= w, Unfoldr 0 (w - 1)) => Unfoldr 0 w where
 	unfoldrWithBaseM NilL f s = do
 		(x, s') <- f s
 		(x :.) <$> unfoldrWithBaseM NilL f s'
