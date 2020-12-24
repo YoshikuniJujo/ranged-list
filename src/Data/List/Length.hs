@@ -9,7 +9,7 @@ module Data.List.Length (
 	Unfoldr, unfoldr, repeatL, fillL, listToLengthL, chunksL,
 	-- * LENGTHED LIST RIGHT
 	LengthR, RangeR(NilR, (:+)), AddR, (+++),
-	unfoldl, repeatR, listToLengthR, chunksR,
+	Unfoldl, unfoldl, repeatR, fillR, listToLengthR, chunksR,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -33,11 +33,11 @@ chunksL xs = case listToLengthL xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksL xs'
 
-unfoldl :: UnfoldlMin n n => (s -> (a, s)) -> s -> LengthR n a
-unfoldl = unfoldlMin
+repeatR :: Unfoldl 0 n => a -> LengthR n a
+repeatR = (`fillR` NilR)
 
-repeatR :: UnfoldlMin n n => a -> LengthR n a
-repeatR = repeatRMin
+fillR :: Unfoldl n m => a -> RangeR n m a -> LengthR m a
+fillR = unfoldlWithBase \x -> (x, x)
 
 chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR xs = case listToLengthR xs of
