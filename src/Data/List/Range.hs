@@ -14,7 +14,7 @@ module Data.List.Range (
 	-- * RANGED LIST RIGHT
 	module Data.List.Range.RangeR, Unfoldl,
 	unfoldlMin, unfoldlMinM, repeatRMin,
-	repeatRMax,
+	unfoldlMax, unfoldlMaxM, repeatRMax,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -61,7 +61,14 @@ unfoldlMinM f s = loosenRMax <$> unfoldlM f s
 repeatRMin :: (LoosenRMax n n m, Unfoldl 0 n) => a -> RangeR n m a
 repeatRMin = unfoldlMin \x -> (x, x)
 
-repeatRMax :: UnfoldlMax n m => a -> RangeR n m a
+unfoldlMax :: (LoosenRMin m m n, Unfoldl 0 m) => (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMax f = loosenRMin . unfoldl f
+
+unfoldlMaxM :: (Monad m, LoosenRMin w w n, Unfoldl 0 w) =>
+	(s -> m (a, s)) -> s -> m (RangeR n w a)
+unfoldlMaxM f s = loosenRMin <$> unfoldlM f s
+
+repeatRMax :: (LoosenRMin m m n, Unfoldl 0 m) => a -> RangeR n m a
 repeatRMax = unfoldlMax \x -> (x, x)
 
 -- LEFT TO RIGHT

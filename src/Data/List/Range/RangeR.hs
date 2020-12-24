@@ -8,11 +8,9 @@
 
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
-	UnfoldlMax, unfoldlMax, unfoldlMaxM,
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR ) where
 
 import GHC.TypeLits
-import Control.Monad.Identity
 
 infixl 6 :+, :++
 
@@ -119,23 +117,3 @@ instance {-# OVERLAPPABLE #-} (
 instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	xs +++ ys :+ y = (xs +++ ys) :+ y
 	_ +++ _ = error "never occur"
-
-unfoldlMax :: UnfoldlMax n m => (s -> (a, s)) -> s -> RangeR n m a
-unfoldlMax f s = runIdentity $ unfoldlMaxM (Identity . f) s
-
-class UnfoldlMax n w where
-	unfoldlMaxM :: Monad m => (s -> m (a, s)) -> s -> m (RangeR n w a)
-
-instance UnfoldlMax 0 0 where unfoldlMaxM _ _ = pure NilR
-
-instance {-# OVERLAPPABLE #-}
-	UnfoldlMax 0 (m - 1) => UnfoldlMax 0 m where
-	unfoldlMaxM f s = do
-		(x, s') <- f s
-		(:++ x) <$> unfoldlMaxM f s'
-
-instance {-# OVERLAPPABLE #-}
-	UnfoldlMax (n - 1) (m - 1) => UnfoldlMax n m where
-	unfoldlMaxM f s = do
-		(x, s') <- f s
-		(:+ x) <$> unfoldlMaxM f s'
