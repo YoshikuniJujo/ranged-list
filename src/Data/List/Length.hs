@@ -1,12 +1,13 @@
+{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.List.Length (
 	-- * LENGTHED LIST LEFT
 	LengthL, RangeL(NilL, (:.)), AddL, (++.),
-	unfoldr, repeatL, listToLengthL, chunksL,
+	unfoldr, repeatL, fillL, listToLengthL, chunksL,
 	-- * LENGTHED LIST RIGHT
 	LengthR, RangeR(NilR, (:+)), AddR, (+++),
 	unfoldl, repeatR, listToLengthR, chunksR,
@@ -22,11 +23,32 @@ import Data.List.Range
 
 type LengthL n = RangeL n n
 
-unfoldr :: UnfoldrMin n n => (s -> (a, s)) -> s -> LengthL n a
-unfoldr = unfoldrMin
+unfoldr :: Unfoldr 0 n => (s -> (a, s)) -> s -> LengthL n a
+unfoldr = unfoldrWithBase NilL
 
-repeatL :: UnfoldrMin n n => a -> LengthL n a
-repeatL = repeatLMin
+repeatL :: Unfoldr 0 n => a -> LengthL n a
+repeatL = fillL NilL
+
+fillL :: Unfoldr n m => RangeL n m a -> a -> LengthL m a
+fillL xs0 = unfoldrWithBase xs0 \x -> (x, x)
+
+class Unfoldr n w where
+	unfoldrWithBase :: RangeL n w a -> (s -> (a, s)) -> s -> LengthL w a
+
+instance Unfoldr 0 0 where
+	unfoldrWithBase NilL _ _ = NilL
+	unfoldrWithBase _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-} Unfoldr 0 (w - 1) => Unfoldr 0 w where
+	unfoldrWithBase NilL f s = let
+		(x, s') = f s in
+		x :. unfoldrWithBase NilL f s'
+	unfoldrWithBase (x :.. xs) f s = x :. unfoldrWithBase xs f s
+	unfoldrWithBase _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-} Unfoldr (n - 1) (w - 1) => Unfoldr n w where
+	unfoldrWithBase (x :. xs) f s = x :. unfoldrWithBase xs f s
+	unfoldrWithBase _ _ _ = error "never occur"
 
 class ListToLengthL m where
 	listToLengthL :: [a] -> Either (RangeL 0 (m - 1) a) (LengthL m a, [a])

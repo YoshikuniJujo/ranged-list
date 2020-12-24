@@ -129,7 +129,6 @@ unfoldrMin f s = runIdentity $ unfoldrMinM (Identity . f) s
 class UnfoldrMin n w where
 	unfoldrMinM :: Monad m => (s -> m (a, s)) -> s -> m (RangeL n w a)
 
-
 instance UnfoldrMin 0 m where unfoldrMinM _ _ = pure NilL
 
 instance {-# OVERLAPPABLE #-}
