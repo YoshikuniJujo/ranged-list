@@ -14,5 +14,5 @@ todo
 * [x] consider to add Data.List.Length.LengthR
 * [x] remove UnfoldrMin
 * [x] remove UnfoldrMax
-* [ ] remove UnfoldlMin
+* [x] remove UnfoldlMin
 * [ ] remove UnfoldlMax

@@ -12,7 +12,9 @@ module Data.List.Range (
 	unfoldrMin, unfoldrMinM, repeatLMin,
 	unfoldrMax, unfoldrMaxM, repeatLMax,
 	-- * RANGED LIST RIGHT
-	module Data.List.Range.RangeR, repeatRMin, repeatRMax,
+	module Data.List.Range.RangeR, Unfoldl,
+	unfoldlMin, unfoldlMinM, repeatRMin,
+	repeatRMax,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -23,6 +25,9 @@ import GHC.TypeNats
 import Data.List.Range.RangeL
 import Data.List.Range.RangeR
 import Data.List.Length.LengthL
+import Data.List.Length.LengthR
+
+-- RANGED LIST LEFT
 
 unfoldrMin :: (LoosenLMax n n m, Unfoldr 0 n) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f = loosenLMax . unfoldr f
@@ -44,11 +49,22 @@ unfoldrMaxM f s = loosenLMin <$> unfoldrM f s
 repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m) => a -> RangeL n m a
 repeatLMax = unfoldrMax \x -> (x, x)
 
-repeatRMin :: UnfoldlMin n m => a -> RangeR n m a
+-- RANGED LIST RIGHT
+
+unfoldlMin :: (LoosenRMax n n m, Unfoldl 0 n) => (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMin f = loosenRMax . unfoldl f
+
+unfoldlMinM :: (Monad m, LoosenRMax n n w, Unfoldl 0 n) =>
+	(s -> m (a, s)) -> s -> m (RangeR n w a)
+unfoldlMinM f s = loosenRMax <$> unfoldlM f s
+
+repeatRMin :: (LoosenRMax n n m, Unfoldl 0 n) => a -> RangeR n m a
 repeatRMin = unfoldlMin \x -> (x, x)
 
 repeatRMax :: UnfoldlMax n m => a -> RangeR n m a
 repeatRMax = unfoldlMax \x -> (x, x)
+
+-- LEFT TO RIGHT
 
 infixl 5 ++.+
 
@@ -87,6 +103,8 @@ instance {-# OVERLAPPABLE #-}
 leftToRight ::
 	forall n m a . LeftToRight 0 0 n m => RangeL n m a -> RangeR n m a
 leftToRight = ((NilR :: RangeR 0 0 a) ++.+)
+
+-- RIGHT TO LEFT
 
 infixr 5 ++..
 
