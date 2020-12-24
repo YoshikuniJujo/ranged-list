@@ -1,15 +1,16 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.List.Length (
 	-- * LENGTHED LIST LEFT
 	LengthL, RangeL(NilL, (:.)), AddL, (++.),
-	Unfoldr, unfoldr, repeatL, fillL, listToLengthL, chunksL,
+	Unfoldr, unfoldr, repeatL, fillL, listToLengthL, chunksL, chunksL',
 	-- * LENGTHED LIST RIGHT
 	LengthR, RangeR(NilR, (:+)), AddR, (+++),
-	Unfoldl, unfoldl, repeatR, fillR, listToLengthR, chunksR,
+	Unfoldl, unfoldl, repeatR, fillR, listToLengthR, chunksR, chunksR',
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -33,6 +34,11 @@ chunksL xs = case listToLengthL xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksL xs'
 
+chunksL' :: (Unfoldr 0 n, ListToLengthL n, LoosenLMax 0 (n - 1) n) => a -> [a] -> [LengthL n a]
+chunksL' z xs = case chunksL xs of
+	(cs, NilL) -> cs
+	(cs, rs) -> cs ++ [fillL (loosenLMax rs) z]
+
 repeatR :: Unfoldl 0 n => a -> LengthR n a
 repeatR = (`fillR` NilR)
 
@@ -43,3 +49,8 @@ chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR xs = case listToLengthR xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksR xs'
+
+chunksR' :: (Unfoldl 0 n, ListToLengthR n, LoosenRMax 0 (n - 1) n) => a -> [a] -> [LengthR n a]
+chunksR' z xs = case chunksR xs of
+	(cs, NilR) -> cs
+	(cs, rs) -> cs ++ [fillR z $ loosenRMax rs]
