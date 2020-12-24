@@ -9,7 +9,7 @@
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
 	UnfoldrMin, unfoldrMin, unfoldrMinM,
-	UnfoldrMax, unfoldrMax,
+	UnfoldrMax, unfoldrMax, unfoldrMaxM,
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
@@ -147,15 +147,22 @@ instance {-# OVERLAPPABLE #-}
 		(x, s') <- f s
 		(x :.) <$> unfoldrMinM f s'
 
-class UnfoldrMax n m where
-	unfoldrMax :: (s -> (a, s)) -> s -> RangeL n m a
+unfoldrMax :: UnfoldrMax n m => (s -> (a, s)) -> s -> RangeL n m a
+unfoldrMax f s = runIdentity $ unfoldrMaxM (Identity . f) s
 
-instance UnfoldrMax 0 0 where unfoldrMax _ _ = NilL
+class UnfoldrMax n w where
+	unfoldrMaxM :: Monad m => (s -> m (a, s)) -> s -> m (RangeL n w a)
+
+instance UnfoldrMax 0 0 where unfoldrMaxM _ _ = pure NilL
 
 instance {-# OVERLAPPABLE #-}
 	UnfoldrMax 0 (m - 1) => UnfoldrMax 0 m where
-	unfoldrMax f s = let (x, s') = f s in x :.. unfoldrMax f s'
+	unfoldrMaxM f s = do
+		(x, s') <- f s
+		(x :..) <$> unfoldrMaxM f s'
 
 instance {-# OVERLAPPABLE #-}
 	UnfoldrMax (n - 1) (m - 1) => UnfoldrMax n m where
-	unfoldrMax f s = let (x, s') = f s in x :. unfoldrMax f s'
+	unfoldrMaxM f s = do
+		(x, s') <- f s
+		(x :.) <$> unfoldrMaxM f s'
