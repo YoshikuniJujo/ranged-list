@@ -12,6 +12,7 @@ module Data.List.Range.RangeL (
 	Unfoldr', unfoldrWithBaseRange ) where
 
 import Control.Arrow (first)
+import Control.Monad.Identity
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 
 infixr 6 :., :..
@@ -122,32 +123,36 @@ instance {-# OVERLAPPABLE #-}
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
 
+unfoldrWithBaseRange :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+unfoldrWithBaseRange xs p f s = runIdentity $ unfoldrWithBaseRangeM xs p (Identity . f) s
+
 class Unfoldr' n v w where
-	unfoldrWithBaseRange :: RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+	unfoldrWithBaseRangeM :: Monad m => RangeL n w a ->
+		(s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
 
 instance Unfoldr' 0 0 0 where
-	unfoldrWithBaseRange NilL _ _ s = (NilL, s)
-	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+	unfoldrWithBaseRangeM NilL _ _ s = pure (NilL, s)
+	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr' 0 0 (w - 1) => Unfoldr' 0 0 w where
-	unfoldrWithBaseRange NilL p f s
-		| p s = let
-			(x, s') = f s in
-			(x :..) `first` unfoldrWithBaseRange NilL p f s'
-		| otherwise = (NilL, s)
-	unfoldrWithBaseRange (x :.. xs) p f s = (x :..) `first` unfoldrWithBaseRange xs p f s
-	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+	unfoldrWithBaseRangeM NilL p f s
+		| p s = do
+			(x, s') <- f s
+			((x :..) `first`) <$> unfoldrWithBaseRangeM NilL p f s'
+		| otherwise = pure (NilL, s)
+	unfoldrWithBaseRangeM (x :.. xs) p f s = ((x :..) `first`) <$> unfoldrWithBaseRangeM xs p f s
+	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr' 0 (v - 1) (w - 1) => Unfoldr' 0 v w where
-	unfoldrWithBaseRange NilL p f s = let
-		(x, s') = f s in
-		(x :.) `first` unfoldrWithBaseRange NilL p f s'
-	unfoldrWithBaseRange (x :.. xs) p f s = (x :.) `first` unfoldrWithBaseRange xs p f s
-	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+	unfoldrWithBaseRangeM NilL p f s = do
+		(x, s') <- f s
+		((x :.) `first`) <$> unfoldrWithBaseRangeM NilL p f s'
+	unfoldrWithBaseRangeM (x :.. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeM xs p f s
+	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr' (n - 1) (v - 1) (w - 1) => Unfoldr' n v w where
-	unfoldrWithBaseRange (x :. xs) p f s = (x :.) `first` unfoldrWithBaseRange xs p f s
-	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+	unfoldrWithBaseRangeM (x :. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeM xs p f s
+	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
