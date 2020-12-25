@@ -43,6 +43,11 @@ todo
 		- repair definitions
 	+ [x] rename `class Unfoldl'` to `class Unfoldl`
 	+ [ ] others
+* [ ] define class ZipL
+	+ [x] define `zipWithL`
+	+ [ ] define `zipWithML`
+	+ [ ] put `zipWithL` out of class
+* [ ] define class ZipR
 
 trush
 -----

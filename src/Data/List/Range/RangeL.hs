@@ -9,9 +9,10 @@
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
-	Unfoldr, unfoldrWithBaseRangeWithS, unfoldrWithBaseRangeMWithS ) where
+	Unfoldr, unfoldrWithBaseRangeWithS, unfoldrWithBaseRangeMWithS,
+	ZipL, zipWithL ) where
 
-import Control.Arrow (first)
+import Control.Arrow (first, (***))
 import Control.Monad.Identity
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 
@@ -155,3 +156,24 @@ instance {-# OVERLAPPABLE #-}
 	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
 	unfoldrWithBaseRangeMWithS (x :. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeMWithS xs p f s
 	unfoldrWithBaseRangeMWithS _ _ _ _ = error "never occur"
+
+class ZipL n m v w where
+	zipWithL :: (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
+		(RangeL n m c, RangeL (v - m) (w - n) b)
+
+instance ZipL 0 0 v w where
+	zipWithL _ NilL ys = (NilL, ys)
+	zipWithL _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-} (
+	LoosenLMin v w (v - m), LoosenLMax (v - m) (w - 1) w,
+	ZipL 0 (m - 1) (v - 1) (w - 1) ) =>
+	ZipL 0 m v w where
+	zipWithL _ NilL ys = (NilL, loosenLMin ys)
+	zipWithL f (x :.. xs) (y :. ys) = (f x y :..) *** loosenLMax $ zipWithL f xs ys
+	zipWithL _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	(n <= w, m <= v, ZipL (n - 1) (m - 1) (v - 1) (w - 1)) => ZipL n m v w where
+	zipWithL f (x :. xs) (y :. ys) = (f x y :.) `first` zipWithL f xs ys
+	zipWithL _ _ _ = error "never occur"
