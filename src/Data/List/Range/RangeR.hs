@@ -149,3 +149,7 @@ instance {-# OVERLAPPABLE #-}
 	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+
+class ZipR n m v w where
+	zipWithR :: (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
+		(RangeR (n - w) (m - v) a, RangeR v w c)

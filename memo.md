@@ -43,11 +43,28 @@ todo
 		- repair definitions
 	+ [x] rename `class Unfoldl'` to `class Unfoldl`
 	+ [ ] others
-* [ ] define class ZipL
+* [x] define class ZipL
 	+ [x] define `zipWithL`
-	+ [ ] define `zipWithML`
-	+ [ ] put `zipWithL` out of class
+	+ [x] define `zipWithML`
+	+ [x] put `zipWithL` out of class
 * [ ] define class ZipR
+	+ [ ] define `zipWithR`
+		- [x] define class
+		- [ ] define instance
+			* [ ] ZipR n m 0 0
+			* [ ] ZipR n m 0 w
+			* [ ] ZipR n m v w
+	+ [ ] define `zipWithMR`
+	+ [ ] put `zipWithR` out of class
+* [ ] define splitAtL
+	+ [ ] type RangedNat n m = Ranged n m ()
+	+ [ ] define toNatural (= length)
+	+ [ ] try to define Ranged Natural with using type level natural
+		- use repeatL and loosenL
+	+ [ ] try to define Ranged Natural with using value level natural
+		- use unfoldrFoo
+	+ [ ] others
+* [ ] define splitAtR
 
 trush
 -----
