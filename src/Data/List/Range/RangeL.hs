@@ -8,8 +8,10 @@
 
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
-	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL ) where
+	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
+	Unfoldr', unfoldrWithBaseRange ) where
 
+import Control.Arrow (first)
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 
 infixr 6 :., :..
@@ -119,3 +121,33 @@ instance {-# OVERLAPPABLE #-}
 	AddL (n - 1) (m - 1) n' m' => AddL n m n' m' where
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
+
+class Unfoldr' n v w where
+	unfoldrWithBaseRange :: RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+
+instance Unfoldr' 0 0 0 where
+	unfoldrWithBaseRange NilL _ _ s = (NilL, s)
+	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	Unfoldr' 0 0 (w - 1) => Unfoldr' 0 0 w where
+	unfoldrWithBaseRange NilL p f s
+		| p s = let
+			(x, s') = f s in
+			(x :..) `first` unfoldrWithBaseRange NilL p f s'
+		| otherwise = (NilL, s)
+	unfoldrWithBaseRange (x :.. xs) p f s = (x :..) `first` unfoldrWithBaseRange xs p f s
+	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	Unfoldr' 0 (v - 1) (w - 1) => Unfoldr' 0 v w where
+	unfoldrWithBaseRange NilL p f s = let
+		(x, s') = f s in
+		(x :.) `first` unfoldrWithBaseRange NilL p f s'
+	unfoldrWithBaseRange (x :.. xs) p f s = (x :.) `first` unfoldrWithBaseRange xs p f s
+	unfoldrWithBaseRange _ _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	Unfoldr' (n - 1) (v - 1) (w - 1) => Unfoldr' n v w where
+	unfoldrWithBaseRange (x :. xs) p f s = (x :.) `first` unfoldrWithBaseRange xs p f s
+	unfoldrWithBaseRange _ _ _ _ = error "never occur"

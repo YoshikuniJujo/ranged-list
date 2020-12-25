@@ -16,3 +16,15 @@ todo
 * [x] remove UnfoldrMax
 * [x] remove UnfoldlMin
 * [x] remove UnfoldlMax
+* [ ] repair Unfold classes
+	+ add argument p :: s -> Bool
+	+ move from module Foo.LengthX to Foo.RangeX
+	+ [x] define Unfoldr'
+	+ [x] define `unfoldrWithBaseRange :: RangeL n m a -> (s -> Bool) -> (s -> (a, s)) -> s -> Range v w a`
+	+ [ ] define `unfoldrWithBaseRangeR :: RangeL n m a -> (s -> Bool) -> (s -> mnd (a, s)) -> s -> mnd (Range v w a)`
+	+ [ ] move unfoldrWithBaseRange out of class
+	+ [ ] others
+* [ ] define ranged natural
+	+ define Bit
+	+ add bit and plus two nats
+	+ RangedNat n m
