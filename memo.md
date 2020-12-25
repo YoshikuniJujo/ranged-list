@@ -43,7 +43,12 @@ todo
 		- repair definitions
 	+ [x] rename `class Unfoldl'` to `class Unfoldl`
 	+ [ ] others
+
+trush
+-----
+
 * [ ] define ranged natural
 	+ define Bit
 	+ add bit and plus two nats
 	+ RangedNat n m
+* [ ] define `splitAtL :: RangedNat n m -> RangeL v w a -> (RangeL n m a, RangeL (v - m) (w - n) a)`
