@@ -13,6 +13,7 @@ module Data.List.Range.RangeR (
 	ZipR, zipWithR ) where
 
 import Control.Arrow (first, second, (***))
+import Control.Monad.Identity
 import GHC.TypeLits
 
 infixl 6 :+, :++
@@ -151,26 +152,31 @@ instance {-# OVERLAPPABLE #-}
 	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
+zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
+	(RangeR (n - w) (m - v) a, RangeR v w c)
+zipWithR op xs ys = runIdentity $ zipWithMR (\x y -> Identity $ x `op` y) xs ys
+
 class ZipR n m v w where
-	zipWithR :: (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
-		(RangeR (n - w) (m - v) a, RangeR v w c)
+	zipWithMR :: Monad q =>
+		(a -> b -> q c) -> RangeR n m a -> RangeR v w b ->
+		q (RangeR (n - w) (m - v) a, RangeR v w c)
 
 instance ZipR n m 0 0 where
-	zipWithR _ xs NilR = (xs, NilR)
-	zipWithR _ _ _ = error "never occur"
+	zipWithMR _ xs NilR = pure (xs, NilR)
+	zipWithMR _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} (
 	LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
 	ZipR (n - 1) (m - 1) 0 (w - 1) ) => ZipR n m 0 w where
-	zipWithR _ xs NilR = (loosenRMin xs, NilR)
-	zipWithR f (xs :+ x) (ys :++ y) = let
-		z = f x y in
-		loosenRMax *** (:++ z) $ zipWithR f xs ys
-	zipWithR _ _ _ = error "never occur"
+	zipWithMR _ xs NilR = pure (loosenRMin xs, NilR)
+	zipWithMR f (xs :+ x) (ys :++ y) = do
+		z <- f x y
+		(loosenRMax *** (:++ z)) <$> zipWithMR f xs ys
+	zipWithMR _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	(v <= m, w <= n, ZipR (n - 1) (m - 1) (v - 1) (w - 1)) => ZipR n m v w where
-	zipWithR f (xs :+ x) (ys :+ y) = let
-		z = f x y in
-		(:+ z) `second` zipWithR f xs ys
-	zipWithR _ _ _ = error "never occur"
+	zipWithMR f (xs :+ x) (ys :+ y) = do
+		z <- f x y
+		((:+ z) `second`) <$> zipWithMR f xs ys
+	zipWithMR _ _ _ = error "never occur"

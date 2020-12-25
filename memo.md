@@ -47,15 +47,15 @@ todo
 	+ [x] define `zipWithL`
 	+ [x] define `zipWithML`
 	+ [x] put `zipWithL` out of class
-* [ ] define class ZipR
+* [x] define class ZipR
 	+ [x] define `zipWithR`
 		- [x] define class
 		- [x] define instance
 			* [x] ZipR n m 0 0
 			* [x] ZipR n m 0 w
 			* [x] ZipR n m v w
-	+ [ ] define `zipWithMR`
-	+ [ ] put `zipWithR` out of class
+	+ [x] define `zipWithMR`
+	+ [x] put `zipWithR` out of class
 * [ ] define splitAtL
 	+ [ ] type RangedNat n m = Ranged n m ()
 	+ [ ] define toNatural (= length)
