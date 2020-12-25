@@ -9,7 +9,7 @@
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
-	Unfoldr', unfoldrWithBaseRange ) where
+	Unfoldr', unfoldrWithBaseRange, unfoldrWithBaseRangeM ) where
 
 import Control.Arrow (first)
 import Control.Monad.Identity
