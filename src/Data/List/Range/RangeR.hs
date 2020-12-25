@@ -9,7 +9,7 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl', unfoldlWithBaseRangeMWithS ) where
+	Unfoldl, unfoldlWithBaseRangeMWithS ) where
 
 import Control.Arrow (first)
 import GHC.TypeLits
@@ -120,15 +120,15 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	xs +++ ys :+ y = (xs +++ ys) :+ y
 	_ +++ _ = error "never occur"
 
-class Unfoldl' n v w where
+class Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS :: Monad m => (s -> Bool) ->
 		(s -> m (a, s)) -> s -> RangeR n w a -> m (RangeR v w a, s)
 
-instance Unfoldl' 0 0 0 where
+instance Unfoldl 0 0 0 where
 	unfoldlWithBaseRangeMWithS _ _ s NilR = pure (NilR, s)
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-instance {-# OVERLAPPABLE #-} Unfoldl' 0 0 (w - 1) => Unfoldl' 0 0 w where
+instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 	unfoldlWithBaseRangeMWithS p f s NilR
 		| p s = do
 			(x, s') <- f s
@@ -138,7 +138,7 @@ instance {-# OVERLAPPABLE #-} Unfoldl' 0 0 (w - 1) => Unfoldl' 0 0 w where
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= w, Unfoldl' 0 (v - 1) (w - 1)) => Unfoldl' 0 v w where
+	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
 	unfoldlWithBaseRangeMWithS p f s NilR = do
 		(x, s') <- f s
 		((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s' NilR
@@ -146,6 +146,6 @@ instance {-# OVERLAPPABLE #-}
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	Unfoldl' (n - 1) (v - 1) (w - 1) => Unfoldl' n v w where
+	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"

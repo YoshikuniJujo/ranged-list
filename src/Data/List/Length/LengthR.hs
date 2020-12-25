@@ -12,37 +12,18 @@ import Data.List.Range.RangeR
 
 type LengthR n = RangeR n n
 
-unfoldl :: Unfoldl 0 n => (s -> (a, s)) -> s -> LengthR n a
+unfoldl :: Unfoldl 0 n n => (s -> (a, s)) -> s -> LengthR n a
 unfoldl f s = unfoldlWithBase f s NilR
 
-unfoldlWithBase :: Unfoldl n m => (s -> (a, s)) -> s -> RangeR n m a -> LengthR m a
+unfoldlWithBase :: Unfoldl n m m => (s -> (a, s)) -> s -> RangeR n m a -> LengthR m a
 unfoldlWithBase f s xs = runIdentity $ unfoldlWithBaseM (Identity . f) s xs
 
-unfoldlM :: (Monad m, Unfoldl 0 n) => (s -> m (a, s)) -> s -> m (LengthR n a)
+unfoldlM :: (Monad m, Unfoldl 0 n n) => (s -> m (a, s)) -> s -> m (LengthR n a)
 unfoldlM f s = unfoldlWithBaseM f s NilR
 
-unfoldlWithBaseM' :: (Monad m, Unfoldl' n w w) =>
+unfoldlWithBaseM :: (Monad m, Unfoldl n w w) =>
 	(s -> m (a, s)) -> s -> RangeR n w a -> m (LengthR w a)
-unfoldlWithBaseM' f s = (fst <$>) . unfoldlWithBaseRangeMWithS undefined f s
-
-class Unfoldl n w where
-	unfoldlWithBaseM :: Monad m =>
-		(s -> m (a, s)) -> s -> RangeR n w a -> m (LengthR w a)
-
-instance Unfoldl 0 0 where
-	unfoldlWithBaseM _ _ NilR = pure NilR
-	unfoldlWithBaseM _ _ _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-} (1 <= m, Unfoldl 0 (m - 1)) => Unfoldl 0 m where
-	unfoldlWithBaseM f s NilR = do
-		(x, s') <- f s
-		(:+ x) <$> unfoldlWithBaseM f s' NilR
-	unfoldlWithBaseM f s (xs :++ x) = (:+ x) <$> unfoldlWithBaseM f s xs
-	unfoldlWithBaseM _ _ _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-} Unfoldl (n - 1) (m - 1) => Unfoldl n m where
-	unfoldlWithBaseM f s (xs :+ x) = (:+ x) <$> unfoldlWithBaseM f s xs
-	unfoldlWithBaseM _ _ _ = error "never occur"
+unfoldlWithBaseM f s = (fst <$>) . unfoldlWithBaseRangeMWithS undefined f s
 
 class ListToLengthR m where
 	listToLengthR :: [a] -> Either (RangeR 0 (m - 1) a) (LengthR m a, [a])
