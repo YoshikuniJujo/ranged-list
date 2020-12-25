@@ -9,7 +9,7 @@
 module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
-	Unfoldr', unfoldrWithBaseRange, unfoldrWithBaseRangeM ) where
+	Unfoldr, unfoldrWithBaseRange, unfoldrWithBaseRangeM ) where
 
 import Control.Arrow (first)
 import Control.Monad.Identity
@@ -123,19 +123,18 @@ instance {-# OVERLAPPABLE #-}
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
 
-unfoldrWithBaseRange :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+unfoldrWithBaseRange :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
 unfoldrWithBaseRange xs p f s = runIdentity $ unfoldrWithBaseRangeM xs p (Identity . f) s
 
-class Unfoldr' n v w where
+class Unfoldr n v w where
 	unfoldrWithBaseRangeM :: Monad m => RangeL n w a ->
 		(s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
 
-instance Unfoldr' 0 0 0 where
+instance Unfoldr 0 0 0 where
 	unfoldrWithBaseRangeM NilL _ _ s = pure (NilL, s)
 	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
-instance {-# OVERLAPPABLE #-}
-	Unfoldr' 0 0 (w - 1) => Unfoldr' 0 0 w where
+instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 	unfoldrWithBaseRangeM NilL p f s
 		| p s = do
 			(x, s') <- f s
@@ -145,7 +144,7 @@ instance {-# OVERLAPPABLE #-}
 	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	Unfoldr' 0 (v - 1) (w - 1) => Unfoldr' 0 v w where
+	(1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
 	unfoldrWithBaseRangeM NilL p f s = do
 		(x, s') <- f s
 		((x :.) `first`) <$> unfoldrWithBaseRangeM NilL p f s'
@@ -153,6 +152,6 @@ instance {-# OVERLAPPABLE #-}
 	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	Unfoldr' (n - 1) (v - 1) (w - 1) => Unfoldr' n v w where
+	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
 	unfoldrWithBaseRangeM (x :. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeM xs p f s
 	unfoldrWithBaseRangeM _ _ _ _ = error "never occur"
