@@ -21,6 +21,10 @@ unfoldlWithBase f s xs = runIdentity $ unfoldlWithBaseM (Identity . f) s xs
 unfoldlM :: (Monad m, Unfoldl 0 n) => (s -> m (a, s)) -> s -> m (LengthR n a)
 unfoldlM f s = unfoldlWithBaseM f s NilR
 
+unfoldlWithBaseM' :: (Monad m, Unfoldl' n w w) =>
+	(s -> m (a, s)) -> s -> RangeR n w a -> m (LengthR w a)
+unfoldlWithBaseM' f s = (fst <$>) . unfoldlWithBaseRangeMWithS undefined f s
+
 class Unfoldl n w where
 	unfoldlWithBaseM :: Monad m =>
 		(s -> m (a, s)) -> s -> RangeR n w a -> m (LengthR w a)

@@ -38,7 +38,7 @@ todo
 		- [x] Unfoldl 0 0 w
 		- [x] Unfoldl 0 v w
 		- [x] Unfoldl n v w
-	+ [ ] define `unfoldlWithBaseM` with using `unfoldlWithBaseRangeMWithS`
+	+ [x] define `unfoldlWithBaseM` with using `unfoldlWithBaseRangeMWithS`
 	+ [ ] try to remove `class Unfildl`
 		- repair definitions
 	+ [ ] rename `class Unfoldl'` to `class Unfoldl`
