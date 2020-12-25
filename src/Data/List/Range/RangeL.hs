@@ -172,8 +172,7 @@ instance ZipL 0 0 v w where
 
 instance {-# OVERLAPPABLE #-} (
 	LoosenLMin v w (v - m), LoosenLMax (v - m) (w - 1) w,
-	ZipL 0 (m - 1) (v - 1) (w - 1) ) =>
-	ZipL 0 m v w where
+	ZipL 0 (m - 1) (v - 1) (w - 1) ) => ZipL 0 m v w where
 	zipWithML _ NilL ys = pure (NilL, loosenLMin ys)
 	zipWithML f (x :.. xs) (y :. ys) = do
 		z <- f x y

@@ -48,12 +48,12 @@ todo
 	+ [x] define `zipWithML`
 	+ [x] put `zipWithL` out of class
 * [ ] define class ZipR
-	+ [ ] define `zipWithR`
+	+ [x] define `zipWithR`
 		- [x] define class
-		- [ ] define instance
-			* [ ] ZipR n m 0 0
-			* [ ] ZipR n m 0 w
-			* [ ] ZipR n m v w
+		- [x] define instance
+			* [x] ZipR n m 0 0
+			* [x] ZipR n m 0 w
+			* [x] ZipR n m v w
 	+ [ ] define `zipWithMR`
 	+ [ ] put `zipWithR` out of class
 * [ ] define splitAtL

@@ -9,9 +9,10 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl, unfoldlWithBaseRangeMWithS ) where
+	Unfoldl, unfoldlWithBaseRangeMWithS,
+	ZipR, zipWithR ) where
 
-import Control.Arrow (first)
+import Control.Arrow (first, second, (***))
 import GHC.TypeLits
 
 infixl 6 :+, :++
@@ -153,3 +154,23 @@ instance {-# OVERLAPPABLE #-}
 class ZipR n m v w where
 	zipWithR :: (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 		(RangeR (n - w) (m - v) a, RangeR v w c)
+
+instance ZipR n m 0 0 where
+	zipWithR _ xs NilR = (xs, NilR)
+	zipWithR _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-} (
+	LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
+	ZipR (n - 1) (m - 1) 0 (w - 1) ) => ZipR n m 0 w where
+	zipWithR _ xs NilR = (loosenRMin xs, NilR)
+	zipWithR f (xs :+ x) (ys :++ y) = let
+		z = f x y in
+		loosenRMax *** (:++ z) $ zipWithR f xs ys
+	zipWithR _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	(v <= m, w <= n, ZipR (n - 1) (m - 1) (v - 1) (w - 1)) => ZipR n m v w where
+	zipWithR f (xs :+ x) (ys :+ y) = let
+		z = f x y in
+		(:+ z) `second` zipWithR f xs ys
+	zipWithR _ _ _ = error "never occur"
