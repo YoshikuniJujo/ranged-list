@@ -21,7 +21,7 @@ unfoldrM :: (Monad m, Unfoldr 0 n n) => (s -> m (a, s)) -> s -> m (LengthL n a)
 unfoldrM = unfoldrWithBaseM NilL
 
 unfoldrWithBaseM :: (Monad m, Unfoldr n w w) => RangeL n w a -> (s -> m (a, s)) -> s -> m (LengthL w a)
-unfoldrWithBaseM xs f = (fst <$>) . unfoldrWithBaseRangeM xs undefined f
+unfoldrWithBaseM xs f = (fst <$>) . unfoldrWithBaseRangeMWithS xs undefined f
 
 class ListToLengthL m where
 	listToLengthL :: [a] -> Either (RangeL 0 (m - 1) a) (LengthL m a, [a])

@@ -24,11 +24,11 @@ todo
 	+ [x] define `unfoldrWithBaseRangeM :: RangeL n w a -> (s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)`
 	+ [x] move unfoldrWithBaseRange out of class
 	+ [x] define `unfoldrWithBaseM'` with using `unfoldrWithBaseRangeM`
-	+ [ ] try to remove `class Unfoldr`
+	+ [x] try to remove `class Unfoldr`
 		- repair definitions
-	+ [ ] rename `class Unfoldr'` to `class Unfoldr`
-	+ [ ] rename `unfoldrWithBaseRange` to `unfoldrWithBaseRangeWithS`
-	+ [ ] rename `unfoldrWithBaseRangeM` to `unfoldrWithBaseRangeMWithS`
+	+ [x] rename `class Unfoldr'` to `class Unfoldr`
+	+ [x] rename `unfoldrWithBaseRange` to `unfoldrWithBaseRangeWithS`
+	+ [x] rename `unfoldrWithBaseRangeM` to `unfoldrWithBaseRangeMWithS`
 	+ [ ] repair definitions
 	+ [ ] others
 * [ ] repair Unfoldl
