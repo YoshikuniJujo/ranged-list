@@ -11,13 +11,11 @@ module Data.List.Range.RangeL (
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
 	Unfoldr, unfoldrWithBaseRangeWithS, unfoldrWithBaseRangeMWithS,
 	ZipL, zipWithML, zipWithL,
-	unfoldrRangeMaybe ) where
+	unfoldrRangeMaybe, unfoldrWithBaseRangeMaybe ) where
 
 import Control.Arrow (first, (***))
 import Control.Monad.Identity
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
-
-import Data.Proxy
 
 infixr 6 :., :..
 
@@ -130,18 +128,23 @@ instance {-# OVERLAPPABLE #-}
 unfoldrWithBaseRangeWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
 unfoldrWithBaseRangeWithS xs p f s = runIdentity $ unfoldrWithBaseRangeMWithS xs p (Identity . f) s
 
+unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
+unfoldrRangeMaybe = unfoldrWithBaseRangeMaybe NilL
+
 class Unfoldr n v w where
 	unfoldrWithBaseRangeMWithS :: Monad m => RangeL n w a ->
 		(s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
-	unfoldrRangeMaybe :: Proxy n -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
+	unfoldrWithBaseRangeMaybe :: RangeL n w a ->
+		(s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 
 instance Unfoldr 0 0 0 where
 	unfoldrWithBaseRangeMWithS NilL _ _ s = pure (NilL, s)
 	unfoldrWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldrRangeMaybe _ f s = case f s of
+	unfoldrWithBaseRangeMaybe NilL f s = case f s of
 		Just _ -> Nothing
 		Nothing -> Just NilL
+	unfoldrWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 	unfoldrWithBaseRangeMWithS NilL p f s
@@ -152,9 +155,11 @@ instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 	unfoldrWithBaseRangeMWithS (x :.. xs) p f s = ((x :..) `first`) <$> unfoldrWithBaseRangeMWithS xs p f s
 	unfoldrWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldrRangeMaybe p f s = case f s of
-		Just (x, s') -> (x :..) <$> unfoldrRangeMaybe p f s'
+	unfoldrWithBaseRangeMaybe NilL f s = case f s of
+		Just (x, s') -> (x :..) <$> unfoldrWithBaseRangeMaybe NilL f s'
 		Nothing -> Just NilL
+	unfoldrWithBaseRangeMaybe (x :.. xs) f s = (x :..) <$> unfoldrWithBaseRangeMaybe xs f s
+	unfoldrWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
@@ -164,18 +169,19 @@ instance {-# OVERLAPPABLE #-}
 	unfoldrWithBaseRangeMWithS (x :.. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeMWithS xs p f s
 	unfoldrWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldrRangeMaybe p f s = case f s of
-		Just (x, s') -> (x :.) <$> unfoldrRangeMaybe p f s'
+	unfoldrWithBaseRangeMaybe NilL f s = case f s of
+		Just (x, s') -> (x :.) <$> unfoldrWithBaseRangeMaybe NilL f s'
 		Nothing -> Nothing
+	unfoldrWithBaseRangeMaybe (x :.. xs) f s = (x :.) <$> unfoldrWithBaseRangeMaybe xs f s
+	unfoldrWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
 	unfoldrWithBaseRangeMWithS (x :. xs) p f s = ((x :.) `first`) <$> unfoldrWithBaseRangeMWithS xs p f s
 	unfoldrWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldrRangeMaybe _ f s = case f s of
-		Just (x, s') -> (x :.) <$> unfoldrRangeMaybe (Proxy :: Proxy (n - 1)) f s'
-		Nothing -> Nothing
+	unfoldrWithBaseRangeMaybe (x :. xs) f s = (x :.) <$> unfoldrWithBaseRangeMaybe xs f s
+	unfoldrWithBaseRangeMaybe _ _ _ = error "never occur"
 
 zipWithL :: ZipL n m v w => (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
 	(RangeL n m c, RangeL (v - m) (w - n) b)

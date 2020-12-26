@@ -58,9 +58,9 @@ todo
 	+ [x] put `zipWithR` out of class
 * [ ] define `unfoldrWithBaseRangeMWithSMaybe`
 	+ [x] define `unfoldrRangeMaybe`
-	+ [ ] define `unfoldrWithBaseRangeMaybe`
+	+ [x] define `unfoldrWithBaseRangeMaybe`
 	+ [ ] define `unfoldrWithBaseRangeMMaybe`
-	+ [ ] put `unfoldrRangeMaybe` out of class
+	+ [x] put `unfoldrRangeMaybe` out of class
 	+ [ ] put `unfoldrWithBaseRangeMaybe` out of class
 	+ [ ] remove Proxy
 * [ ] define `unfoldlWithBaseRangeMWithSMaybe`
