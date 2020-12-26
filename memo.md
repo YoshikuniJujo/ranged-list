@@ -56,13 +56,13 @@ todo
 			* [x] ZipR n m v w
 	+ [x] define `zipWithMR`
 	+ [x] put `zipWithR` out of class
-* [ ] define `unfoldrWithBaseRangeMWithSMaybe`
+* [x] define `unfoldrWithBaseRangeMWithSMaybe`
 	+ [x] define `unfoldrRangeMaybe`
 	+ [x] define `unfoldrWithBaseRangeMaybe`
-	+ [ ] define `unfoldrWithBaseRangeMMaybe`
+	+ [x] define `unfoldrWithBaseRangeMMaybe`
 	+ [x] put `unfoldrRangeMaybe` out of class
-	+ [ ] put `unfoldrWithBaseRangeMaybe` out of class
-	+ [ ] remove Proxy
+	+ [x] put `unfoldrWithBaseRangeMaybe` out of class
+	+ [x] remove Proxy
 * [ ] define `unfoldlWithBaseRangeMWithSMaybe`
 	+ [ ] define `unfoldlRangeMaybe`
 	+ [ ] define `unfoldlWithBaseRangeMaybe`
