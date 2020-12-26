@@ -56,6 +56,20 @@ todo
 			* [x] ZipR n m v w
 	+ [x] define `zipWithMR`
 	+ [x] put `zipWithR` out of class
+* [ ] define `unfoldrWithBaseRangeMWithSMaybe`
+	+ [x] define `unfoldrRangeMaybe`
+	+ [ ] define `unfoldrWithBaseRangeMaybe`
+	+ [ ] define `unfoldrWithBaseRangeMMaybe`
+	+ [ ] put `unfoldrRangeMaybe` out of class
+	+ [ ] put `unfoldrWithBaseRangeMaybe` out of class
+	+ [ ] remove Proxy
+* [ ] define `unfoldlWithBaseRangeMWithSMaybe`
+	+ [ ] define `unfoldlRangeMaybe`
+	+ [ ] define `unfoldlWithBaseRangeMaybe`
+	+ [ ] define `unfoldlWithBaseRangeMMaybe`
+	+ [ ] put `unfoldlRangeMaybe` out of class
+	+ [ ] put `unfoldlWithBaseRangeMaybe` out of class
+	+ [ ] remove Proxy
 * [ ] define splitAtL
 	+ [ ] type RangedNat n m = Ranged n m ()
 	+ [ ] define toNatural (= length)
