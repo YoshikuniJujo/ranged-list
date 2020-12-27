@@ -63,12 +63,12 @@ todo
 	+ [x] put `unfoldrRangeMaybe` out of class
 	+ [x] put `unfoldrWithBaseRangeMaybe` out of class
 	+ [x] remove Proxy
-* [ ] define `unfoldlWithBaseRangeMWithSMaybe`
+* [x] define `unfoldlWithBaseRangeMWithSMaybe`
 	+ [x] define `unfoldlRangeMaybe`
 	+ [x] define `unfoldlWithBaseRangeMaybe`
-	+ [ ] define `unfoldlWithBaseRangeMMaybe`
+	+ [x] define `unfoldlWithBaseRangeMMaybe`
 	+ [x] put `unfoldlRangeMaybe` out of class
-	+ [ ] put `unfoldlWithBaseRangeMaybe` out of class
+	+ [x] put `unfoldlWithBaseRangeMaybe` out of class
 	+ [x] remove Proxy
 * [ ] define splitAtL
 	+ [ ] type RangedNat n m = Ranged n m ()

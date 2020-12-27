@@ -1,3 +1,4 @@
+{-# LANGUAGE BlockArguments, LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -126,19 +127,23 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeR v w a)
 unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f s NilR
 
+unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (a, s)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
+unfoldlWithBaseRangeMaybe f s xs = runIdentity $ unfoldlWithBaseRangeMMaybe (Identity . f) s xs
+
 class Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS :: Monad m => (s -> Bool) ->
 		(s -> m (a, s)) -> s -> RangeR n w a -> m (RangeR v w a, s)
-	unfoldlWithBaseRangeMaybe :: (s -> Maybe (a, s)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
+	unfoldlWithBaseRangeMMaybe :: Monad m =>
+		(s -> m (Maybe (a, s))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
 
 instance Unfoldl 0 0 0 where
 	unfoldlWithBaseRangeMWithS _ _ s NilR = pure (NilR, s)
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMaybe f s NilR = case f s of
+	unfoldlWithBaseRangeMMaybe f s NilR = (<$> f s) \case
 		Just _ -> Nothing
 		Nothing -> Just NilR
-	unfoldlWithBaseRangeMaybe _ _ _ = error "never occur"
+	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 	unfoldlWithBaseRangeMWithS p f s NilR
@@ -149,10 +154,10 @@ instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:++ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMaybe f s NilR = case f s of
-		Just (x, s') -> (:++ x) <$> unfoldlWithBaseRangeMaybe f s' NilR
-		Nothing -> Just NilR
-	unfoldlWithBaseRangeMaybe _ _ _ = error "never occur"
+	unfoldlWithBaseRangeMMaybe f s NilR = f s >>= \case
+		Just (x, s') -> ((:++ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s' NilR
+		Nothing -> pure $ Just NilR
+	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
@@ -162,18 +167,18 @@ instance {-# OVERLAPPABLE #-}
 	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMaybe f s NilR = case f s of
-		Just (x, s') -> (:+ x) <$> unfoldlWithBaseRangeMaybe f s' NilR
-		Nothing -> Nothing
-	unfoldlWithBaseRangeMaybe _ _ _ = error "never occur"
+	unfoldlWithBaseRangeMMaybe f s NilR = f s >>= \case
+		Just (x, s') -> ((:+ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s' NilR
+		Nothing -> pure Nothing
+	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMaybe f s (xs :+ x) = (:+ x) <$> unfoldlWithBaseRangeMaybe f s xs
-	unfoldlWithBaseRangeMaybe _ _ _ = error "never occur"
+	unfoldlWithBaseRangeMMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s xs
+	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
 
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)
