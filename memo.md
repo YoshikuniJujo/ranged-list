@@ -74,12 +74,14 @@ todo
 	+ [x] make Data.List.Range.Nat
 		- [x] define type RangedNatL and RangedNatR
 		- [x] define toIntL and toIntR
-	+ [ ] type RangedNat n m = Ranged n m ()
-	+ [ ] define toNatural (= length)
-	+ [ ] try to define Ranged Natural with using type level natural
+	+ [x] type RangedNat n m = Ranged n m ()
+	+ [x] define toNatural (= length)
+	+ [x] try to define Ranged Natural with using type level natural
 		- use repeatL and loosenL
-	+ [ ] try to define Ranged Natural with using value level natural
+	+ [x] try to define Ranged Natural with using value level natural
 		- use unfoldrFoo
+	+ [ ] define fromInt
+	+ [ ] define splitAtL
 	+ [ ] others
 * [ ] define splitAtR
 
