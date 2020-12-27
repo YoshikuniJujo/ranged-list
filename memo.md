@@ -71,6 +71,9 @@ todo
 	+ [x] put `unfoldlWithBaseRangeMaybe` out of class
 	+ [x] remove Proxy
 * [ ] define splitAtL
+	+ [x] make Data.List.Range.Nat
+		- [x] define type RangedNatL and RangedNatR
+		- [x] define toIntL and toIntR
 	+ [ ] type RangedNat n m = Ranged n m ()
 	+ [ ] define toNatural (= length)
 	+ [ ] try to define Ranged Natural with using type level natural
