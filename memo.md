@@ -65,11 +65,11 @@ todo
 	+ [x] remove Proxy
 * [ ] define `unfoldlWithBaseRangeMWithSMaybe`
 	+ [x] define `unfoldlRangeMaybe`
-	+ [ ] define `unfoldlWithBaseRangeMaybe`
+	+ [x] define `unfoldlWithBaseRangeMaybe`
 	+ [ ] define `unfoldlWithBaseRangeMMaybe`
-	+ [ ] put `unfoldlRangeMaybe` out of class
+	+ [x] put `unfoldlRangeMaybe` out of class
 	+ [ ] put `unfoldlWithBaseRangeMaybe` out of class
-	+ [ ] remove Proxy
+	+ [x] remove Proxy
 * [ ] define splitAtL
 	+ [ ] type RangedNat n m = Ranged n m ()
 	+ [ ] define toNatural (= length)
