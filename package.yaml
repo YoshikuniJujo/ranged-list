@@ -26,8 +26,9 @@ dependencies:
 library:
   source-dirs: src
   exposed-modules:
-  - Data.List.Range
   - Data.List.Length
+  - Data.List.Range
+  - Data.List.Range.Nat
 
 tests:
   ranged-list-test:

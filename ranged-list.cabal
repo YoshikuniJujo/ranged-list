@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 28b8f583c4a4de6672a61780c13b3fa7dff40213eb58459b75db47acee16e68e
+-- hash: e8fbd17c89044315798923b2cbb1eb96bae9f9677b00c38cc898805864d4b3fd
 
 name:           ranged-list
 version:        0.1.0.0
@@ -27,13 +27,13 @@ source-repository head
 
 library
   exposed-modules:
-      Data.List.Range
       Data.List.Length
+      Data.List.Range
+      Data.List.Range.Nat
   other-modules:
       Control.Monad.Identity
       Data.List.Length.LengthL
       Data.List.Length.LengthR
-      Data.List.Range.Nat
       Data.List.Range.RangeL
       Data.List.Range.RangeR
       Foldr

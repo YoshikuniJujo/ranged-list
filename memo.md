@@ -80,7 +80,7 @@ todo
 		- use repeatL and loosenL
 	+ [x] try to define Ranged Natural with using value level natural
 		- use unfoldrFoo
-	+ [ ] define fromInt
+	+ [x] define fromInt
 	+ [ ] define splitAtL
 	+ [ ] others
 * [ ] define splitAtR
