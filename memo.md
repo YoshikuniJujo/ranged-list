@@ -64,7 +64,7 @@ todo
 	+ [x] put `unfoldrWithBaseRangeMaybe` out of class
 	+ [x] remove Proxy
 * [ ] define `unfoldlWithBaseRangeMWithSMaybe`
-	+ [ ] define `unfoldlRangeMaybe`
+	+ [x] define `unfoldlRangeMaybe`
 	+ [ ] define `unfoldlWithBaseRangeMaybe`
 	+ [ ] define `unfoldlWithBaseRangeMMaybe`
 	+ [ ] put `unfoldlRangeMaybe` out of class

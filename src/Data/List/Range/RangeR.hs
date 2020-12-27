@@ -10,11 +10,14 @@ module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
 	Unfoldl, unfoldlWithBaseRangeMWithS,
-	ZipR, zipWithR ) where
+	ZipR, zipWithR,
+	unfoldlRangeMaybe ) where
 
 import Control.Arrow (first, second, (***))
 import Control.Monad.Identity
 import GHC.TypeLits
+
+import Data.Proxy
 
 infixl 6 :+, :++
 
@@ -126,9 +129,15 @@ class Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS :: Monad m => (s -> Bool) ->
 		(s -> m (a, s)) -> s -> RangeR n w a -> m (RangeR v w a, s)
 
+	unfoldlRangeMaybe :: Proxy n -> (s -> Maybe (a, s)) -> s -> Maybe (RangeR v w a)
+
 instance Unfoldl 0 0 0 where
 	unfoldlWithBaseRangeMWithS _ _ s NilR = pure (NilR, s)
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+
+	unfoldlRangeMaybe _ f s = case f s of
+		Just _ -> Nothing
+		Nothing -> Just NilR
 
 instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 	unfoldlWithBaseRangeMWithS p f s NilR
@@ -139,6 +148,10 @@ instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:++ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
+	unfoldlRangeMaybe p f s = case f s of
+		Just (x, s') -> (:++ x) <$> unfoldlRangeMaybe p f s'
+		Nothing -> Just NilR
+
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
 	unfoldlWithBaseRangeMWithS p f s NilR = do
@@ -147,10 +160,18 @@ instance {-# OVERLAPPABLE #-}
 	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
 
+	unfoldlRangeMaybe p f s = case f s of
+		Just (x, s') -> (:+ x) <$> unfoldlRangeMaybe p f s'
+		Nothing -> Nothing
+
 instance {-# OVERLAPPABLE #-}
 	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
 	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `first`) <$> unfoldlWithBaseRangeMWithS p f s xs
 	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+
+	unfoldlRangeMaybe _ f s = case f s of
+		Just (x, s') -> (:+ x) <$> unfoldlRangeMaybe (Proxy :: Proxy (n - 1)) f s'
+		Nothing -> Nothing
 
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)
