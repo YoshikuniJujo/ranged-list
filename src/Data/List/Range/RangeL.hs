@@ -11,7 +11,7 @@ module Data.List.Range.RangeL (
 	RangeL(..), PushL, (.:..), AddL, (++.),
 	LoosenLMin, loosenLMin, LoosenLMax, loosenLMax, loosenL,
 	Unfoldr, unfoldrWithBaseRangeWithS, unfoldrWithBaseRangeMWithS,
-	ZipL, zipWithML, zipWithL,
+	ZipL, zipL, zipWithL, zipWithML,
 	unfoldrRangeMaybe, unfoldrWithBaseRangeMaybe, unfoldrWithBaseRangeMMaybe
 	) where
 
@@ -189,6 +189,10 @@ instance {-# OVERLAPPABLE #-}
 
 	unfoldrWithBaseRangeMMaybe (x :. xs) f s = ((x :.) <$>) <$> unfoldrWithBaseRangeMMaybe xs f s
 	unfoldrWithBaseRangeMMaybe _ _ _ = error "never occur"
+
+zipL :: ZipL n m v w => RangeL n m a -> RangeL v w b ->
+	(RangeL n m (a, b), RangeL (v - m) (w - n) b)
+zipL = zipWithL (,)
 
 zipWithL :: ZipL n m v w => (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
 	(RangeL n m c, RangeL (v - m) (w - n) b)

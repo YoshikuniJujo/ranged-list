@@ -70,7 +70,7 @@ todo
 	+ [x] put `unfoldlRangeMaybe` out of class
 	+ [x] put `unfoldlWithBaseRangeMaybe` out of class
 	+ [x] remove Proxy
-* [ ] define splitAtL
+* [x] define splitAtL
 	+ [x] make Data.List.Range.Nat
 		- [x] define type RangedNatL and RangedNatR
 		- [x] define toIntL and toIntR
@@ -81,8 +81,7 @@ todo
 	+ [x] try to define Ranged Natural with using value level natural
 		- use unfoldrFoo
 	+ [x] define fromInt
-	+ [ ] define splitAtL
-	+ [ ] others
+	+ [x] define splitAtL
 * [ ] define splitAtR
 
 trush
