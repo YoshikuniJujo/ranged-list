@@ -82,7 +82,7 @@ todo
 		- use unfoldrFoo
 	+ [x] define fromInt
 	+ [x] define splitAtL
-* [ ] define splitAtR
+* [x] define splitAtR
 
 trush
 -----
