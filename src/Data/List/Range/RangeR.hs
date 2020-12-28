@@ -131,7 +131,7 @@ unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR
 unfoldlWithBaseRangeMaybe f s xs = runIdentity $ unfoldlMWithBaseRangeMaybe (Identity . f) s xs
 
 class Unfoldl n v w where
-	unfoldlMWithBaseRangeWithS :: Monad m => (s -> Bool) ->
+	unfoldlMWithBaseRangeWithS :: Monad m => (s -> m Bool) ->
 		(s -> m (s, a)) -> s -> RangeR n w a -> m (s, RangeR v w a)
 	unfoldlMWithBaseRangeMaybe :: Monad m =>
 		(s -> m (Maybe (s, a))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
@@ -146,11 +146,12 @@ instance Unfoldl 0 0 0 where
 	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
-	unfoldlMWithBaseRangeWithS p f s NilR
-		| p s = do
+	unfoldlMWithBaseRangeWithS p f s NilR = do
+		b <- p s
+		if b then do
 			(s', x) <- f s
 			((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s' NilR
-		| otherwise = pure (s, NilR)
+		else pure (s, NilR)
 	unfoldlMWithBaseRangeWithS p f s (xs :++ x) = ((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
 	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
 

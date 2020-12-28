@@ -142,7 +142,7 @@ todo
 * [x] repair type of `unfoldrMRange`
 	+ from `s -> Bool` to `s -> m Bool`
 * [x] rename from `unfoldlRangeM` to `unfoldlMRange`
-* [ ] repair type of `unfoldlMRange`
+* [x] repair type of `unfoldlMRange`
 	+ from `s -> Bool` to `s -> m Bool`
 
 module name hierarchy
