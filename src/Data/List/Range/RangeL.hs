@@ -108,18 +108,18 @@ loosenL = loosenLMax . loosenLMin
 
 infixr 5 ++.
 
-class AddL n m n' m' where
-	(++.) :: RangeL n m a -> RangeL n' m' a -> RangeL (n + n') (m + m') a
+class AddL n m v w where
+	(++.) :: RangeL n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 
-instance AddL 0 0 n' m' where NilL ++. ys = ys; _ ++. _ = error "never occur"
+instance AddL 0 0 v w where NilL ++. ys = ys; _ ++. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} (
-	LoosenLMax n' m' (m + m'), PushL n' (m + m' - 1),
-	AddL 0 (m - 1) n' m' ) => AddL 0 m n' m' where
+	LoosenLMax v w (m + w), PushL v (m + w - 1),
+	AddL 0 (m - 1) v w ) => AddL 0 m v w where
 	(++.) :: forall a .
-		RangeL 0 m a -> RangeL n' m' a -> RangeL n' (m + m') a
+		RangeL 0 m a -> RangeL v w a -> RangeL v (m + w) a
 	NilL ++. ys = loosenLMax ys
-	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL n' (m + m' - 1) a)
+	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL v (m + w - 1) a)
 	_ ++. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}

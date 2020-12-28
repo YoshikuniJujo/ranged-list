@@ -1,6 +1,33 @@
 memo
 ====
 
+refactor
+--------
+
+* [x] check module name hierarchy
+* [ ] refactor haddock
+	+ [ ] Data.List.Length
+		- [ ] LENGHTED LIST LEFT
+			* [x] structure
+			* [ ] Lengthed List Left Type
+			* [ ] Add Lengthed List Left
+			* [ ] Unfoldr
+		- [ ] LENGTHED LIST RIGHT
+		- [ ] LEFT TO RIGHT
+		- [ ] RIGHT TO LEFT
+	+ [ ] Data.List.Range
+	+ [ ] Data.List.Range.Nat
+* [ ] refactor Data.List.Range.RangeL
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+* [ ] refactor Data.List.Range.RangeR
+* [ ] refactor Data.List.Range
+* [ ] refactor Data.List.Length.LengthL
+* [ ] refactor Data.List.Length.LengthR
+* [ ] refactor Data.List.Range.Nat
+
 todo
 ----
 
@@ -83,6 +110,19 @@ todo
 	+ [x] define fromInt
 	+ [x] define splitAtL
 * [x] define splitAtR
+
+module name hierarchy
+---------------------
+
+```
+Data.List.Length
+  +- LengthL
+  +- LengthR
+Data.List.Range
+  +- RangeL
+  +- RangeR
+  +- Nat
+```
 
 trush
 -----
