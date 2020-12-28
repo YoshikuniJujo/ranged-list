@@ -31,8 +31,8 @@ module Data.List.Range.RangeL (
 	unfoldrRangeWithBaseWithS,
 	-- **** with monad
 	unfoldrMRange,
-	unfoldrMWithBaseRange,
-	unfoldrMWithBaseRangeWithS,
+	unfoldrMRangeWithBase,
+	unfoldrMRangeWithBaseWithS,
 	-- *** unfoldrRangeMaybe
 	-- **** without monad
 	unfoldrRangeMaybe,
@@ -158,16 +158,16 @@ unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w
 unfoldrRange = unfoldrRangeWithBase NilL
 
 unfoldrMRange :: (Monad m, Unfoldr 0 v w) => (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
-unfoldrMRange = unfoldrMWithBaseRange NilL
+unfoldrMRange = unfoldrMRangeWithBase NilL
 
 unfoldrRangeWithBase :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
 
-unfoldrMWithBaseRange :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
-unfoldrMWithBaseRange xs p f s = fst <$> unfoldrMWithBaseRangeWithS xs p f s
+unfoldrMRangeWithBase :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
+unfoldrMRangeWithBase xs p f s = fst <$> unfoldrMRangeWithBaseWithS xs p f s
 
 unfoldrRangeWithBaseWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
-unfoldrRangeWithBaseWithS xs p f s = runIdentity $ unfoldrMWithBaseRangeWithS xs (Identity . p) (Identity . f) s
+unfoldrRangeWithBaseWithS xs p f s = runIdentity $ unfoldrMRangeWithBaseWithS xs (Identity . p) (Identity . f) s
 
 unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybe = unfoldrWithBaseRangeMaybe NilL
@@ -181,14 +181,14 @@ unfoldrWithBaseRangeMaybe xs f s =
 	runIdentity $ unfoldrMWithBaseRangeMaybe xs (Identity . f) s
 
 class Unfoldr n v w where
-	unfoldrMWithBaseRangeWithS :: Monad m => RangeL n w a ->
+	unfoldrMRangeWithBaseWithS :: Monad m => RangeL n w a ->
 		(s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
 	unfoldrMWithBaseRangeMaybe :: Monad m => RangeL n w a ->
 		(s -> m (Maybe (a, s))) -> s -> m (Maybe (RangeL v w a))
 
 instance Unfoldr 0 0 0 where
-	unfoldrMWithBaseRangeWithS NilL _ _ s = pure (NilL, s)
-	unfoldrMWithBaseRangeWithS _ _ _ _ = error "never occur"
+	unfoldrMRangeWithBaseWithS NilL _ _ s = pure (NilL, s)
+	unfoldrMRangeWithBaseWithS _ _ _ _ = error "never occur"
 
 	unfoldrMWithBaseRangeMaybe NilL f s = f s >>= \case
 		Just _ -> pure Nothing
@@ -196,14 +196,14 @@ instance Unfoldr 0 0 0 where
 	unfoldrMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
-	unfoldrMWithBaseRangeWithS NilL p f s = do
+	unfoldrMRangeWithBaseWithS NilL p f s = do
 		b <- p s
 		if b then do
 			(x, s') <- f s
-			((x :..) `first`) <$> unfoldrMWithBaseRangeWithS NilL p f s'
+			((x :..) `first`) <$> unfoldrMRangeWithBaseWithS NilL p f s'
 		else pure (NilL, s)
-	unfoldrMWithBaseRangeWithS (x :.. xs) p f s = ((x :..) `first`) <$> unfoldrMWithBaseRangeWithS xs p f s
-	unfoldrMWithBaseRangeWithS _ _ _ _ = error "never occur"
+	unfoldrMRangeWithBaseWithS (x :.. xs) p f s = ((x :..) `first`) <$> unfoldrMRangeWithBaseWithS xs p f s
+	unfoldrMRangeWithBaseWithS _ _ _ _ = error "never occur"
 
 	unfoldrMWithBaseRangeMaybe NilL f s = f s >>= \case
 		Just (x, s') -> ((x :..) <$>) <$> unfoldrMWithBaseRangeMaybe NilL f s'
@@ -213,11 +213,11 @@ instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
-	unfoldrMWithBaseRangeWithS NilL p f s = do
+	unfoldrMRangeWithBaseWithS NilL p f s = do
 		(x, s') <- f s
-		((x :.) `first`) <$> unfoldrMWithBaseRangeWithS NilL p f s'
-	unfoldrMWithBaseRangeWithS (x :.. xs) p f s = ((x :.) `first`) <$> unfoldrMWithBaseRangeWithS xs p f s
-	unfoldrMWithBaseRangeWithS _ _ _ _ = error "never occur"
+		((x :.) `first`) <$> unfoldrMRangeWithBaseWithS NilL p f s'
+	unfoldrMRangeWithBaseWithS (x :.. xs) p f s = ((x :.) `first`) <$> unfoldrMRangeWithBaseWithS xs p f s
+	unfoldrMRangeWithBaseWithS _ _ _ _ = error "never occur"
 
 	unfoldrMWithBaseRangeMaybe NilL f s = f s >>= \case
 		Just (x, s') -> ((x :.) <$>) <$> unfoldrMWithBaseRangeMaybe NilL f s'
@@ -227,8 +227,8 @@ instance {-# OVERLAPPABLE #-}
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
-	unfoldrMWithBaseRangeWithS (x :. xs) p f s = ((x :.) `first`) <$> unfoldrMWithBaseRangeWithS xs p f s
-	unfoldrMWithBaseRangeWithS _ _ _ _ = error "never occur"
+	unfoldrMRangeWithBaseWithS (x :. xs) p f s = ((x :.) `first`) <$> unfoldrMRangeWithBaseWithS xs p f s
+	unfoldrMRangeWithBaseWithS _ _ _ _ = error "never occur"
 
 	unfoldrMWithBaseRangeMaybe (x :. xs) f s = ((x :.) <$>) <$> unfoldrMWithBaseRangeMaybe xs f s
 	unfoldrMWithBaseRangeMaybe _ _ _ = error "never occur"

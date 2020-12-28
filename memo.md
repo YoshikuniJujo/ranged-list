@@ -40,7 +40,7 @@ refactor
 						* [x] rename unfoldrWithBaseRange to unfoldrRangeWithBase
 						* [ ] others
 					- [ ] with monad
-						* [ ] rename unfoldrMWithBaseRange to unfoldrMRangeWithBase
+						* [x] rename unfoldrMWithBaseRange to unfoldrMRangeWithBase
 						* [ ] others
 				+ [ ] unfoldrRangeMaybe
 					- [ ] without monad
@@ -156,6 +156,7 @@ todo
 * [x] rename from `unfoldlRangeM` to `unfoldlMRange`
 * [x] repair type of `unfoldlMRange`
 	+ from `s -> Bool` to `s -> m Bool`
+* [ ] check to rename `WithBase`
 
 module name hierarchy
 ---------------------
