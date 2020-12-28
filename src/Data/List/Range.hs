@@ -9,8 +9,13 @@
 module Data.List.Range (
 	-- * RANGED LIST LEFT
 	module Data.List.Range.RangeL,
-	unfoldrMin, unfoldrMinM, repeatLMin,
-	unfoldrMax, unfoldrMaxM, repeatLMax,
+	-- ** Repeat and Unfoldr Min and Max
+	-- *** repeat
+	repeatLMin, repeatLMax,
+	-- *** unfoldr
+	unfoldrMin, unfoldrMax,
+	-- *** unfoldrM
+	unfoldrMMin, unfoldrMMax,
 	-- * RANGED LIST RIGHT
 	module Data.List.Range.RangeR,
 	unfoldlMin, unfoldlMinM, repeatRMin,
@@ -32,9 +37,9 @@ import Data.List.Length.LengthR
 unfoldrMin :: (LoosenLMax n n m, Unfoldr 0 n n) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f = loosenLMax . unfoldr f
 
-unfoldrMinM :: (Monad m, LoosenLMax n n w, Unfoldr 0 n n) =>
+unfoldrMMin :: (Monad m, LoosenLMax n n w, Unfoldr 0 n n) =>
 	(s -> m (a, s)) -> s -> m (RangeL n w a)
-unfoldrMinM f s = loosenLMax <$> unfoldrM f s
+unfoldrMMin f s = loosenLMax <$> unfoldrM f s
 
 repeatLMin :: (LoosenLMax n n m, Unfoldr 0 n n) => a -> RangeL n m a
 repeatLMin = unfoldrMin \x -> (x, x)
@@ -42,9 +47,9 @@ repeatLMin = unfoldrMin \x -> (x, x)
 unfoldrMax :: (LoosenLMin m m n, Unfoldr 0 m m) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMax f = loosenLMin . unfoldr f
 
-unfoldrMaxM :: (Monad m, LoosenLMin w w n, Unfoldr 0 w w) =>
+unfoldrMMax :: (Monad m, LoosenLMin w w n, Unfoldr 0 w w) =>
 	(s -> m (a, s)) -> s -> m (RangeL n w a)
-unfoldrMaxM f s = loosenLMin <$> unfoldrM f s
+unfoldrMMax f s = loosenLMin <$> unfoldrM f s
 
 repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
 repeatLMax = unfoldrMax \x -> (x, x)

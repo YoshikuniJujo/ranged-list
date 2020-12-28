@@ -19,7 +19,7 @@ foo :: Word32 -> LengthL 32 Bool
 foo = unfoldr \w -> (w `testBit` 0, w `shiftR` 1)
 
 bar :: Word32 -> LengthR 32 Bool
-bar = unfoldl \w -> (w `testBit` 0, w `shiftR` 1)
+bar = unfoldl \w -> (w `shiftR` 1, w `testBit` 0)
 
 baz :: (RangeL 2 3 (Integer, Integer), RangeL 1 6 Integer)
 baz = zipWithL (,)

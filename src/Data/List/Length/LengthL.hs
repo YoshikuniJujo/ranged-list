@@ -15,13 +15,13 @@ unfoldr :: Unfoldr 0 n n => (s -> (a, s)) -> s -> LengthL n a
 unfoldr = unfoldrWithBase NilL
 
 unfoldrWithBase :: Unfoldr n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
-unfoldrWithBase xs f s = runIdentity $ unfoldrWithBaseM xs (Identity . f) s
+unfoldrWithBase xs f s = runIdentity $ unfoldrMWithBase xs (Identity . f) s
 
 unfoldrM :: (Monad m, Unfoldr 0 n n) => (s -> m (a, s)) -> s -> m (LengthL n a)
-unfoldrM = unfoldrWithBaseM NilL
+unfoldrM = unfoldrMWithBase NilL
 
-unfoldrWithBaseM :: (Monad m, Unfoldr n w w) => RangeL n w a -> (s -> m (a, s)) -> s -> m (LengthL w a)
-unfoldrWithBaseM xs f = (fst <$>) . unfoldrWithBaseRangeMWithS xs undefined f
+unfoldrMWithBase :: (Monad m, Unfoldr n w w) => RangeL n w a -> (s -> m (a, s)) -> s -> m (LengthL w a)
+unfoldrMWithBase xs f = (fst <$>) . unfoldrMWithBaseRangeWithS xs undefined f
 
 class ListToLengthL n where
 	listToLengthL :: [a] -> Either (RangeL 0 (n - 1) a) (LengthL n a, [a])

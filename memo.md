@@ -6,7 +6,7 @@ refactor
 
 * [x] check module name hierarchy
 * [ ] refactor haddock
-	+ [ ] Data.List.Length
+	+ [x] Data.List.Length
 		- [x] LENGHTED LIST LEFT
 			* [x] structure
 			* [x] Type
@@ -21,9 +21,30 @@ refactor
 			* [x] Unfoldl
 			* [x] ZipR
 			* [x] ListToLengthR
+		- [x] LEFT TO RIGHT
+		- [x] RIGHT TO LEFT
+	+ [ ] Data.List.Range
+		- [ ] RANGED LIST LEFT
+			* [x] structure
+			* [x] Type
+			* [x] PushL
+			* [x] AddL
+			* [x] LoosenLMin and LoosenLMax
+				+ [x] loosenL
+				+ [x] loosenLMin
+				+ [x] loosenLMax
+			* [ ] Unfoldr
+				+ [ ] class
+				+ [ ] unfoldrRange
+				+ [ ] unfoldrRangeMaybe
+			* [ ] ZipL
+			* [ ] Repeat and Unfoldr Min and Max
+				+ [ ] repeat
+				+ [ ] unfoldr
+				+ [ ] unfoldrM
+		- [ ] RANGED LIST RIGHT
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT
-	+ [ ] Data.List.Range
 	+ [ ] Data.List.Range.Nat
 * [ ] refactor Data.List.Range.RangeL
 	+ [ ] export list
