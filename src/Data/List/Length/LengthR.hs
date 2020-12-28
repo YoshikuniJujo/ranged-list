@@ -25,8 +25,8 @@ unfoldlWithBaseM :: (Monad m, Unfoldl n w w) =>
 	(s -> m (s, a)) -> s -> RangeR n w a -> m (LengthR w a)
 unfoldlWithBaseM f s = (snd <$>) . unfoldlWithBaseRangeMWithS undefined f s
 
-class ListToLengthR m where
-	listToLengthR :: [a] -> Either (RangeR 0 (m - 1) a) (LengthR m a, [a])
+class ListToLengthR n where
+	listToLengthR :: [a] -> Either (RangeR 0 (n - 1) a) (LengthR n a, [a])
 
 instance ListToLengthR 1 where
 	listToLengthR [] = Left NilR
