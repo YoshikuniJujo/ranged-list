@@ -11,7 +11,9 @@ module Data.List.Length (
 	-- ** AddL
 	AddL, (++.),
 	-- ** Unfoldr
-	Unfoldr, unfoldr, repeatL, fillL,
+	Unfoldr, repeatL, fillL, unfoldr,
+	-- ** ZipL
+	ZipL, zipL, zipWithL, zipWithML,
 	-- ** ListToLengthL
 	ListToLengthL, listToLengthL, chunksL, chunksL',
 	-- * LENGTHED LIST RIGHT
