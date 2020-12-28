@@ -10,8 +10,8 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl, unfoldlWithBaseRangeMWithS,
-	ZipR, zipWithR,
+	Unfoldl, unfoldlWithBaseRangeMWithS, unfoldlWithBaseRangeMMaybe,
+	ZipR, zipR, zipWithR, zipWithMR,
 	unfoldlRangeMaybe ) where
 
 import Control.Arrow (first, second, (***))
@@ -179,6 +179,10 @@ instance {-# OVERLAPPABLE #-}
 
 	unfoldlWithBaseRangeMMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s xs
 	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
+
+zipR :: ZipR n m v w => RangeR n m a -> RangeR v w b ->
+	(RangeR (n - w) (m - v) a, RangeR v w (a, b))
+zipR = zipWithR (,)
 
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)

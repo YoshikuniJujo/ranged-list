@@ -15,6 +15,12 @@ refactor
 			* [x] ZipL
 			* [x] ListToLengthL
 		- [ ] LENGTHED LIST RIGHT
+			* [x] structure
+			* [x] Type
+			* [x] AddR
+			* [ ] Unfoldl
+			* [ ] ZipR
+			* [ ] ListToLengthR
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT
 	+ [ ] Data.List.Range

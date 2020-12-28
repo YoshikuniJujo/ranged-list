@@ -11,14 +11,24 @@ module Data.List.Length (
 	-- ** AddL
 	AddL, (++.),
 	-- ** Unfoldr
-	Unfoldr, repeatL, fillL, unfoldr,
+	Unfoldr,
+	repeatL, fillL, unfoldr, unfoldrM, unfoldrWithBase, unfoldrWithBaseM,
 	-- ** ZipL
 	ZipL, zipL, zipWithL, zipWithML,
 	-- ** ListToLengthL
 	ListToLengthL, listToLengthL, chunksL, chunksL',
 	-- * LENGTHED LIST RIGHT
-	LengthR, RangeR(NilR, (:+)), AddR, (+++),
-	Unfoldl, unfoldl, repeatR, fillR, listToLengthR, chunksR, chunksR',
+	-- ** Type
+	LengthR, RangeR(NilR, (:+)),
+	-- ** AddR
+	AddR, (+++),
+	-- ** Unfoldl
+	Unfoldl,
+	repeatR, fillR, unfoldl, unfoldlM, unfoldlWithBase, unfoldlWithBaseM,
+	-- ** ZipR
+	ZipR, zipR, zipWithR, zipWithMR,
+	-- ** ListToLengthR
+	listToLengthR, chunksR, chunksR',
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
