@@ -139,6 +139,11 @@ todo
 	+ [x] define fromInt
 	+ [x] define splitAtL
 * [x] define splitAtR
+* [x] repair type of `unfoldrMRange`
+	+ from `s -> Bool` to `s -> m Bool`
+* [ ] rename from `unfoldlRangeM` to `unfoldlMRange`
+* [ ] repair type of `unfoldlMRange`
+	+ from `s -> Bool` to `s -> m Bool`
 
 module name hierarchy
 ---------------------

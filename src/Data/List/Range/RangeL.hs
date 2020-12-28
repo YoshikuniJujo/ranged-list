@@ -147,17 +147,17 @@ instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrWithBaseRange NilL
 
-unfoldrMRange :: (Monad m, Unfoldr 0 v w) => (s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
+unfoldrMRange :: (Monad m, Unfoldr 0 v w) => (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
 unfoldrMRange = unfoldrMWithBaseRange NilL
 
 unfoldrWithBaseRange :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrWithBaseRange xs p f = fst . unfoldrWithBaseRangeWithS xs p f
 
-unfoldrMWithBaseRange :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
+unfoldrMWithBaseRange :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
 unfoldrMWithBaseRange xs p f s = fst <$> unfoldrMWithBaseRangeWithS xs p f s
 
 unfoldrWithBaseRangeWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
-unfoldrWithBaseRangeWithS xs p f s = runIdentity $ unfoldrMWithBaseRangeWithS xs p (Identity . f) s
+unfoldrWithBaseRangeWithS xs p f s = runIdentity $ unfoldrMWithBaseRangeWithS xs (Identity . p) (Identity . f) s
 
 unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybe = unfoldrWithBaseRangeMaybe NilL
@@ -169,7 +169,7 @@ unfoldrWithBaseRangeMaybe xs f s =
 
 class Unfoldr n v w where
 	unfoldrMWithBaseRangeWithS :: Monad m => RangeL n w a ->
-		(s -> Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
+		(s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a, s)
 	unfoldrWithBaseRangeMMaybe :: Monad m => RangeL n w a ->
 		(s -> m (Maybe (a, s))) -> s -> m (Maybe (RangeL v w a))
 
@@ -183,11 +183,12 @@ instance Unfoldr 0 0 0 where
 	unfoldrWithBaseRangeMMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
-	unfoldrMWithBaseRangeWithS NilL p f s
-		| p s = do
+	unfoldrMWithBaseRangeWithS NilL p f s = do
+		b <- p s
+		if b then do
 			(x, s') <- f s
 			((x :..) `first`) <$> unfoldrMWithBaseRangeWithS NilL p f s'
-		| otherwise = pure (NilL, s)
+		else pure (NilL, s)
 	unfoldrMWithBaseRangeWithS (x :.. xs) p f s = ((x :..) `first`) <$> unfoldrMWithBaseRangeWithS xs p f s
 	unfoldrMWithBaseRangeWithS _ _ _ _ = error "never occur"
 
