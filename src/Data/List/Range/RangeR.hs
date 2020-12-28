@@ -10,7 +10,7 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl, unfoldlWithBaseRangeMWithS, unfoldlWithBaseRangeMMaybe,
+	Unfoldl, unfoldlMWithBaseRangeWithS, unfoldlMWithBaseRangeMaybe,
 	ZipR, zipR, zipWithR, zipWithMR,
 	unfoldlRangeMaybe ) where
 
@@ -128,57 +128,57 @@ unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR 
 unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f s NilR
 
 unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
-unfoldlWithBaseRangeMaybe f s xs = runIdentity $ unfoldlWithBaseRangeMMaybe (Identity . f) s xs
+unfoldlWithBaseRangeMaybe f s xs = runIdentity $ unfoldlMWithBaseRangeMaybe (Identity . f) s xs
 
 class Unfoldl n v w where
-	unfoldlWithBaseRangeMWithS :: Monad m => (s -> Bool) ->
+	unfoldlMWithBaseRangeWithS :: Monad m => (s -> Bool) ->
 		(s -> m (s, a)) -> s -> RangeR n w a -> m (s, RangeR v w a)
-	unfoldlWithBaseRangeMMaybe :: Monad m =>
+	unfoldlMWithBaseRangeMaybe :: Monad m =>
 		(s -> m (Maybe (s, a))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
 
 instance Unfoldl 0 0 0 where
-	unfoldlWithBaseRangeMWithS _ _ s NilR = pure (s, NilR)
-	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeWithS _ _ s NilR = pure (s, NilR)
+	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMMaybe f s NilR = (<$> f s) \case
+	unfoldlMWithBaseRangeMaybe f s NilR = (<$> f s) \case
 		Just _ -> Nothing
 		Nothing -> Just NilR
-	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
-	unfoldlWithBaseRangeMWithS p f s NilR
+	unfoldlMWithBaseRangeWithS p f s NilR
 		| p s = do
 			(s', x) <- f s
-			((:++ x) `second`) <$> unfoldlWithBaseRangeMWithS p f s' NilR
+			((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s' NilR
 		| otherwise = pure (s, NilR)
-	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:++ x) `second`) <$> unfoldlWithBaseRangeMWithS p f s xs
-	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeWithS p f s (xs :++ x) = ((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
+	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMMaybe f s NilR = f s >>= \case
-		Just (s', x) -> ((:++ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s' NilR
+	unfoldlMWithBaseRangeMaybe f s NilR = f s >>= \case
+		Just (s', x) -> ((:++ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s' NilR
 		Nothing -> pure $ Just NilR
-	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
-	unfoldlWithBaseRangeMWithS p f s NilR = do
+	unfoldlMWithBaseRangeWithS p f s NilR = do
 		(s', x) <- f s
-		((:+ x) `second`) <$> unfoldlWithBaseRangeMWithS p f s' NilR
-	unfoldlWithBaseRangeMWithS p f s (xs :++ x) = ((:+ x) `second`) <$> unfoldlWithBaseRangeMWithS p f s xs
-	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+		((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s' NilR
+	unfoldlMWithBaseRangeWithS p f s (xs :++ x) = ((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
+	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMMaybe f s NilR = f s >>= \case
-		Just (s', x) -> ((:+ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s' NilR
+	unfoldlMWithBaseRangeMaybe f s NilR = f s >>= \case
+		Just (s', x) -> ((:+ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s' NilR
 		Nothing -> pure Nothing
-	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
-	unfoldlWithBaseRangeMWithS p f s (xs :+ x) = ((:+ x) `second`) <$> unfoldlWithBaseRangeMWithS p f s xs
-	unfoldlWithBaseRangeMWithS _ _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeWithS p f s (xs :+ x) = ((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
+	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
 
-	unfoldlWithBaseRangeMMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlWithBaseRangeMMaybe f s xs
-	unfoldlWithBaseRangeMMaybe _ _ _ = error "never occur"
+	unfoldlMWithBaseRangeMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s xs
+	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 zipR :: ZipR n m v w => RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w (a, b))

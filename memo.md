@@ -141,7 +141,7 @@ todo
 * [x] define splitAtR
 * [x] repair type of `unfoldrMRange`
 	+ from `s -> Bool` to `s -> m Bool`
-* [ ] rename from `unfoldlRangeM` to `unfoldlMRange`
+* [x] rename from `unfoldlRangeM` to `unfoldlMRange`
 * [ ] repair type of `unfoldlMRange`
 	+ from `s -> Bool` to `s -> m Bool`
 
