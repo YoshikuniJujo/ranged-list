@@ -51,21 +51,21 @@ repeatLMax = unfoldrMax \x -> (x, x)
 
 -- RANGED LIST RIGHT
 
-unfoldlMin :: (LoosenRMax n n m, Unfoldl 0 n n) => (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMin :: (LoosenRMax n n m, Unfoldl 0 n n) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMin f = loosenRMax . unfoldl f
 
 unfoldlMinM :: (Monad m, LoosenRMax n n w, Unfoldl 0 n n) =>
-	(s -> m (a, s)) -> s -> m (RangeR n w a)
+	(s -> m (s, a)) -> s -> m (RangeR n w a)
 unfoldlMinM f s = loosenRMax <$> unfoldlM f s
 
 repeatRMin :: (LoosenRMax n n m, Unfoldl 0 n n) => a -> RangeR n m a
 repeatRMin = unfoldlMin \x -> (x, x)
 
-unfoldlMax :: (LoosenRMin m m n, Unfoldl 0 m m) => (s -> (a, s)) -> s -> RangeR n m a
+unfoldlMax :: (LoosenRMin m m n, Unfoldl 0 m m) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMax f = loosenRMin . unfoldl f
 
 unfoldlMaxM :: (Monad m, LoosenRMin w w n, Unfoldl 0 w w) =>
-	(s -> m (a, s)) -> s -> m (RangeR n w a)
+	(s -> m (s, a)) -> s -> m (RangeR n w a)
 unfoldlMaxM f s = loosenRMin <$> unfoldlM f s
 
 repeatRMax :: (LoosenRMin m m n, Unfoldl 0 m m) => a -> RangeR n m a

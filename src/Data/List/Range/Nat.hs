@@ -34,7 +34,7 @@ toIntR :: Foldable (RangeR n m) => RangedNatR n m -> Int
 toIntR = length
 
 fromIntR :: Unfoldl 0 n m => Int -> Maybe (RangedNatR n m)
-fromIntR = unfoldlRangeMaybe \s -> if s > 0 then Just ((), s - 1) else Nothing
+fromIntR = unfoldlRangeMaybe \s -> if s > 0 then Just (s - 1, ()) else Nothing
 
 splitAtR :: ZipR n m v w => RangeR n m a ->
 	RangedNatR v w -> (RangeR (n - w) (m - v) a, RangeR v w a)
