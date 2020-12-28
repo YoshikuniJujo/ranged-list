@@ -9,9 +9,10 @@ refactor
 	+ [ ] Data.List.Length
 		- [ ] LENGHTED LIST LEFT
 			* [x] structure
-			* [ ] Lengthed List Left Type
-			* [ ] Add Lengthed List Left
+			* [ ] Type
+			* [ ] AddL
 			* [ ] Unfoldr
+			* [ ] ListToLengthL
 		- [ ] LENGTHED LIST RIGHT
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT

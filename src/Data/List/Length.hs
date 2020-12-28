@@ -6,9 +6,9 @@
 
 module Data.List.Length (
 	-- * LENGTHED LIST LEFT
-	-- ** Lengthed List Left Type
+	-- ** Type
 	LengthL, RangeL(NilL, (:.)),
-	-- ** Add Lengthed List Left
+	-- ** AddL
 	AddL, (++.),
 	-- ** Unfoldr
 	Unfoldr, unfoldr, repeatL, fillL,
