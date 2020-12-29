@@ -36,7 +36,7 @@ module Data.List.Length (
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR,
 	-- ** ListToLengthR
-	listToLengthR, chunksR, chunksR',
+	ListToLengthR, listToLengthR, chunksR, chunksR',
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT

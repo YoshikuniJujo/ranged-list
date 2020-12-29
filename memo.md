@@ -6,7 +6,7 @@ refactor
 
 * [x] check module name hierarchy
 * [ ] refactor haddock
-	+ [ ] Data.List.Length
+	+ [x] Data.List.Length
 		- [x] LENGHTED LIST LEFT
 			* [x] structure
 			* [x] Type
@@ -16,18 +16,18 @@ refactor
 				+ [x] others
 			* [x] ZipL
 			* [x] ListToLengthL
-		- [ ] LENGTHED LIST RIGHT
+		- [x] LENGTHED LIST RIGHT
 			* [x] structure
 			* [x] Type
 			* [x] AddR
-			* [ ] Unfoldl
+			* [x] Unfoldl
 				+ [x] remove "'"
 				+ [x] structure
-				+ [ ] others
-			* [ ] ZipR
-			* [ ] ListToLengthR
-		- [ ] LEFT TO RIGHT
-		- [ ] RIGHT TO LEFT
+				+ [x] others
+			* [x] ZipR
+			* [x] ListToLengthR
+		- [x] LEFT TO RIGHT
+		- [x] RIGHT TO LEFT
 	+ [ ] Data.List.Range
 		- [ ] RANGED LIST LEFT
 			* [ ] structure

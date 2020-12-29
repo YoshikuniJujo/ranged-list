@@ -32,7 +32,7 @@ instance ListToLengthL 1 where
 	listToLengthL [] = Left NilL
 	listToLengthL (x : xs) = Right (x :. NilL, xs)
 
-instance {-# OVERLAPPABLE #-} (1 <= (m - 1), ListToLengthL (m - 1)) => ListToLengthL m where
+instance {-# OVERLAPPABLE #-} (1 <= (n - 1), ListToLengthL (n - 1)) => ListToLengthL n where
 	listToLengthL [] = Left NilL
 	listToLengthL (x : xs) = case listToLengthL xs of
 		Left ys -> Left $ x :.. ys

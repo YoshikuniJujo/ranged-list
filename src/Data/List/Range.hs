@@ -94,7 +94,7 @@ instance {-# OVERLAPPABLE #-}
 	_ ++.+ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} (
-	LoosenRMax n m (m + w), PushR (n - 1) (m - 1),
+	PushR (n - 1) (m - 1), LoosenRMax n m (m + w),
 	LeftToRight n (m + 1) 0 (w - 1) ) =>
 	LeftToRight n m 0 w where
 	(++.+) :: forall a . RangeR n m a -> RangeL 0 w a -> RangeR n (m + w) a
@@ -111,7 +111,7 @@ instance {-# OVERLAPPABLE #-}
 	_ ++.+ _ = error "never occur"
 
 leftToRight ::
-	forall n m a . LeftToRight 0 0 n m => RangeL n m a -> RangeR n m a
+	forall v w a . LeftToRight 0 0 v w => RangeL v w a -> RangeR v w a
 leftToRight = ((NilR :: RangeR 0 0 a) ++.+)
 
 -- RIGHT TO LEFT
@@ -134,7 +134,7 @@ instance {-# OVERLAPPABLE #-}
 	_ ++.. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} (
-	LoosenLMax v w (m + w), PushL (v - 1) (w - 1),
+	PushL (v - 1) (w - 1), LoosenLMax v w (m + w),
 	RightToLeft 0 (m - 1) v (w + 1) ) =>
 	RightToLeft 0 m v w where
 	(++..) :: forall a . RangeR 0 m a -> RangeL v w a -> RangeL v (m + w) a
