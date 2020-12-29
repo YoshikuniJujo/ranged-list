@@ -10,9 +10,8 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl,
 	Unfoldl',
-	unfoldlMWithBaseRangeWithS, unfoldlMWithBaseRangeMaybe,
+	unfoldlMRangeWithBase', unfoldlMRangeMaybeWithBase',
 	ZipR, zipR, zipWithR, zipWithMR,
 	unfoldlRangeMaybe ) where
 
@@ -143,57 +142,6 @@ unfoldlRangeMaybeWithBaseGen :: Unfoldl' n v w =>
 	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
 unfoldlRangeMaybeWithBaseGen p f xs =
 	runStateL $ unfoldlMRangeMaybeWithBase' (StateL p) (StateL f) xs
-
-class Unfoldl n v w where
-	unfoldlMWithBaseRangeWithS :: Monad m => (s -> m Bool) ->
-		(s -> m (s, a)) -> s -> RangeR n w a -> m (s, RangeR v w a)
-	unfoldlMWithBaseRangeMaybe :: Monad m =>
-		(s -> m (Maybe (s, a))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
-
-instance Unfoldl 0 0 0 where
-	unfoldlMWithBaseRangeWithS _ _ s NilR = pure (s, NilR)
-	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
-
-	unfoldlMWithBaseRangeMaybe f s NilR = (<$> f s) \case
-		Just _ -> Nothing
-		Nothing -> Just NilR
-	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
-	unfoldlMWithBaseRangeWithS p f s NilR = do
-		b <- p s
-		if b then do
-			(s', x) <- f s
-			((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s' NilR
-		else pure (s, NilR)
-	unfoldlMWithBaseRangeWithS p f s (xs :++ x) = ((:++ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
-	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
-
-	unfoldlMWithBaseRangeMaybe f s NilR = f s >>= \case
-		Just (s', x) -> ((:++ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s' NilR
-		Nothing -> pure $ Just NilR
-	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-}
-	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
-	unfoldlMWithBaseRangeWithS p f s NilR = do
-		(s', x) <- f s
-		((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s' NilR
-	unfoldlMWithBaseRangeWithS p f s (xs :++ x) = ((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
-	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
-
-	unfoldlMWithBaseRangeMaybe f s NilR = f s >>= \case
-		Just (s', x) -> ((:+ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s' NilR
-		Nothing -> pure Nothing
-	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-}
-	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
-	unfoldlMWithBaseRangeWithS p f s (xs :+ x) = ((:+ x) `second`) <$> unfoldlMWithBaseRangeWithS p f s xs
-	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
-
-	unfoldlMWithBaseRangeMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s xs
-	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
 
 class Unfoldl' n v w where
 	unfoldlMRangeWithBase' :: Monad m =>

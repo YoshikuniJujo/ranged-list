@@ -23,8 +23,8 @@ module Data.List.Length (
 	-- ** AddR
 	AddR, (+++),
 	-- ** Unfoldl
-	Unfoldl,
-	repeatR, fillR, unfoldl, unfoldlM, unfoldlWithBase, unfoldlWithBaseM,
+	Unfoldl',
+	repeatR, fillR, unfoldl, unfoldlM', unfoldlWithBase, unfoldlWithBaseM',
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR,
 	-- ** ListToLengthR
@@ -57,18 +57,18 @@ chunksL' z xs = case chunksL xs of
 	(cs, NilL) -> cs
 	(cs, rs) -> cs ++ [fillL (loosenLMax rs) z]
 
-repeatR :: Unfoldl 0 n n => a -> LengthR n a
+repeatR :: Unfoldl' 0 n n => a -> LengthR n a
 repeatR = (`fillR` NilR)
 
-fillR :: Unfoldl n m m => a -> RangeR n m a -> LengthR m a
-fillR = unfoldlWithBase \x -> (x, x)
+fillR :: Unfoldl' n m m => a -> RangeR n m a -> LengthR m a
+fillR = flip $ unfoldlWithBase \x -> (x, x)
 
 chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR xs = case listToLengthR xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksR xs'
 
-chunksR' :: (Unfoldl 0 n n, ListToLengthR n, LoosenRMax 0 (n - 1) n) => a -> [a] -> [LengthR n a]
+chunksR' :: (Unfoldl' 0 n n, ListToLengthR n, LoosenRMax 0 (n - 1) n) => a -> [a] -> [LengthR n a]
 chunksR' z xs = case chunksR xs of
 	(cs, NilR) -> cs
 	(cs, rs) -> cs ++ [fillR z $ loosenRMax rs]

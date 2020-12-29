@@ -27,7 +27,7 @@ splitAtL = zipWithL (flip const)
 
 type RangedNatR n m = RangeR n m ()
 
-natR :: Unfoldl 0 n n => RangedNatR n n
+natR :: Unfoldl' 0 n n => RangedNatR n n
 natR = repeatR ()
 
 toIntR :: Foldable (RangeR n m) => RangedNatR n m -> Int
