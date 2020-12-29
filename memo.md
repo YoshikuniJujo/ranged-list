@@ -6,38 +6,40 @@ refactor
 
 * [x] check module name hierarchy
 * [ ] refactor haddock
-	+ [x] Data.List.Length
-		- [x] LENGHTED LIST LEFT
+	+ [ ] Data.List.Length
+		- [ ] LENGHTED LIST LEFT
 			* [x] structure
 			* [x] Type
 			* [x] AddL
 			* [x] Unfoldr
-			* [x] ZipL
-			* [x] ListToLengthL
-		- [x] LENGTHED LIST RIGHT
-			* [x] structure
-			* [x] Type
-			* [x] AddR
-			* [x] Unfoldl
-			* [x] ZipR
-			* [x] ListToLengthR
-		- [x] LEFT TO RIGHT
-		- [x] RIGHT TO LEFT
+				+ [x] remove "'"
+				+ [x] others
+			* [ ] ZipL
+			* [ ] ListToLengthL
+		- [ ] LENGTHED LIST RIGHT
+			* [ ] structure
+			* [ ] Type
+			* [ ] AddR
+			* [ ] Unfoldl
+			* [ ] ZipR
+			* [ ] ListToLengthR
+		- [ ] LEFT TO RIGHT
+		- [ ] RIGHT TO LEFT
 	+ [ ] Data.List.Range
 		- [ ] RANGED LIST LEFT
-			* [x] structure
-			* [x] Type
-			* [x] PushL
-			* [x] AddL
-			* [x] LoosenLMin and LoosenLMax
-				+ [x] loosenL
-				+ [x] loosenLMin
-				+ [x] loosenLMax
+			* [ ] structure
+			* [ ] Type
+			* [ ] PushL
+			* [ ] AddL
+			* [ ] LoosenLMin and LoosenLMax
+				+ [ ] loosenL
+				+ [ ] loosenLMin
+				+ [ ] loosenLMax
 			* [ ] Unfoldr
-				+ [x] class
+				+ [ ] class
 				+ [ ] unfoldrRange
 					- [ ] without monad
-						* [x] rename unfoldrWithBaseRange to unfoldrRangeWithBase
+						* [ ] rename unfoldrWithBaseRange to unfoldrRangeWithBase
 						* [ ] others
 					- [ ] with monad
 						* [x] rename unfoldrMWithBaseRange to unfoldrMRangeWithBase

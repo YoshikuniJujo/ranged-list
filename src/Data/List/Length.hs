@@ -12,7 +12,7 @@ module Data.List.Length (
 	AddL, (++.),
 	-- ** Unfoldr
 	Unfoldr,
-	repeatL, fillL, unfoldr, unfoldrM', unfoldrWithBase, unfoldrMWithBase',
+	repeatL, fillL, unfoldr, unfoldrM, unfoldrWithBase, unfoldrMWithBase,
 	-- ** ZipL
 	ZipL, zipL, zipWithL, zipWithML,
 	-- ** ListToLengthL

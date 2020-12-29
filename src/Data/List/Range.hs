@@ -39,7 +39,7 @@ unfoldrMin f = loosenLMax . unfoldr f
 
 unfoldrMMin' ::
 	(Monad m, LoosenLMax n n w, Unfoldr 0 n n) => m a -> m (RangeL n w a)
-unfoldrMMin' f = loosenLMax <$> unfoldrM' f
+unfoldrMMin' f = loosenLMax <$> unfoldrM f
 
 repeatLMin :: (LoosenLMax n n m, Unfoldr 0 n n) => a -> RangeL n m a
 repeatLMin = unfoldrMin \x -> (x, x)
@@ -49,7 +49,7 @@ unfoldrMax f = loosenLMin . unfoldr f
 
 unfoldrMMax' ::
 	(Monad m, LoosenLMin w w n, Unfoldr 0 w w) => m a -> m (RangeL n w a)
-unfoldrMMax' f = loosenLMin <$> unfoldrM' f
+unfoldrMMax' f = loosenLMin <$> unfoldrM f
 
 repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
 repeatLMax = unfoldrMax \x -> (x, x)
