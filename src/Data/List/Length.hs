@@ -27,8 +27,12 @@ module Data.List.Length (
 	-- ** AddR
 	AddR, (+++),
 	-- ** Unfoldl
+	-- *** class
 	Unfoldl,
-	repeatR, fillR, unfoldl, unfoldlM, unfoldlWithBase, unfoldlMWithBase,
+	-- *** without monad
+	repeatR, fillR, unfoldl, unfoldlWithBase,
+	-- *** with monad
+	unfoldlM, unfoldlMWithBase,
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR,
 	-- ** ListToLengthR

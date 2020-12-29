@@ -22,6 +22,7 @@ refactor
 			* [x] AddR
 			* [ ] Unfoldl
 				+ [x] remove "'"
+				+ [x] structure
 				+ [ ] others
 			* [ ] ZipR
 			* [ ] ListToLengthR
