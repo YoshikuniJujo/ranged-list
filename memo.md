@@ -38,22 +38,14 @@ refactor
 				+ [x] loosenL
 				+ [x] loosenLMin
 				+ [x] loosenLMax
-			* [ ] Unfoldr
-				+ [ ] class
-				+ [ ] unfoldrRange
-					- [ ] without monad
-						* [ ] rename unfoldrWithBaseRange to unfoldrRangeWithBase
-						* [ ] others
-					- [ ] with monad
-						* [x] rename unfoldrMWithBaseRange to unfoldrMRangeWithBase
-						* [ ] others
-				+ [ ] unfoldrRangeMaybe
-					- [ ] without monad
-						* [ ] rename  unfoldrWithBaseRangeMaybe to unfoldrRangeMaybeWithBase
-						* [ ] others
-					- [ ] with monad
-						* [ ] rename  unfoldrMWithBaseRangeMaybe to unfoldrMRangeMaybeWithBase
-						* [ ] others
+			* [x] Unfoldr
+				+ [x] class
+				+ [x] unfoldrRange
+					- [x] without monad
+					- [x] with monad
+				+ [x] unfoldrRangeMaybe
+					- [x] without monad
+					- [x] with monad
 			* [ ] ZipL
 			* [ ] Repeat and Unfoldr Min and Max
 				+ [ ] repeat

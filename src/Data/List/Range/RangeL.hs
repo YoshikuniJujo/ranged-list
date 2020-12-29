@@ -30,14 +30,14 @@ module Data.List.Range.RangeL (
 	unfoldrRangeWithBase,
 	unfoldrRangeWithBaseWithS,
 	-- **** with monad
-	unfoldrMRange',
+	unfoldrMRange,
 	unfoldrMRangeWithBase,
 	-- *** unfoldrRangeMaybe
 	-- **** without monad
 	unfoldrRangeMaybe,
-	unfoldrWithBaseRangeMaybe,
+	unfoldrRangeMaybeWithBase,
 	-- **** with monad
-	unfoldrMRangeMaybe',
+	unfoldrMRangeMaybe,
 	unfoldrMRangeMaybeWithBase,
 --	unfoldrMWithBaseRangeMaybe,
 	-- ** ZipL
@@ -160,8 +160,8 @@ instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrRangeWithBase NilL
 
-unfoldrMRange' :: (Monad m, Unfoldr 0 v w) => m Bool -> m a -> m (RangeL v w a)
-unfoldrMRange' = unfoldrMRangeWithBase NilL
+unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
+unfoldrMRange = unfoldrMRangeWithBase NilL
 
 unfoldrRangeWithBase :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
@@ -170,14 +170,14 @@ unfoldrRangeWithBaseWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s 
 unfoldrRangeWithBaseWithS xs p f = runStateL $ unfoldrMRangeWithBase xs (StateL \s -> (p s, s)) (StateL f)
 
 unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrRangeMaybe = unfoldrWithBaseRangeMaybe NilL
+unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
 
-unfoldrMRangeMaybe' :: (Monad m, Unfoldr 0 v w) => m Bool -> m a -> m (Maybe (RangeL v w a))
-unfoldrMRangeMaybe' = unfoldrMRangeMaybeWithBase NilL
+unfoldrMRangeMaybe :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (Maybe (RangeL v w a))
+unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
 
-unfoldrWithBaseRangeMaybe :: Unfoldr n v w =>
+unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrWithBaseRangeMaybe xs f s0 =
+unfoldrRangeMaybeWithBase xs f s0 =
 --	runIdentity $ unfoldrMWithBaseRangeMaybe xs (Identity . f) s
 	fst $ unfoldrWithBaseRangeMaybeGen xs (\mas -> (isJust mas, mas))
 		(maybe (error "never occur") (\(x, s) -> (x, f s))) (f s0)
