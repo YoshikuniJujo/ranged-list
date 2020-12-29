@@ -158,13 +158,12 @@ todo
 	+ from `s -> Bool` to `s -> m Bool`
 * [ ] repair type of Unfoldr class function
 	+ [x] make Unfoldr'
-	+ [ ] use Unfoldr'
+	+ [x] use Unfoldr'
 		- [x] use in unfoldrRangeWithBaseWithS
 		- [x] use in unfoldrWithBaseRangeMaybe
 		- [x] use unfoldrMRangeWithBase' in some functions
-		- [ ] use unfoldrMRangeMaybeWithBase' in some functions
-		- [ ] use in others
-	+ [ ] remove Unfoldr
+		- [x] use unfoldrMRangeMaybeWithBase' in some functions
+	+ [x] remove Unfoldr
 	+ [ ] rename Unfoldr' to Unfoldr
 * [ ] repair type of Unfoldl class function
 * [ ] check to rename `WithBase`
