@@ -173,6 +173,8 @@ todo
 		- [x] instance Unfoldl' 0 v w
 		- [x] instance Unfoldl' n v w
 	+ [ ] use Unfoldl'
+		- [x] use in unfoldlRangeMaybe
+		- [ ] use in others
 	+ [ ] remove Unfoldl
 	+ [ ] rename Unfoldl' to Unfoldl
 * [ ] check to rename `WithBase`

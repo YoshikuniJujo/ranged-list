@@ -10,13 +10,17 @@
 module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
-	Unfoldl, unfoldlMWithBaseRangeWithS, unfoldlMWithBaseRangeMaybe,
+	Unfoldl,
+	Unfoldl',
+	unfoldlMWithBaseRangeWithS, unfoldlMWithBaseRangeMaybe,
 	ZipR, zipR, zipWithR, zipWithMR,
 	unfoldlRangeMaybe ) where
 
 import Control.Arrow (second, (***))
 import Control.Monad.Identity
+import Control.Monad.State
 import Data.Bool
+import Data.Maybe
 import GHC.TypeLits
 
 infixl 6 :+, :++
@@ -125,11 +129,20 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	xs +++ ys :+ y = (xs +++ ys) :+ y
 	_ +++ _ = error "never occur"
 
-unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
-unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f s NilR
+unfoldlRangeMaybe :: Unfoldl' 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
+unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f NilR s
 
-unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
-unfoldlWithBaseRangeMaybe f s xs = runIdentity $ unfoldlMWithBaseRangeMaybe (Identity . f) s xs
+unfoldlWithBaseRangeMaybe :: Unfoldl' n v w => (s -> Maybe (s, a)) -> RangeR n w a -> s -> Maybe (RangeR v w a)
+unfoldlWithBaseRangeMaybe f xs s0 = -- runIdentity $ unfoldlMWithBaseRangeMaybe (Identity . f) s xs
+	fst $ unfoldlRangeMaybeWithBaseGen (\mas -> (isJust mas, mas))
+		(maybe (error "never occur") (\(s, x) -> (x, f s))) xs (f s0)
+
+unfoldlRangeMaybeWithBaseGen :: Unfoldl' n v w =>
+	(Maybe (s, a) -> (Bool, Maybe (s, a))) ->
+	(Maybe (s, a) -> (a, (Maybe (s, a)))) -> RangeR n w a ->
+	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
+unfoldlRangeMaybeWithBaseGen p f xs =
+	runStateL $ unfoldlMRangeMaybeWithBase' (StateL p) (StateL f) xs
 
 class Unfoldl n v w where
 	unfoldlMWithBaseRangeWithS :: Monad m => (s -> m Bool) ->
