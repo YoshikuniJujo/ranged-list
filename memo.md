@@ -156,6 +156,15 @@ todo
 * [x] rename from `unfoldlRangeM` to `unfoldlMRange`
 * [x] repair type of `unfoldlMRange`
 	+ from `s -> Bool` to `s -> m Bool`
+* [ ] repair type of Unfoldr class function
+	+ [x] make Unfoldr'
+	+ [ ] use Unfoldr'
+		- [x] use in unfoldrRangeWithBaseWithS
+		- [x] use in unfoldrWithBaseRAngeMaybe
+		- [ ] use in others
+	+ [ ] remove Unfoldr
+	+ [ ] rename Unfoldr' to Unfoldr
+* [ ] repair type of Unfoldl class function
 * [ ] check to rename `WithBase`
 
 module name hierarchy

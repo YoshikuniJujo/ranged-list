@@ -1,4 +1,4 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE BlockArguments, LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -23,7 +23,7 @@ module Data.List.Range.RangeL (
 	LoosenLMax, loosenLMax,
 	-- ** Unfoldr
 	-- *** class
-	Unfoldr,
+	Unfoldr, Unfoldr',
 	-- *** unfoldrRange
 	-- **** without monad
 	unfoldrRange,
@@ -44,9 +44,12 @@ module Data.List.Range.RangeL (
 	ZipL, zipL, zipWithL, zipWithML
 	) where
 
+import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 import Control.Arrow (first, (***))
 import Control.Monad.Identity
-import GHC.TypeNats (Nat, type (+), type (-), type (<=))
+import Control.Monad.State
+import Data.Bool
+import Data.Maybe
 
 infixr 6 :., :..
 
@@ -154,31 +157,39 @@ instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
 
-unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
+unfoldrRange :: Unfoldr' 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrRangeWithBase NilL
 
 unfoldrMRange :: (Monad m, Unfoldr 0 v w) => (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
 unfoldrMRange = unfoldrMRangeWithBase NilL
 
-unfoldrRangeWithBase :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
+unfoldrRangeWithBase :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
 
 unfoldrMRangeWithBase :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
 unfoldrMRangeWithBase xs p f s = fst <$> unfoldrMRangeWithBaseWithS xs p f s
 
-unfoldrRangeWithBaseWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
-unfoldrRangeWithBaseWithS xs p f s = runIdentity $ unfoldrMRangeWithBaseWithS xs (Identity . p) (Identity . f) s
+unfoldrRangeWithBaseWithS :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+unfoldrRangeWithBaseWithS xs p f = runStateL $ unfoldrMRangeWithBase' xs (StateL \s -> (p s, s)) (StateL f)
 
-unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
+unfoldrRangeMaybe :: Unfoldr' 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybe = unfoldrWithBaseRangeMaybe NilL
 
 unfoldrMRangeMaybe :: (Monad m, Unfoldr 0 v w) => (s -> m (Maybe (a, s))) -> s -> m (Maybe (RangeL v w a))
 unfoldrMRangeMaybe = unfoldrMWithBaseRangeMaybe NilL
 
-unfoldrWithBaseRangeMaybe :: Unfoldr n v w =>
+unfoldrWithBaseRangeMaybe :: Unfoldr' n v w =>
 	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrWithBaseRangeMaybe xs f s =
-	runIdentity $ unfoldrMWithBaseRangeMaybe xs (Identity . f) s
+unfoldrWithBaseRangeMaybe xs f s0 =
+--	runIdentity $ unfoldrMWithBaseRangeMaybe xs (Identity . f) s
+	fst $ unfoldrWithBaseRangeMaybeGen xs (\mas -> (isJust mas, mas))
+		(maybe (error "never occur") (\(x, s) -> (x, f s))) (f s0)
+
+unfoldrWithBaseRangeMaybeGen :: Unfoldr' n v w =>
+	RangeL n w a -> (Maybe (a, s) -> (Bool, Maybe (a, s))) -> (Maybe (a, s) -> (a, Maybe (a, s))) -> Maybe (a, s) ->
+	(Maybe (RangeL v w a), Maybe (a, s))
+unfoldrWithBaseRangeMaybeGen xs p f =
+	runStateL $ unfoldrMRangeMaybeWithBase' xs (StateL p) (StateL f)
 
 class Unfoldr n v w where
 	unfoldrMRangeWithBaseWithS :: Monad m => RangeL n w a ->
@@ -232,6 +243,59 @@ instance {-# OVERLAPPABLE #-}
 
 	unfoldrMWithBaseRangeMaybe (x :. xs) f s = ((x :.) <$>) <$> unfoldrMWithBaseRangeMaybe xs f s
 	unfoldrMWithBaseRangeMaybe _ _ _ = error "never occur"
+
+class Unfoldr' n v w where
+	unfoldrMRangeWithBase' ::
+		Monad m => RangeL n w a -> m Bool -> m a -> m (RangeL v w a)
+	unfoldrMRangeMaybeWithBase' ::
+		Monad m => RangeL n w a -> m Bool -> m a -> m (Maybe (RangeL v w a))
+
+instance Unfoldr' 0 0 0 where
+	unfoldrMRangeWithBase' NilL _ _ = pure NilL
+	unfoldrMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldrMRangeMaybeWithBase' NilL p _ = bool (Just NilL) Nothing <$> p
+	unfoldrMRangeMaybeWithBase' _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-} Unfoldr' 0 0 (w - 1) => Unfoldr' 0 0 w where
+	unfoldrMRangeWithBase' NilL p f =
+		(p >>=) . bool (pure NilL) $ f >>= \x ->
+			(x :..) <$> unfoldrMRangeWithBase' NilL p f
+	unfoldrMRangeWithBase' (x :.. xs) p f =
+		(x :..) <$> unfoldrMRangeWithBase' xs p f
+	unfoldrMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldrMRangeMaybeWithBase' NilL p f =
+		(p >>=) . bool (pure $ Just NilL) $ f >>= \x ->
+			((x :..) <$>) <$> unfoldrMRangeMaybeWithBase' NilL p f
+	unfoldrMRangeMaybeWithBase' (x :.. xs) p f =
+		((x :..) <$>) <$> unfoldrMRangeMaybeWithBase' xs p f
+	unfoldrMRangeMaybeWithBase' _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	(1 <= w, Unfoldr' 0 (v - 1) (w - 1)) => Unfoldr' 0 v w where
+	unfoldrMRangeWithBase' NilL p f =
+		f >>= \x -> (x :.) <$> unfoldrMRangeWithBase' NilL p f
+	unfoldrMRangeWithBase' (x :.. xs) p f =
+		(x :.) <$> unfoldrMRangeWithBase' xs p f
+	unfoldrMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldrMRangeMaybeWithBase' NilL p f =
+		(p >>=) . bool (pure Nothing) $ f >>= \x ->
+			((x :.) <$>) <$> unfoldrMRangeMaybeWithBase' NilL p f
+	unfoldrMRangeMaybeWithBase' (x :.. xs) p f =
+		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase' xs p f
+	unfoldrMRangeMaybeWithBase' _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	Unfoldr' (n - 1) (v - 1) (w - 1) => Unfoldr' n v w where
+	unfoldrMRangeWithBase' (x :. xs) p f =
+		(x :.) <$> unfoldrMRangeWithBase' xs p f
+	unfoldrMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldrMRangeMaybeWithBase' (x :. xs) p f =
+		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase' xs p f
+	unfoldrMRangeMaybeWithBase' _ _ _ = error "never occur"
 
 zipL :: ZipL n m v w => RangeL n m a -> RangeL v w b ->
 	(RangeL n m (a, b), RangeL (v - m) (w - n) b)
