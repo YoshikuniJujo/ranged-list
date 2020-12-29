@@ -136,6 +136,12 @@ class Unfoldl n v w where
 	unfoldlMWithBaseRangeMaybe :: Monad m =>
 		(s -> m (Maybe (s, a))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
 
+class Unfoldl' n v w where
+	unfoldlMRangeWithBase' :: Monad m =>
+		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
+	unfoldlMRangeMaybeWithBase' :: Monad m =>
+		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
+
 instance Unfoldl 0 0 0 where
 	unfoldlMWithBaseRangeWithS _ _ s NilR = pure (s, NilR)
 	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"

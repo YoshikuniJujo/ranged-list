@@ -166,6 +166,11 @@ todo
 	+ [x] remove Unfoldr
 	+ [x] rename Unfoldr' to Unfoldr
 * [ ] repair type of Unfoldl class function
+	+ [x] make class Unfoldl'
+	+ [ ] make instance Unfoldl'
+	+ [ ] use Unfoldl'
+	+ [ ] remove Unfoldl
+	+ [ ] rename Unfoldl' to Unfoldl
 * [ ] check to rename `WithBase`
 
 module name hierarchy
