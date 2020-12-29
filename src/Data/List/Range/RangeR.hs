@@ -16,6 +16,7 @@ module Data.List.Range.RangeR (
 
 import Control.Arrow (second, (***))
 import Control.Monad.Identity
+import Data.Bool
 import GHC.TypeLits
 
 infixl 6 :+, :++
@@ -136,12 +137,6 @@ class Unfoldl n v w where
 	unfoldlMWithBaseRangeMaybe :: Monad m =>
 		(s -> m (Maybe (s, a))) -> s ->  RangeR n w a -> m (Maybe (RangeR v w a))
 
-class Unfoldl' n v w where
-	unfoldlMRangeWithBase' :: Monad m =>
-		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
-	unfoldlMRangeMaybeWithBase' :: Monad m =>
-		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
-
 instance Unfoldl 0 0 0 where
 	unfoldlMWithBaseRangeWithS _ _ s NilR = pure (s, NilR)
 	unfoldlMWithBaseRangeWithS _ _ _ _ = error "never occur"
@@ -186,6 +181,19 @@ instance {-# OVERLAPPABLE #-}
 
 	unfoldlMWithBaseRangeMaybe f s (xs :+ x) = ((:+ x) <$>) <$> unfoldlMWithBaseRangeMaybe f s xs
 	unfoldlMWithBaseRangeMaybe _ _ _ = error "never occur"
+
+class Unfoldl' n v w where
+	unfoldlMRangeWithBase' :: Monad m =>
+		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
+	unfoldlMRangeMaybeWithBase' :: Monad m =>
+		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
+
+instance Unfoldl' 0 0 0 where
+	unfoldlMRangeWithBase' _ _ NilR = pure NilR
+	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldlMRangeMaybeWithBase' p _ NilR = bool (Just NilR) Nothing <$> p
+	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
 
 zipR :: ZipR n m v w => RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w (a, b))
