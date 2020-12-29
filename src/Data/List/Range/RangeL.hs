@@ -23,16 +23,16 @@ module Data.List.Range.RangeL (
 	LoosenLMax, loosenLMax,
 	-- ** Unfoldr
 	-- *** class
-	Unfoldr, Unfoldr',
+--	Unfoldr,
+	Unfoldr',
 	-- *** unfoldrRange
 	-- **** without monad
 	unfoldrRange,
 	unfoldrRangeWithBase,
 	unfoldrRangeWithBaseWithS,
 	-- **** with monad
-	unfoldrMRange,
-	unfoldrMRangeWithBase,
-	unfoldrMRangeWithBaseWithS,
+	unfoldrMRange',
+	unfoldrMRangeWithBase',
 	-- *** unfoldrRangeMaybe
 	-- **** without monad
 	unfoldrRangeMaybe,
@@ -160,14 +160,11 @@ instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 unfoldrRange :: Unfoldr' 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrRangeWithBase NilL
 
-unfoldrMRange :: (Monad m, Unfoldr 0 v w) => (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
-unfoldrMRange = unfoldrMRangeWithBase NilL
+unfoldrMRange' :: (Monad m, Unfoldr' 0 v w) => m Bool -> m a -> m (RangeL v w a)
+unfoldrMRange' = unfoldrMRangeWithBase' NilL
 
 unfoldrRangeWithBase :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
-
-unfoldrMRangeWithBase :: (Monad m, Unfoldr n v w) => RangeL n w a -> (s -> m Bool) -> (s -> m (a, s)) -> s -> m (RangeL v w a)
-unfoldrMRangeWithBase xs p f s = fst <$> unfoldrMRangeWithBaseWithS xs p f s
 
 unfoldrRangeWithBaseWithS :: Unfoldr' n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
 unfoldrRangeWithBaseWithS xs p f = runStateL $ unfoldrMRangeWithBase' xs (StateL \s -> (p s, s)) (StateL f)

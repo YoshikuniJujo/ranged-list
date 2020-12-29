@@ -12,7 +12,7 @@ import Data.List.Range
 
 type RangedNatL n m = RangeL n m ()
 
-natL :: Unfoldr 0 n n => RangedNatL n n
+natL :: Unfoldr' 0 n n => RangedNatL n n
 natL = repeatL ()
 
 toIntL :: Foldable (RangeL n m) => RangedNatL n m -> Int

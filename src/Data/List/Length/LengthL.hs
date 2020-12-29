@@ -7,21 +7,23 @@ module Data.List.Length.LengthL where
 
 import GHC.TypeNats
 import Control.Monad.Identity
+import Control.Monad.State
 import Data.List.Range.RangeL
 
 type LengthL n = RangeL n n
 
-unfoldr :: Unfoldr 0 n n => (s -> (a, s)) -> s -> LengthL n a
+unfoldr :: Unfoldr' 0 n n => (s -> (a, s)) -> s -> LengthL n a
 unfoldr = unfoldrWithBase NilL
 
-unfoldrWithBase :: Unfoldr n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
-unfoldrWithBase xs f s = runIdentity $ unfoldrMWithBase xs (Identity . f) s
+unfoldrWithBase :: Unfoldr' n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
+unfoldrWithBase xs f = -- runIdentity $ unfoldrMWithBase xs (Identity . f) s
+	(fst .) . runStateL $ unfoldrMWithBase' xs (StateL f)
 
-unfoldrM :: (Monad m, Unfoldr 0 n n) => (s -> m (a, s)) -> s -> m (LengthL n a)
-unfoldrM = unfoldrMWithBase NilL
+unfoldrM' :: (Monad m, Unfoldr' 0 n n) => m a -> m (LengthL n a)
+unfoldrM' = unfoldrMWithBase' NilL
 
-unfoldrMWithBase :: (Monad m, Unfoldr n w w) => RangeL n w a -> (s -> m (a, s)) -> s -> m (LengthL w a)
-unfoldrMWithBase xs f = (fst <$>) . unfoldrMRangeWithBaseWithS xs undefined f
+unfoldrMWithBase' :: (Monad m, Unfoldr' n w w) => RangeL n w a -> m a -> m (LengthL w a)
+unfoldrMWithBase' xs f = unfoldrMRangeWithBase' xs undefined f
 
 class ListToLengthL n where
 	listToLengthL :: [a] -> Either (RangeL 0 (n - 1) a) (LengthL n a, [a])

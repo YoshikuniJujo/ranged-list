@@ -160,7 +160,9 @@ todo
 	+ [x] make Unfoldr'
 	+ [ ] use Unfoldr'
 		- [x] use in unfoldrRangeWithBaseWithS
-		- [x] use in unfoldrWithBaseRAngeMaybe
+		- [x] use in unfoldrWithBaseRangeMaybe
+		- [x] use unfoldrMRangeWithBase' in some functions
+		- [ ] use unfoldrMRangeMaybeWithBase' in some functions
 		- [ ] use in others
 	+ [ ] remove Unfoldr
 	+ [ ] rename Unfoldr' to Unfoldr
