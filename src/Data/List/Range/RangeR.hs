@@ -212,7 +212,7 @@ instance {-# OVERLAPPABLE #-}
 	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= 2, Unfoldl' 0 (v - 1) (w - 1)) => Unfoldl' 0 v w where
+	(1 <= w, Unfoldl' 0 (v - 1) (w - 1)) => Unfoldl' 0 v w where
 	unfoldlMRangeWithBase' p f NilR =
 		f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase' p f NilR
 	unfoldlMRangeWithBase' p f (xs :++ x) =
@@ -223,6 +223,16 @@ instance {-# OVERLAPPABLE #-}
 		(p >>=) . bool (pure Nothing) $ f >>= \x ->
 			((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f NilR
 	unfoldlMRangeMaybeWithBase' p f (xs :++ x) =
+		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f xs
+	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	Unfoldl' (n - 1) (v - 1) (w - 1) => Unfoldl' n v w where
+	unfoldlMRangeWithBase' p f (xs :+ x) =
+		(:+ x) <$> unfoldlMRangeWithBase' p f xs
+	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+
+	unfoldlMRangeMaybeWithBase' p f (xs :+ x) =
 		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f xs
 	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
 

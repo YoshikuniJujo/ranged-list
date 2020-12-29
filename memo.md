@@ -167,11 +167,11 @@ todo
 	+ [x] rename Unfoldr' to Unfoldr
 * [ ] repair type of Unfoldl class function
 	+ [x] make class Unfoldl'
-	+ [ ] make instance Unfoldl'
+	+ [x] make instance Unfoldl'
 		- [x] instance Unfoldl' 0 0 0
 		- [x] instance Unfoldl' 0 0 w
 		- [x] instance Unfoldl' 0 v w
-		- [ ] instance Unfoldl' n v w
+		- [x] instance Unfoldl' n v w
 	+ [ ] use Unfoldl'
 	+ [ ] remove Unfoldl
 	+ [ ] rename Unfoldl' to Unfoldl
