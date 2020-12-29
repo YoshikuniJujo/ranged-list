@@ -27,13 +27,13 @@ splitAtL = zipWithL (flip const)
 
 type RangedNatR n m = RangeR n m ()
 
-natR :: Unfoldl' 0 n n => RangedNatR n n
+natR :: Unfoldl 0 n n => RangedNatR n n
 natR = repeatR ()
 
 toIntR :: Foldable (RangeR n m) => RangedNatR n m -> Int
 toIntR = length
 
-fromIntR :: Unfoldl' 0 n m => Int -> Maybe (RangedNatR n m)
+fromIntR :: Unfoldl 0 n m => Int -> Maybe (RangedNatR n m)
 fromIntR = unfoldlRangeMaybe \s -> if s > 0 then Just (s - 1, ()) else Nothing
 
 splitAtR :: ZipR n m v w => RangeR n m a ->

@@ -165,7 +165,7 @@ todo
 		- [x] use unfoldrMRangeMaybeWithBase' in some functions
 	+ [x] remove Unfoldr
 	+ [x] rename Unfoldr' to Unfoldr
-* [ ] repair type of Unfoldl class function
+* [x] repair type of Unfoldl class function
 	+ [x] make class Unfoldl'
 	+ [x] make instance Unfoldl'
 		- [x] instance Unfoldl' 0 0 0
@@ -176,7 +176,7 @@ todo
 		- [x] use in unfoldlRangeMaybe
 		- [x] use in others
 	+ [x] remove Unfoldl
-	+ [ ] rename Unfoldl' to Unfoldl
+	+ [x] rename Unfoldl' to Unfoldl
 * [ ] check to rename `WithBase`
 
 module name hierarchy

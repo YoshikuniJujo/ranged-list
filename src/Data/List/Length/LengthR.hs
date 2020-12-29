@@ -12,16 +12,16 @@ import Data.List.Range.RangeR
 
 type LengthR n = RangeR n n
 
-unfoldl :: Unfoldl' 0 n n => (s -> (s, a)) -> s -> LengthR n a
+unfoldl :: Unfoldl 0 n n => (s -> (s, a)) -> s -> LengthR n a
 unfoldl f s = unfoldlWithBase f NilR s
 
-unfoldlWithBase :: Unfoldl' n m m => (s -> (s, a)) -> RangeR n m a -> s -> LengthR m a
+unfoldlWithBase :: Unfoldl n m m => (s -> (s, a)) -> RangeR n m a -> s -> LengthR m a
 unfoldlWithBase f xs s = snd $ runStateR (unfoldlWithBaseM' (StateR f) xs) s
 
-unfoldlM' :: (Monad m, Unfoldl' 0 n n) => m a -> m (LengthR n a)
+unfoldlM' :: (Monad m, Unfoldl 0 n n) => m a -> m (LengthR n a)
 unfoldlM' f = unfoldlWithBaseM' f NilR
 
-unfoldlWithBaseM' :: (Monad m, Unfoldl' n w w) => m a -> RangeR n w a -> m (LengthR w a)
+unfoldlWithBaseM' :: (Monad m, Unfoldl n w w) => m a -> RangeR n w a -> m (LengthR w a)
 unfoldlWithBaseM' f = unfoldlMRangeWithBase' undefined f
 
 class ListToLengthR n where
