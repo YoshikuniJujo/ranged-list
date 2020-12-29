@@ -12,13 +12,13 @@ import Data.List.Range
 
 type RangedNatL n m = RangeL n m ()
 
-natL :: Unfoldr' 0 n n => RangedNatL n n
+natL :: Unfoldr 0 n n => RangedNatL n n
 natL = repeatL ()
 
 toIntL :: Foldable (RangeL n m) => RangedNatL n m -> Int
 toIntL = length
 
-fromIntL :: Unfoldr' 0 n m => Int -> Maybe (RangedNatL n m)
+fromIntL :: Unfoldr 0 n m => Int -> Maybe (RangedNatL n m)
 fromIntL = unfoldrRangeMaybe \s -> if s > 0 then Just ((), s - 1) else Nothing
 
 splitAtL :: ZipL n m v w => RangedNatL n m ->

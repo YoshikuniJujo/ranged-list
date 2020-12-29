@@ -156,7 +156,7 @@ todo
 * [x] rename from `unfoldlRangeM` to `unfoldlMRange`
 * [x] repair type of `unfoldlMRange`
 	+ from `s -> Bool` to `s -> m Bool`
-* [ ] repair type of Unfoldr class function
+* [x] repair type of Unfoldr class function
 	+ [x] make Unfoldr'
 	+ [x] use Unfoldr'
 		- [x] use in unfoldrRangeWithBaseWithS
@@ -164,7 +164,7 @@ todo
 		- [x] use unfoldrMRangeWithBase' in some functions
 		- [x] use unfoldrMRangeMaybeWithBase' in some functions
 	+ [x] remove Unfoldr
-	+ [ ] rename Unfoldr' to Unfoldr
+	+ [x] rename Unfoldr' to Unfoldr
 * [ ] repair type of Unfoldl class function
 * [ ] check to rename `WithBase`
 

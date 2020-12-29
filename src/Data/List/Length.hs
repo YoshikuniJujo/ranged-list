@@ -11,7 +11,7 @@ module Data.List.Length (
 	-- ** AddL
 	AddL, (++.),
 	-- ** Unfoldr
-	Unfoldr',
+	Unfoldr,
 	repeatL, fillL, unfoldr, unfoldrM', unfoldrWithBase, unfoldrMWithBase',
 	-- ** ZipL
 	ZipL, zipL, zipWithL, zipWithML,
@@ -41,10 +41,10 @@ import Data.List.Range
 import Data.List.Length.LengthL
 import Data.List.Length.LengthR
 
-repeatL :: Unfoldr' 0 n n => a -> LengthL n a
+repeatL :: Unfoldr 0 n n => a -> LengthL n a
 repeatL = fillL NilL
 
-fillL :: Unfoldr' n m m => RangeL n m a -> a -> LengthL m a
+fillL :: Unfoldr n m m => RangeL n m a -> a -> LengthL m a
 fillL xs0 = unfoldrWithBase xs0 \x -> (x, x)
 
 chunksL :: ListToLengthL n => [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
@@ -52,7 +52,7 @@ chunksL xs = case listToLengthL xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksL xs'
 
-chunksL' :: (Unfoldr' 0 n n, ListToLengthL n, LoosenLMax 0 (n - 1) n) => a -> [a] -> [LengthL n a]
+chunksL' :: (Unfoldr 0 n n, ListToLengthL n, LoosenLMax 0 (n - 1) n) => a -> [a] -> [LengthL n a]
 chunksL' z xs = case chunksL xs of
 	(cs, NilL) -> cs
 	(cs, rs) -> cs ++ [fillL (loosenLMax rs) z]

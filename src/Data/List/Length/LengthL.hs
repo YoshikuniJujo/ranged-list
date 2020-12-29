@@ -12,17 +12,17 @@ import Data.List.Range.RangeL
 
 type LengthL n = RangeL n n
 
-unfoldr :: Unfoldr' 0 n n => (s -> (a, s)) -> s -> LengthL n a
+unfoldr :: Unfoldr 0 n n => (s -> (a, s)) -> s -> LengthL n a
 unfoldr = unfoldrWithBase NilL
 
-unfoldrWithBase :: Unfoldr' n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
+unfoldrWithBase :: Unfoldr n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
 unfoldrWithBase xs f = -- runIdentity $ unfoldrMWithBase xs (Identity . f) s
 	(fst .) . runStateL $ unfoldrMWithBase' xs (StateL f)
 
-unfoldrM' :: (Monad m, Unfoldr' 0 n n) => m a -> m (LengthL n a)
+unfoldrM' :: (Monad m, Unfoldr 0 n n) => m a -> m (LengthL n a)
 unfoldrM' = unfoldrMWithBase' NilL
 
-unfoldrMWithBase' :: (Monad m, Unfoldr' n w w) => RangeL n w a -> m a -> m (LengthL w a)
+unfoldrMWithBase' :: (Monad m, Unfoldr n w w) => RangeL n w a -> m a -> m (LengthL w a)
 unfoldrMWithBase' xs f = unfoldrMRangeWithBase' xs undefined f
 
 class ListToLengthL n where
