@@ -8,12 +8,33 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 module Data.List.Range.RangeR (
-	RangeR(..), PushR, (.:++), AddR, (+++),
-	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
+	-- ** Type
+	RangeR(..),
+	-- ** PushR
+	PushR, (.:++),
+	-- ** AddR
+	AddR, (+++),
+	-- ** LoosenRMin and LoosenRMax
+	-- *** loosenR
+	loosenR,
+	-- *** loosenRMin
+	LoosenRMin, loosenRMin,
+	-- *** loosenRMax
+	LoosenRMax, loosenRMax,
+	-- ** Unfoldl
+	-- *** class
 	Unfoldl,
-	unfoldlMRangeWithBase, unfoldlMRangeMaybeWithBase,
-	ZipR, zipR, zipWithR, zipWithMR,
-	unfoldlRangeMaybe ) where
+	-- *** unfoldlRange
+	-- **** without monad
+	-- **** with monad
+	unfoldlMRangeWithBase,
+	-- *** unfoldlRangeMaybe
+	unfoldlRangeMaybe,
+	-- **** without monad
+	unfoldlMRangeMaybeWithBase,
+	-- **** with monad
+	-- ** ZipR
+	ZipR, zipR, zipWithR, zipWithMR ) where
 
 import Control.Arrow (second, (***))
 import Control.Monad.Identity

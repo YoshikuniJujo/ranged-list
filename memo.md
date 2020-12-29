@@ -52,6 +52,8 @@ refactor
 				+ [x] unfoldr
 				+ [x] unfoldrM
 		- [ ] RANGED LIST RIGHT
+			* [x] structure
+			* [ ] others
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT
 	+ [ ] Data.List.Range.Nat

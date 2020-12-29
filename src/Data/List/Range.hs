@@ -18,8 +18,13 @@ module Data.List.Range (
 	unfoldrMMin, unfoldrMMax,
 	-- * RANGED LIST RIGHT
 	module Data.List.Range.RangeR,
-	unfoldlMin, unfoldlMinM, repeatRMin,
-	unfoldlMax, unfoldlMaxM, repeatRMax,
+	-- ** Repeat and Unfoldl Min and Max
+	-- *** repeat
+	repeatRMin, repeatRMax,
+	-- *** unfoldl
+	unfoldlMin, unfoldlMax,
+	-- *** unfoldlM
+	unfoldlMinM, unfoldlMaxM,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
