@@ -29,7 +29,7 @@ refactor
 		- [x] LEFT TO RIGHT
 		- [x] RIGHT TO LEFT
 	+ [ ] Data.List.Range
-		- [ ] RANGED LIST LEFT
+		- [x] RANGED LIST LEFT
 			* [x] structure
 			* [x] Type
 			* [x] PushL
@@ -46,11 +46,11 @@ refactor
 				+ [x] unfoldrRangeMaybe
 					- [x] without monad
 					- [x] with monad
-			* [ ] ZipL
-			* [ ] Repeat and Unfoldr Min and Max
-				+ [ ] repeat
-				+ [ ] unfoldr
-				+ [ ] unfoldrM
+			* [x] ZipL
+			* [x] Repeat and Unfoldr Min and Max
+				+ [x] repeat
+				+ [x] unfoldr
+				+ [x] unfoldrM
 		- [ ] RANGED LIST RIGHT
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT
