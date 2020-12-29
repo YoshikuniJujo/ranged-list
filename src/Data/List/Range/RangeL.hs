@@ -119,7 +119,7 @@ instance {-# OVERLAPPABLE #-}
 
 class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
 
-instance LoosenLMax 0 0 m where
+instance LoosenLMax 0 0 w where
 	loosenLMax NilL = NilL
 	loosenLMax _ = error "never occur"
 

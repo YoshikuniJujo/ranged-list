@@ -30,14 +30,14 @@ refactor
 		- [x] RIGHT TO LEFT
 	+ [ ] Data.List.Range
 		- [ ] RANGED LIST LEFT
-			* [ ] structure
-			* [ ] Type
-			* [ ] PushL
-			* [ ] AddL
-			* [ ] LoosenLMin and LoosenLMax
-				+ [ ] loosenL
-				+ [ ] loosenLMin
-				+ [ ] loosenLMax
+			* [x] structure
+			* [x] Type
+			* [x] PushL
+			* [x] AddL
+			* [x] LoosenLMin and LoosenLMax
+				+ [x] loosenL
+				+ [x] loosenLMin
+				+ [x] loosenLMax
 			* [ ] Unfoldr
 				+ [ ] class
 				+ [ ] unfoldrRange
