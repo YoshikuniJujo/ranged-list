@@ -11,7 +11,7 @@ module Data.List.Range.RangeR (
 	RangeR(..), PushR, (.:++), AddR, (+++),
 	LoosenRMin, loosenRMin, LoosenRMax, loosenRMax, loosenR,
 	Unfoldl,
-	unfoldlMRangeWithBase', unfoldlMRangeMaybeWithBase',
+	unfoldlMRangeWithBase, unfoldlMRangeMaybeWithBase,
 	ZipR, zipR, zipWithR, zipWithMR,
 	unfoldlRangeMaybe ) where
 
@@ -114,10 +114,10 @@ infixr 5 +++
 class AddR n m v w where
 	(+++) :: RangeR n m a -> RangeR v w a -> RangeR (n + v) (m + w) a
 
-instance AddR v w 0 0 where xs +++ NilR = xs; _ +++ _ = error "never occur"
+instance AddR n m 0 0 where xs +++ NilR = xs; _ +++ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} (
-	LoosenRMax n m (m + w), PushR n (m + w - 1), AddR n m 0 (w - 1)) =>
+	PushR n (m + w - 1), AddR n m 0 (w - 1), LoosenRMax n m (m + w)) =>
 	AddR n m 0 w where
 	(+++) :: forall a . RangeR n m a -> RangeR 0 w a -> RangeR n (m + w) a
 	xs +++ NilR = loosenRMax xs
@@ -141,61 +141,61 @@ unfoldlRangeMaybeWithBaseGen :: Unfoldl n v w =>
 	(Maybe (s, a) -> (a, (Maybe (s, a)))) -> RangeR n w a ->
 	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
 unfoldlRangeMaybeWithBaseGen p f xs =
-	runStateL $ unfoldlMRangeMaybeWithBase' (StateL p) (StateL f) xs
+	runStateL $ unfoldlMRangeMaybeWithBase (StateL p) (StateL f) xs
 
 class Unfoldl n v w where
-	unfoldlMRangeWithBase' :: Monad m =>
+	unfoldlMRangeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
-	unfoldlMRangeMaybeWithBase' :: Monad m =>
+	unfoldlMRangeMaybeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
 
 instance Unfoldl 0 0 0 where
-	unfoldlMRangeWithBase' _ _ NilR = pure NilR
-	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+	unfoldlMRangeWithBase _ _ NilR = pure NilR
+	unfoldlMRangeWithBase _ _ _ = error "never occur"
 
-	unfoldlMRangeMaybeWithBase' p _ NilR = bool (Just NilR) Nothing <$> p
-	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
+	unfoldlMRangeMaybeWithBase p _ NilR = bool (Just NilR) Nothing <$> p
+	unfoldlMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
-	unfoldlMRangeWithBase' p f NilR =
+	unfoldlMRangeWithBase p f NilR =
 		(p >>=) . bool (pure NilR) $ f >>= \x ->
-			(:++ x) <$> unfoldlMRangeWithBase' p f NilR
-	unfoldlMRangeWithBase' p f (xs :++ x) =
-		(:++ x) <$> unfoldlMRangeWithBase' p f xs
-	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+			(:++ x) <$> unfoldlMRangeWithBase p f NilR
+	unfoldlMRangeWithBase p f (xs :++ x) =
+		(:++ x) <$> unfoldlMRangeWithBase p f xs
+	unfoldlMRangeWithBase _ _ _ = error "never occur"
 
-	unfoldlMRangeMaybeWithBase' p f NilR =
+	unfoldlMRangeMaybeWithBase p f NilR =
 		(p >>=) . bool (pure $ Just NilR) $ f >>= \x ->
-			((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f NilR
-	unfoldlMRangeMaybeWithBase' p f (xs :++ x) =
-		((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f xs
-	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
+			((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f NilR
+	unfoldlMRangeMaybeWithBase p f (xs :++ x) =
+		((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
+	unfoldlMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
-	unfoldlMRangeWithBase' p f NilR =
-		f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase' p f NilR
-	unfoldlMRangeWithBase' p f (xs :++ x) =
-		(:+ x) <$> unfoldlMRangeWithBase' p f xs
-	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+	unfoldlMRangeWithBase p f NilR =
+		f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase p f NilR
+	unfoldlMRangeWithBase p f (xs :++ x) =
+		(:+ x) <$> unfoldlMRangeWithBase p f xs
+	unfoldlMRangeWithBase _ _ _ = error "never occur"
 
-	unfoldlMRangeMaybeWithBase' p f NilR =
+	unfoldlMRangeMaybeWithBase p f NilR =
 		(p >>=) . bool (pure Nothing) $ f >>= \x ->
-			((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f NilR
-	unfoldlMRangeMaybeWithBase' p f (xs :++ x) =
-		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f xs
-	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
+			((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f NilR
+	unfoldlMRangeMaybeWithBase p f (xs :++ x) =
+		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
+	unfoldlMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
-	unfoldlMRangeWithBase' p f (xs :+ x) =
-		(:+ x) <$> unfoldlMRangeWithBase' p f xs
-	unfoldlMRangeWithBase' _ _ _ = error "never occur"
+	unfoldlMRangeWithBase p f (xs :+ x) =
+		(:+ x) <$> unfoldlMRangeWithBase p f xs
+	unfoldlMRangeWithBase _ _ _ = error "never occur"
 
-	unfoldlMRangeMaybeWithBase' p f (xs :+ x) =
-		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase' p f xs
-	unfoldlMRangeMaybeWithBase' _ _ _ = error "never occur"
+	unfoldlMRangeMaybeWithBase p f (xs :+ x) =
+		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
+	unfoldlMRangeMaybeWithBase _ _ _ = error "never occur"
 
 zipR :: ZipR n m v w => RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w (a, b))
