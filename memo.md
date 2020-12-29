@@ -182,6 +182,7 @@ todo
 		- [x] use in others
 	+ [x] remove Unfoldl
 	+ [x] rename Unfoldl' to Unfoldl
+* [x] flip argument s for unfoldls
 * [ ] check to rename `WithBase`
 
 module name hierarchy

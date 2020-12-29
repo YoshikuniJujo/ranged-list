@@ -69,7 +69,7 @@ repeatR :: Unfoldl 0 n n => a -> LengthR n a
 repeatR = (`fillR` NilR)
 
 fillR :: Unfoldl n m m => a -> RangeR n m a -> LengthR m a
-fillR = flip $ unfoldlWithBase \x -> (x, x)
+fillR = unfoldlWithBase \x -> (x, x)
 
 chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR xs = case listToLengthR xs of

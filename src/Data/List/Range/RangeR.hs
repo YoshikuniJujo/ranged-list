@@ -129,10 +129,10 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	_ +++ _ = error "never occur"
 
 unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
-unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f NilR s
+unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f s NilR
 
-unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> RangeR n w a -> s -> Maybe (RangeR v w a)
-unfoldlWithBaseRangeMaybe f xs s0 =
+unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
+unfoldlWithBaseRangeMaybe f s0 xs =
 	fst $ unfoldlRangeMaybeWithBaseGen (\mas -> (isJust mas, mas))
 		(maybe (error "never occur") (\(s, x) -> (x, f s))) xs (f s0)
 
