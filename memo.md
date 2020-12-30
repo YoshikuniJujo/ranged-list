@@ -61,7 +61,7 @@ refactor
 				+ [x] loosenRMin
 				+ [x] loosenRMax
 			* [ ] Unfoldl
-				+ [ ] class
+				+ [x] class
 				+ [ ] unfoldlRange
 					- [ ] without monad
 					- [ ] with monad
@@ -196,7 +196,13 @@ todo
 	+ [x] remove Unfoldl
 	+ [x] rename Unfoldl' to Unfoldl
 * [x] flip argument s for unfoldls
-* [ ] check to rename `WithBase`
+* [ ] define unfoldl functions
+	+ [ ] unfoldlRangeWithBaseWithS
+	+ [ ] unfoldlRangeWithBase
+	+ [ ] unfoldlRange
+	+ [x] unfoldlMRange
+	+ [ ] unfoldlMRangeMaybe
+	+ [ ] unfoldlRangeMaybeWithBase
 
 module name hierarchy
 ---------------------
