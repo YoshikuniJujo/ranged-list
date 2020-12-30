@@ -154,8 +154,7 @@ instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 
 -- LOOSEN RIGHT
 
-loosenR :: (LoosenRMin n m v, LoosenRMax v m w) =>
-	RangeR n m a -> RangeR v w a
+loosenR :: (LoosenRMin n m v, LoosenRMax v m w) => RangeR n m a -> RangeR v w a
 loosenR = loosenRMax . loosenRMin
 
 -- LOOSEN RIGHT MIN
@@ -182,8 +181,7 @@ instance {-# OVERLAPPABLE #-}
 class LoosenRMax n m w where loosenRMax :: RangeR n m a -> RangeR n w a
 
 instance LoosenRMax 0 0 m where
-	loosenRMax NilR = NilR
-	loosenRMax _ = error "never occur"
+	loosenRMax NilR = NilR; loosenRMax _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	LoosenRMax 0 (m - 1) (w - 1) => LoosenRMax 0 m w where
