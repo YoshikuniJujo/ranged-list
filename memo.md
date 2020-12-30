@@ -177,9 +177,9 @@ refactor
 		- [x] UNFOLDR
 		- [x] LIST TO LENGTH LEFT
 * [ ] refactor Data.List.Length.LengthR
-	+ [ ] language extension
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Data.List.Length
