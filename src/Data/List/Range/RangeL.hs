@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -45,7 +45,7 @@ module Data.List.Range.RangeL (
 	) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
-import Control.Arrow (first, (***))
+import Control.Arrow (first, second, (***))
 import Control.Monad.Identity
 import Control.Monad.State
 import Data.Bool
@@ -178,9 +178,8 @@ unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
 unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybeWithBase xs f s0 =
---	runIdentity $ unfoldrMWithBaseRangeMaybe xs (Identity . f) s
 	fst $ unfoldrWithBaseRangeMaybeGen xs (\mas -> (isJust mas, mas))
-		(maybe (error "never occur") (\(x, s) -> (x, f s))) (f s0)
+		(maybe (error "never occur") (f `second`)) (f s0)
 
 unfoldrWithBaseRangeMaybeGen :: Unfoldr n v w =>
 	RangeL n w a -> (Maybe (a, s) -> (Bool, Maybe (a, s))) -> (Maybe (a, s) -> (a, Maybe (a, s))) -> Maybe (a, s) ->

@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -173,7 +173,7 @@ unfoldlRangeMaybeWithBase f s0 xs =
 
 unfoldlRangeMaybeWithBaseGen :: Unfoldl n v w =>
 	(Maybe (s, a) -> (Bool, Maybe (s, a))) ->
-	(Maybe (s, a) -> (a, (Maybe (s, a)))) -> RangeR n w a ->
+	(Maybe (s, a) -> (a, Maybe (s, a))) -> RangeR n w a ->
 	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
 unfoldlRangeMaybeWithBaseGen p f xs =
 	runStateL $ unfoldlMRangeMaybeWithBase (StateL p) (StateL f) xs

@@ -22,7 +22,7 @@ unfoldlM :: (Monad m, Unfoldl 0 n n) => m a -> m (LengthR n a)
 unfoldlM f = unfoldlMWithBase f NilR
 
 unfoldlMWithBase :: (Monad m, Unfoldl n w w) => m a -> RangeR n w a -> m (LengthR w a)
-unfoldlMWithBase f = unfoldlMRangeWithBase undefined f
+unfoldlMWithBase = unfoldlMRangeWithBase undefined
 
 class ListToLengthR n where
 	listToLengthR :: [a] -> Either (RangeR 0 (n - 1) a) (LengthR n a, [a])

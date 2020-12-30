@@ -80,6 +80,7 @@ refactor
 		- [x] structure
 		- [x] RangedNatL
 		- [x] RangedNatR
+* [x] refactor with hlint
 * [ ] refactor Data.List.Range.RangeL
 	+ [ ] export list
 	+ [ ] import list
