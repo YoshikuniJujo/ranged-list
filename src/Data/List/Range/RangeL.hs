@@ -46,18 +46,40 @@ import Data.Maybe (isJust)
 
 ---------------------------------------------------------------------------
 
-
+-- * TYPE
+--	+ RANGE LEFT
+--	+ INSTANCE FUNCTOR
+--	+ INSTANCE FOLDABLE
+-- * PUSH
+-- * ADD
+-- * LOOSEN
+-- 	+ LOOSEN LEFT
+-- 	+ LOOSEN LEFT MIN
+-- 	+ LOOSEN LEFT MAX
+-- * UNFOLDR
+-- 	+ CLASS
+-- 	+ UNFOLDR RANGE
+-- 	+ UNFOLDR RANGE MAYBE
+-- * ZIP
+--	+ CLASS
+--	+ FUNCTION
 
 ---------------------------------------------------------------------------
+-- TYPE
+---------------------------------------------------------------------------
 
-infixr 6 :., :..
+-- RANGE LEFT
 
 data RangeL :: Nat -> Nat -> * -> * where
 	NilL :: RangeL 0 m a
 	(:..) :: 1 <= m => a -> RangeL 0 (m - 1) a -> RangeL 0 m a
 	(:.) :: a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
 
+infixr 6 :., :..
+
 deriving instance Show a => Show (RangeL n m a)
+
+-- INSTANCE FUNCTOR
 
 instance Functor (RangeL 0 0) where
 	_ `fmap` NilL = NilL
@@ -74,6 +96,8 @@ instance {-# OVERLAPPABLE #-}
 	f `fmap` (x :. xs) = f x :. (f <$> xs)
 	_ `fmap` _ = error "never occur"
 
+-- INSTANCE FOLDABLE
+
 instance Foldable (RangeL 0 0) where
 	foldr _ z NilL = z
 	foldr _ _ _ = error "never occur"
@@ -89,6 +113,10 @@ instance {-# OVERLAPPABLE #-}
 	foldr (-<) z (x :. xs) = x -< foldr (-<) z xs
 	foldr _ _ _ = error "never occur"
 
+---------------------------------------------------------------------------
+-- PUSH
+---------------------------------------------------------------------------
+
 infixr 5 .:..
 
 class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
@@ -99,42 +127,9 @@ instance {-# OVERLAPPABLE #-} PushL (n - 1) (m - 1) => PushL n m where
 	x .:.. (y :. ys) = x :. (y .:.. ys)
 	_ .:.. _ = error "never occur"
 
-class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
-
-instance LoosenLMin 0 m 0 where
-	loosenLMin NilL = NilL
-	loosenLMin xa@(_ :.. _) = xa
-	loosenLMin _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-}
-	LoosenLMin (n - 1) (m - 1) 0 => LoosenLMin n m 0 where
-	loosenLMin (x :. xs) = x :.. loosenLMin xs
-	loosenLMin _ = error "never occur"
-	
-instance {-# OVERLAPPABLE #-}
-	LoosenLMin (n - 1) (m - 1) (v - 1) => LoosenLMin n m v where
-	loosenLMin (x :. xs) = x :. loosenLMin xs
-	loosenLMin _ = error "never occur"
-
-class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
-
-instance LoosenLMax 0 0 w where
-	loosenLMax NilL = NilL
-	loosenLMax _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-}
-	LoosenLMax 0 (m - 1) (w - 1) => LoosenLMax 0 m w where
-	loosenLMax NilL = NilL
-	loosenLMax (x :.. xs) = x :.. loosenLMax xs
-	loosenLMax _ = error "never occur"
-
-instance {-# OVERLAPPABLE #-}
-	LoosenLMax (n - 1) (m - 1) (w - 1) => LoosenLMax n m w where
-	loosenLMax (x :. xs) = x :. loosenLMax xs
-	loosenLMax _ = error "never occur"
-
-loosenL :: (LoosenLMin n m v, LoosenLMax v m w) => RangeL n m a -> RangeL v w a
-loosenL = loosenLMax . loosenLMin
+---------------------------------------------------------------------------
+-- ADD
+---------------------------------------------------------------------------
 
 infixr 5 ++.
 
@@ -156,35 +151,58 @@ instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 	x :. xs ++. ys = x :. (xs ++. ys)
 	_ ++. _ = error "never occur"
 
-unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
-unfoldrRange = unfoldrRangeWithBase NilL
+---------------------------------------------------------------------------
+-- LOOSEN
+---------------------------------------------------------------------------
 
-unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
-unfoldrMRange = unfoldrMRangeWithBase NilL
+-- LOOSEN LEFT
 
-unfoldrRangeWithBase :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
-unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
+loosenL :: (LoosenLMin n m v, LoosenLMax v m w) => RangeL n m a -> RangeL v w a
+loosenL = loosenLMax . loosenLMin
 
-unfoldrRangeWithBaseWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
-unfoldrRangeWithBaseWithS xs p f = runStateL $ unfoldrMRangeWithBase xs (StateL \s -> (p s, s)) (StateL f)
+-- LOOSEN LEFT MIN
 
-unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
+class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
 
-unfoldrMRangeMaybe :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (Maybe (RangeL v w a))
-unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
+instance LoosenLMin 0 m 0 where
+	loosenLMin NilL = NilL
+	loosenLMin xa@(_ :.. _) = xa
+	loosenLMin _ = error "never occur"
 
-unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
-	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrRangeMaybeWithBase xs f s0 =
-	fst $ unfoldrWithBaseRangeMaybeGen xs (\mas -> (isJust mas, mas))
-		(maybe (error "never occur") (f `second`)) (f s0)
+instance {-# OVERLAPPABLE #-}
+	LoosenLMin (n - 1) (m - 1) 0 => LoosenLMin n m 0 where
+	loosenLMin (x :. xs) = x :.. loosenLMin xs
+	loosenLMin _ = error "never occur"
+	
+instance {-# OVERLAPPABLE #-}
+	LoosenLMin (n - 1) (m - 1) (v - 1) => LoosenLMin n m v where
+	loosenLMin (x :. xs) = x :. loosenLMin xs
+	loosenLMin _ = error "never occur"
 
-unfoldrWithBaseRangeMaybeGen :: Unfoldr n v w =>
-	RangeL n w a -> (Maybe (a, s) -> (Bool, Maybe (a, s))) -> (Maybe (a, s) -> (a, Maybe (a, s))) -> Maybe (a, s) ->
-	(Maybe (RangeL v w a), Maybe (a, s))
-unfoldrWithBaseRangeMaybeGen xs p f =
-	runStateL $ unfoldrMRangeMaybeWithBase xs (StateL p) (StateL f)
+-- LOOSEN LEFT MAX
+
+class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
+
+instance LoosenLMax 0 0 w where
+	loosenLMax NilL = NilL
+	loosenLMax _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	LoosenLMax 0 (m - 1) (w - 1) => LoosenLMax 0 m w where
+	loosenLMax NilL = NilL
+	loosenLMax (x :.. xs) = x :.. loosenLMax xs
+	loosenLMax _ = error "never occur"
+
+instance {-# OVERLAPPABLE #-}
+	LoosenLMax (n - 1) (m - 1) (w - 1) => LoosenLMax n m w where
+	loosenLMax (x :. xs) = x :. loosenLMax xs
+	loosenLMax _ = error "never occur"
+
+---------------------------------------------------------------------------
+-- UNFOLDR
+---------------------------------------------------------------------------
+
+-- CLASS
 
 class Unfoldr n v w where
 	unfoldrMRangeWithBase ::
@@ -239,13 +257,45 @@ instance {-# OVERLAPPABLE #-}
 		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
 	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
-zipL :: ZipL n m v w => RangeL n m a -> RangeL v w b ->
-	(RangeL n m (a, b), RangeL (v - m) (w - n) b)
-zipL = zipWithL (,)
+-- UNFOLDR RANGE
 
-zipWithL :: ZipL n m v w => (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
-	(RangeL n m c, RangeL (v - m) (w - n) b)
-zipWithL op xs ys = runIdentity $ zipWithML (\x y -> Identity $ x `op` y) xs ys
+unfoldrRange :: Unfoldr 0 v w => (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
+unfoldrRange = unfoldrRangeWithBase NilL
+
+unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
+unfoldrMRange = unfoldrMRangeWithBase NilL
+
+unfoldrRangeWithBase :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
+unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
+
+unfoldrRangeWithBaseWithS :: Unfoldr n v w => RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
+unfoldrRangeWithBaseWithS xs p f = runStateL $ unfoldrMRangeWithBase xs (StateL \s -> (p s, s)) (StateL f)
+
+-- UNFOLDR RANGE MAYBE
+
+unfoldrRangeMaybe :: Unfoldr 0 v w => (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
+unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
+
+unfoldrMRangeMaybe :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (Maybe (RangeL v w a))
+unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
+
+unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
+	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
+unfoldrRangeMaybeWithBase xs f s0 =
+	fst $ unfoldrWithBaseRangeMaybeGen xs (\mas -> (isJust mas, mas))
+		(maybe (error "never occur") (f `second`)) (f s0)
+
+unfoldrWithBaseRangeMaybeGen :: Unfoldr n v w =>
+	RangeL n w a -> (Maybe (a, s) -> (Bool, Maybe (a, s))) -> (Maybe (a, s) -> (a, Maybe (a, s))) -> Maybe (a, s) ->
+	(Maybe (RangeL v w a), Maybe (a, s))
+unfoldrWithBaseRangeMaybeGen xs p f =
+	runStateL $ unfoldrMRangeMaybeWithBase xs (StateL p) (StateL f)
+
+---------------------------------------------------------------------------
+-- ZIP
+---------------------------------------------------------------------------
+
+-- CLASS
 
 class ZipL n m v w where
 	zipWithML :: Monad q =>
@@ -271,3 +321,13 @@ instance {-# OVERLAPPABLE #-}
 		z <- f x y
 		((z :.) `first`) <$> zipWithML f xs ys
 	zipWithML _ _ _ = error "never occur"
+
+-- FUNCTION
+
+zipL :: ZipL n m v w => RangeL n m a -> RangeL v w b ->
+	(RangeL n m (a, b), RangeL (v - m) (w - n) b)
+zipL = zipWithL (,)
+
+zipWithL :: ZipL n m v w => (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
+	(RangeL n m c, RangeL (v - m) (w - n) b)
+zipWithL op xs ys = runIdentity $ zipWithML (\x y -> Identity $ x `op` y) xs ys

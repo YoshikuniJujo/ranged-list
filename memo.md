@@ -85,8 +85,22 @@ refactor
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] TYPE
+			* [ ] RANGE LEFT
+			* [ ] INSTANCE FUNCTOR
+			* [ ] INSTANCE FOLDABLE
+		- [ ] PUSH
+		- [ ] ADD
+		- [ ] LOOSEN
+			* [ ] LOOSEN LEFT
+			* [ ] LOOSEN LEFT MIN
+			* [ ] LOOSEN LEFT MAX
+		- [ ] UNFOLDR
+		- [ ] ZIP
+			* [ ] CLASS
+			* [ ] FUNCTION
 * [ ] refactor Data.List.Range.RangeR
 * [ ] refactor Data.List.Range
 * [ ] refactor Data.List.Length.LengthL
