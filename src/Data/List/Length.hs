@@ -59,25 +59,33 @@ import Data.List.Length.LengthR (
 
 ---------------------------------------------------------------------------
 
---
+-- LENGTH LEFT
+-- LENGTH RIGHT
 
+---------------------------------------------------------------------------
+-- LENGTH LEFT
 ---------------------------------------------------------------------------
 
 repeatL :: Unfoldr 0 n n => a -> LengthL n a
 repeatL = fillL NilL
 
 fillL :: Unfoldr n m m => RangeL n m a -> a -> LengthL m a
-fillL xs0 = unfoldrWithBase xs0 \x -> (x, x)
+fillL = (`unfoldrWithBase` \x -> (x, x))
 
 chunksL :: ListToLengthL n => [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
 chunksL xs = case listToLengthL xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksL xs'
 
-chunksL' :: (Unfoldr 0 n n, ListToLengthL n, LoosenLMax 0 (n - 1) n) => a -> [a] -> [LengthL n a]
+chunksL' :: (Unfoldr 0 n n, LoosenLMax 0 (n - 1) n, ListToLengthL n) =>
+	a -> [a] -> [LengthL n a]
 chunksL' z xs = case chunksL xs of
 	(cs, NilL) -> cs
-	(cs, rs) -> cs ++ [fillL (loosenLMax rs) z]
+	(cs, rs) -> cs ++ [loosenLMax rs `fillL` z]
+
+---------------------------------------------------------------------------
+-- LENGTH RIGHT
+---------------------------------------------------------------------------
 
 repeatR :: Unfoldl 0 n n => a -> LengthR n a
 repeatR = (`fillR` NilR)
@@ -90,7 +98,8 @@ chunksR xs = case listToLengthR xs of
 	Left ys -> ([], ys)
 	Right (ys, xs') -> (ys :) `first` chunksR xs'
 
-chunksR' :: (Unfoldl 0 n n, ListToLengthR n, LoosenRMax 0 (n - 1) n) => a -> [a] -> [LengthR n a]
+chunksR' :: (Unfoldl 0 n n, LoosenRMax 0 (n - 1) n, ListToLengthR n) =>
+	a -> [a] -> [LengthR n a]
 chunksR' z xs = case chunksR xs of
 	(cs, NilR) -> cs
-	(cs, rs) -> cs ++ [fillR z $ loosenRMax rs]
+	(cs, rs) -> cs ++ [z `fillR` loosenRMax rs]

@@ -185,13 +185,20 @@ refactor
 		- [x] TYPE
 		- [x] UNFOLDL
 		- [x] LIST TO LENGTH RIGHT
-* [ ] refactor Data.List.Length
+* [x] refactor Data.List.Length
 	+ [x] language extension
 	+ [x] export list
 	+ [x] import list
+	+ [x] structure
+	+ [x] body
+		- [x] LENGTH LEFT
+		- [x] LENGTH RIGHT
+* [ ] refactor Data.List.Range.Nat
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
 	+ [ ] structure
 	+ [ ] body
-* [ ] refactor Data.List.Range.Nat
 
 todo
 ----
