@@ -81,26 +81,38 @@ refactor
 		- [x] RangedNatL
 		- [x] RangedNatR
 * [x] refactor with hlint
-* [ ] refactor Data.List.Range.RangeL
+* [x] refactor Data.List.Range.RangeL
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] TYPE
 			* [x] RANGE LEFT
 			* [x] INSTANCE FUNCTOR
 			* [x] INSTANCE FOLDABLE
 		- [x] PUSH
 		- [x] ADD
-		- [ ] LOOSEN
-			* [ ] LOOSEN LEFT
-			* [ ] LOOSEN LEFT MIN
-			* [ ] LOOSEN LEFT MAX
-		- [ ] UNFOLDR
-		- [ ] ZIP
-			* [ ] CLASS
-			* [ ] FUNCTION
+		- [x] LOOSEN
+			* [x] LOOSEN LEFT
+			* [x] LOOSEN LEFT MIN
+			* [x] LOOSEN LEFT MAX
+		- [x] UNFOLDR
+			* [x] CLASS
+				+ [x] class Unfoldr
+				+ [x] instance Unfoldr 0 0 0
+				+ [x] instance Unfoldr 0 0 w
+				+ [x] instance Unfoldr 0 v w
+				+ [x] instance Unfoldr n v w
+			* [x] UNFOLDR RANGE
+			* [x] UNFOLDR RANGE MAYBE
+		- [x] ZIP
+			* [x] CLASS
+				+ [x] class
+				+ [x] instance ZipL 0 0 v w
+				+ [x] instance ZipL 0 m v w
+				+ [x] instance ZipL n m v w
+			* [x] FUNCTION
 * [ ] refactor Data.List.Range.RangeR
 * [ ] refactor Data.List.Range
 * [ ] refactor Data.List.Length.LengthL
