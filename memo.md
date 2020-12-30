@@ -186,9 +186,9 @@ refactor
 		- [x] UNFOLDL
 		- [x] LIST TO LENGTH RIGHT
 * [ ] refactor Data.List.Length
-	+ [ ] language extension
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Data.List.Range.Nat

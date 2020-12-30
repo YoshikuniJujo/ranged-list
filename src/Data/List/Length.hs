@@ -40,14 +40,28 @@ module Data.List.Length (
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
-	RightToLeft, (++..), rightToLeft
-	) where
+	RightToLeft, (++..), rightToLeft ) where
 
-import GHC.TypeNats
+import GHC.TypeNats (type (-))
 import Control.Arrow (first)
-import Data.List.Range
-import Data.List.Length.LengthL
-import Data.List.Length.LengthR
+import Data.List.Range (
+	RangeL(..), AddL, (++.), LoosenLMax, loosenLMax, Unfoldr,
+	ZipL, zipL, zipWithL, zipWithML,
+	RangeR(..), AddR, (+++), LoosenRMax, loosenRMax, Unfoldl,
+	ZipR, zipR, zipWithR, zipWithMR,
+	LeftToRight, (++.+), leftToRight, RightToLeft, (++..), rightToLeft )
+import Data.List.Length.LengthL (
+	LengthL, unfoldr, unfoldrWithBase, unfoldrM, unfoldrMWithBase,
+	ListToLengthL, listToLengthL)
+import Data.List.Length.LengthR (
+	LengthR, unfoldl, unfoldlWithBase, unfoldlM, unfoldlMWithBase,
+	ListToLengthR, listToLengthR )
+
+---------------------------------------------------------------------------
+
+--
+
+---------------------------------------------------------------------------
 
 repeatL :: Unfoldr 0 n n => a -> LengthL n a
 repeatL = fillL NilL
