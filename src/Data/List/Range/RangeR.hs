@@ -30,10 +30,10 @@ module Data.List.Range.RangeR (
 	-- **** with monad
 	unfoldlMRange, unfoldlMRangeWithBase,
 	-- *** unfoldlRangeMaybe
-	unfoldlRangeMaybe, unfoldlRangeMaybeWithBase,
 	-- **** without monad
-	unfoldlMRangeMaybe, unfoldlMRangeMaybeWithBase,
+	unfoldlRangeMaybe, unfoldlRangeMaybeWithBase,
 	-- **** with monad
+	unfoldlMRangeMaybe, unfoldlMRangeMaybeWithBase,
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR ) where
 

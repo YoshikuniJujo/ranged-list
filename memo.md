@@ -60,14 +60,14 @@ refactor
 				+ [x] loosenR
 				+ [x] loosenRMin
 				+ [x] loosenRMax
-			* [ ] Unfoldl
+			* [x] Unfoldl
 				+ [x] class
-				+ [ ] unfoldlRange
-					- [ ] without monad
-					- [ ] with monad
-				+ [ ] unfoldlRangeMaybe
-					- [ ] without monad
-					- [ ] with monad
+				+ [x] unfoldlRange
+					- [x] without monad
+					- [x] with monad
+				+ [x] unfoldlRangeMaybe
+					- [x] without monad
+					- [x] with monad
 			* [ ] ZipR
 			* [ ] Repeat and Unfoldl Min and Max
 				+ [ ] repeat
