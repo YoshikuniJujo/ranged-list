@@ -82,8 +82,7 @@ deriving instance Show a => Show (RangeR n m a)
 -- INSTANCE FUNCTOR
 
 instance Functor (RangeR 0 0) where
-	_ `fmap` NilR = NilR
-	_ `fmap` _ = error "never occur"
+	_ `fmap` NilR = NilR; _ `fmap` _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeR 0 (m - 1)) => Functor (RangeR 0 m) where
@@ -93,14 +92,12 @@ instance {-# OVERLAPPABLE #-}
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeR (n - 1) (m - 1)) => Functor (RangeR n m) where
-	f `fmap` (xs :+ x) = (f <$> xs) :+ f x
-	_ `fmap` _ = error "never occur"
+	f `fmap` (xs :+ x) = (f <$> xs) :+ f x; _ `fmap` _ = error "never occur"
 
 -- INSTANCE FOLDABLE
 
 instance Foldable (RangeR 0 0) where
-	foldr _ z NilR = z
-	foldr _ _ _ = error "never occur"
+	foldr _ z NilR = z; foldr _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Foldable (RangeR 0 (m - 1)) => Foldable (RangeR 0 m) where
@@ -121,11 +118,13 @@ infixl 5 .:++
 
 class PushR n m where (.:++) :: RangeR n m a -> a -> RangeR n (m + 1) a
 
-instance PushR 0 m where (.:++) = (:++)
+instance PushR 0 m where
+	NilR .:++ x = NilR :++ x
+	xs@(_ :++ _) .:++ x = xs :++ x
+	_ .:++ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} PushR (n - 1) (m - 1) => PushR n m where
-	xs :+ x .:++ y = (xs .:++ x) :+ y
-	_ .:++ _ = error "never occur"
+	xs :+ x .:++ y = (xs .:++ x) :+ y; _ .:++ _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- ADD
@@ -138,8 +137,8 @@ class AddR n m v w where
 
 instance AddR n m 0 0 where xs +++ NilR = xs; _ +++ _ = error "never occur"
 
-instance {-# OVERLAPPABLE #-} (
-	PushR n (m + w - 1), AddR n m 0 (w - 1), LoosenRMax n m (m + w)) =>
+instance {-# OVERLAPPABLE #-}
+	(PushR n (m + w - 1), AddR n m 0 (w - 1), LoosenRMax n m (m + w)) =>
 	AddR n m 0 w where
 	(+++) :: forall a . RangeR n m a -> RangeR 0 w a -> RangeR n (m + w) a
 	xs +++ NilR = loosenRMax xs
@@ -147,8 +146,7 @@ instance {-# OVERLAPPABLE #-} (
 	_ +++ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
-	xs +++ ys :+ y = (xs +++ ys) :+ y
-	_ +++ _ = error "never occur"
+	xs +++ ys :+ y = (xs +++ ys) :+ y; _ +++ _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- LOOSEN
