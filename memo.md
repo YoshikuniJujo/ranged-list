@@ -168,7 +168,13 @@ refactor
 				+ [x] RightToLeft n m v w
 			* [x] FUNCTION
 * [ ] refactor Data.List.Length.LengthL
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Data.List.Length.LengthR
+* [ ] refactor Data.List.Length
 * [ ] refactor Data.List.Range.Nat
 
 todo

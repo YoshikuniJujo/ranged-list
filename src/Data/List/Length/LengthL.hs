@@ -1,13 +1,22 @@
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
+	UndecidableInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Data.List.Length.LengthL where
+module Data.List.Length.LengthL (
+	LengthL, unfoldr, unfoldrWithBase, unfoldrM, unfoldrMWithBase,
+	ListToLengthL, listToLengthL ) where
 
-import GHC.TypeNats
-import Control.Monad.State
-import Data.List.Range.RangeL
+import GHC.TypeNats (type (-), type (<=))
+import Control.Monad.State (StateL(..))
+import Data.List.Range.RangeL (RangeL(..), Unfoldr, unfoldrMRangeWithBase)
+
+---------------------------------------------------------------------------
+
+--
+
+---------------------------------------------------------------------------
 
 type LengthL n = RangeL n n
 
