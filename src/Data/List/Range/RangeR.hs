@@ -92,7 +92,7 @@ instance {-# OVERLAPPABLE #-} PushR (n - 1) (m - 1) => PushR n m where
 	xs :+ x .:++ y = (xs .:++ x) :+ y
 	_ .:++ _ = error "never occur"
 
-class LoosenRMin n m n' where loosenRMin :: RangeR n m a -> RangeR n' m a
+class LoosenRMin n m v where loosenRMin :: RangeR n m a -> RangeR v m a
 
 instance LoosenRMin 0 m 0 where
 	loosenRMin NilR = NilR
@@ -105,29 +105,29 @@ instance {-# OVERLAPPABLE #-}
 	loosenRMin _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	LoosenRMin (n - 1) (m - 1) (n' - 1) => LoosenRMin n m n' where
+	LoosenRMin (n - 1) (m - 1) (v - 1) => LoosenRMin n m v where
 	loosenRMin (xs :+ x) = loosenRMin xs :+ x
 	loosenRMin _ = error "never occur"
 
-class LoosenRMax n m m' where loosenRMax :: RangeR n m a -> RangeR n m' a
+class LoosenRMax n m w where loosenRMax :: RangeR n m a -> RangeR n w a
 
 instance LoosenRMax 0 0 m where
 	loosenRMax NilR = NilR
 	loosenRMax _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	LoosenRMax 0 (m - 1) (m' - 1) => LoosenRMax 0 m m' where
+	LoosenRMax 0 (m - 1) (w - 1) => LoosenRMax 0 m w where
 	loosenRMax NilR = NilR
 	loosenRMax (xs :++ x) = loosenRMax xs :++ x
 	loosenRMax _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	LoosenRMax (n - 1) (m - 1) (m' - 1) => LoosenRMax n m m' where
+	LoosenRMax (n - 1) (m - 1) (w - 1) => LoosenRMax n m w where
 	loosenRMax (xs :+ x) = loosenRMax xs :+ x
 	loosenRMax _ = error "never occur"
 
-loosenR :: (LoosenRMin n m n', LoosenRMax n' m m') =>
-	RangeR n m a -> RangeR n' m' a
+loosenR :: (LoosenRMin n m v, LoosenRMax v m w) =>
+	RangeR n m a -> RangeR v w a
 loosenR = loosenRMax . loosenRMin
 
 infixr 5 +++

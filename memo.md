@@ -53,7 +53,26 @@ refactor
 				+ [x] unfoldrM
 		- [ ] RANGED LIST RIGHT
 			* [x] structure
-			* [ ] others
+			* [x] Type
+			* [x] PushR
+			* [x] AddR
+			* [x] LoosenRMin and LoosenRMax
+				+ [x] loosenR
+				+ [x] loosenRMin
+				+ [x] loosenRMax
+			* [ ] Unfoldl
+				+ [ ] class
+				+ [ ] unfoldlRange
+					- [ ] without monad
+					- [ ] with monad
+				+ [ ] unfoldlRangeMaybe
+					- [ ] without monad
+					- [ ] with monad
+			* [ ] ZipR
+			* [ ] Repeat and Unfoldl Min and Max
+				+ [ ] repeat
+				+ [ ] unfoldl
+				+ [ ] unfoldlM
 		- [ ] LEFT TO RIGHT
 		- [ ] RIGHT TO LEFT
 	+ [ ] Data.List.Range.Nat
