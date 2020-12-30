@@ -2,9 +2,9 @@
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
 	UndecidableInstances #-}
+{-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 module Data.List.Range.RangeL (
@@ -26,30 +26,29 @@ module Data.List.Range.RangeL (
 	Unfoldr,
 	-- *** unfoldrRange
 	-- **** without monad
-	unfoldrRange,
-	unfoldrRangeWithBase,
-	unfoldrRangeWithBaseWithS,
+	unfoldrRange, unfoldrRangeWithBase, unfoldrRangeWithBaseWithS,
 	-- **** with monad
-	unfoldrMRange,
-	unfoldrMRangeWithBase,
+	unfoldrMRange, unfoldrMRangeWithBase,
 	-- *** unfoldrRangeMaybe
 	-- **** without monad
-	unfoldrRangeMaybe,
-	unfoldrRangeMaybeWithBase,
+	unfoldrRangeMaybe, unfoldrRangeMaybeWithBase,
 	-- **** with monad
-	unfoldrMRangeMaybe,
-	unfoldrMRangeMaybeWithBase,
---	unfoldrMWithBaseRangeMaybe,
+	unfoldrMRangeMaybe, unfoldrMRangeMaybeWithBase,
 	-- ** ZipL
-	ZipL, zipL, zipWithL, zipWithML
-	) where
+	ZipL, zipL, zipWithL, zipWithML ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 import Control.Arrow (first, second, (***))
-import Control.Monad.Identity
-import Control.Monad.State
-import Data.Bool
-import Data.Maybe
+import Control.Monad.Identity (Identity(..), runIdentity)
+import Control.Monad.State (StateL(..), runStateL)
+import Data.Bool (bool)
+import Data.Maybe (isJust)
+
+---------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------
 
 infixr 6 :., :..
 

@@ -82,8 +82,9 @@ refactor
 		- [x] RangedNatR
 * [x] refactor with hlint
 * [ ] refactor Data.List.Range.RangeL
-	+ [ ] export list
-	+ [ ] import list
+	+ [x] language extensions
+	+ [x] export list
+	+ [x] import list
 	+ [ ] structure
 	+ [ ] body
 * [ ] refactor Data.List.Range.RangeR
