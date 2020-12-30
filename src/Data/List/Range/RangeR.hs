@@ -38,9 +38,9 @@ module Data.List.Range.RangeR (
 	ZipR, zipR, zipWithR, zipWithMR ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
-import Control.Arrow (second, (***))
+import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
-import Control.Monad.State (StateL(..), StateR(..))
+import Control.Monad.State (StateR(..))
 import Data.Bool (bool)
 import Data.Maybe (isJust)
 
@@ -256,37 +256,43 @@ instance {-# OVERLAPPABLE #-}
 
 -- UNFOLDL RANGE
 
-unfoldlRange :: Unfoldl 0 v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR v w a
+unfoldlRange :: Unfoldl 0 v w =>
+	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR v w a
 unfoldlRange p f s = unfoldlRangeWithBase p f s NilR
 
-unfoldlRangeWithBase :: Unfoldl n v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
-unfoldlRangeWithBase p f s xs = snd $ unfoldlRangeWithBaseWithS p f s xs
+unfoldlRangeWithBase :: Unfoldl n v w =>
+	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
+unfoldlRangeWithBase p f s = snd . unfoldlRangeWithBaseWithS p f s
 
-unfoldlRangeWithBaseWithS :: Unfoldl n v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> (s, RangeR v w a)
-unfoldlRangeWithBaseWithS p f s0 xs =
-	unfoldlMRangeWithBase (StateR $ \s -> (s, p s)) (StateR f) xs `runStateR` s0
+unfoldlRangeWithBaseWithS :: Unfoldl n v w =>
+	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> (s, RangeR v w a)
+unfoldlRangeWithBaseWithS p f =
+	flip $ runStateR . unfoldlMRangeWithBase (StateR $ id &&& p) (StateR f)
 
 unfoldlMRange :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (RangeR v w a)
 unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
 
 -- UNFOLDL RANGE MAYBE
 
-unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
+unfoldlRangeMaybe :: Unfoldl 0 v w =>
+	(s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
 unfoldlRangeMaybe f s = unfoldlRangeMaybeWithBase f s NilR
 
-unfoldlRangeMaybeWithBase :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
-unfoldlRangeMaybeWithBase f s0 xs =
-	fst $ unfoldlRangeMaybeWithBaseGen (\mas -> (isJust mas, mas))
-		(maybe (error "never occur") (\(s, x) -> (x, f s))) xs (f s0)
+unfoldlRangeMaybeWithBase :: Unfoldl n v w =>
+	(s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
+unfoldlRangeMaybeWithBase f s xs =
+	snd $ unfoldlRangeMaybeWithBaseGen (id &&& isJust)
+		(maybe (error "never occur") (f `first`)) xs (f s)
+
+type St s a r = Maybe (s, a) -> (Maybe (s, a), r)
 
 unfoldlRangeMaybeWithBaseGen :: Unfoldl n v w =>
-	(Maybe (s, a) -> (Bool, Maybe (s, a))) ->
-	(Maybe (s, a) -> (a, Maybe (s, a))) -> RangeR n w a ->
-	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
-unfoldlRangeMaybeWithBaseGen p f xs =
-	runStateL $ unfoldlMRangeMaybeWithBase (StateL p) (StateL f) xs
+	St s a Bool -> St s a a -> RangeR n w a -> St s a (Maybe (RangeR v w a))
+unfoldlRangeMaybeWithBaseGen p f =
+	runStateR . unfoldlMRangeMaybeWithBase (StateR p) (StateR f)
 
-unfoldlMRangeMaybe :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (Maybe (RangeR v w a))
+unfoldlMRangeMaybe :: (Unfoldl 0 v w, Monad m) =>
+	m Bool -> m a -> m (Maybe (RangeR v w a))
 unfoldlMRangeMaybe p f = unfoldlMRangeMaybeWithBase p f NilR
 
 ---------------------------------------------------------------------------
@@ -308,16 +314,15 @@ instance {-# OVERLAPPABLE #-} (
 	LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
 	ZipR (n - 1) (m - 1) 0 (w - 1) ) => ZipR n m 0 w where
 	zipWithMR _ xs NilR = pure (loosenRMin xs, NilR)
-	zipWithMR f (xs :+ x) (ys :++ y) = do
-		z <- f x y
-		(loosenRMax *** (:++ z)) <$> zipWithMR f xs ys
+	zipWithMR f (xs :+ x) (ys :++ y) =
+		f x y >>= \z -> (loosenRMax *** (:++ z)) <$> zipWithMR f xs ys
 	zipWithMR _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	(v <= m, w <= n, ZipR (n - 1) (m - 1) (v - 1) (w - 1)) => ZipR n m v w where
+	(v <= m, w <= n, ZipR (n - 1) (m - 1) (v - 1) (w - 1)) =>
+	ZipR n m v w where
 	zipWithMR f (xs :+ x) (ys :+ y) = do
-		z <- f x y
-		((:+ z) `second`) <$> zipWithMR f xs ys
+		f x y >>= \z -> ((:+ z) `second`) <$> zipWithMR f xs ys
 	zipWithMR _ _ _ = error "never occur"
 
 -- FUNCTION

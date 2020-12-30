@@ -113,12 +113,12 @@ refactor
 				+ [x] instance ZipL 0 m v w
 				+ [x] instance ZipL n m v w
 			* [x] FUNCTION
-* [ ] refactor Data.List.Range.RangeR
+* [x] refactor Data.List.Range.RangeR
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] TYPE
 			* [x] RANGE RIGHT
 			* [x] INSTANCE FUNCTOR
@@ -129,13 +129,18 @@ refactor
 			* [x] LOOSEN RIGHT
 			* [x] LOOSEN RIGHT MIN
 			* [x] LOOSEN RIGHT MAX
-		- [ ] UNFOLDL
-			* [ ] CLASS AND INSTANCE
-			* [ ] UNFOLDL RANGE
-			* [ ] UNFOLDL RANGE MAYBE
-		- [ ] ZIP
-			* [ ] CLASS AND INSTANCE
-			* [ ] FUNCTION
+		- [x] UNFOLDL
+			* [x] CLASS AND INSTANCE
+				+ [x] class Unfoldl
+				+ [x] instance Unfoldl 0 0 0
+				+ [x] instance Unfoldl 0 0 w
+				+ [x] instance Unfoldl 0 v w
+				+ [x] instance Unfoldl n v w
+			* [x] UNFOLDL RANGE
+			* [x] UNFOLDL RANGE MAYBE
+		- [x] ZIP
+			* [x] CLASS AND INSTANCE
+			* [x] FUNCTION
 * [ ] refactor Data.List.Range
 * [ ] refactor Data.List.Length.LengthL
 * [ ] refactor Data.List.Length.LengthR
