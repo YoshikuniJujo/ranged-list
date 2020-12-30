@@ -142,6 +142,11 @@ refactor
 			* [x] CLASS AND INSTANCE
 			* [x] FUNCTION
 * [ ] refactor Data.List.Range
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Data.List.Length.LengthL
 * [ ] refactor Data.List.Length.LengthR
 * [ ] refactor Data.List.Range.Nat

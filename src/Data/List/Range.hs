@@ -30,12 +30,17 @@ module Data.List.Range (
 	-- * RIGHT TO LEFT
 	RightToLeft, (++..), rightToLeft ) where
 
-import GHC.TypeNats
-
+import GHC.TypeNats (type (+), type (-))
+import Data.List.Length.LengthL (unfoldr, unfoldrM)
+import Data.List.Length.LengthR (unfoldl, unfoldlM)
 import Data.List.Range.RangeL
 import Data.List.Range.RangeR
-import Data.List.Length.LengthL
-import Data.List.Length.LengthR
+
+---------------------------------------------------------------------------
+
+--
+
+---------------------------------------------------------------------------
 
 -- RANGED LIST LEFT
 
