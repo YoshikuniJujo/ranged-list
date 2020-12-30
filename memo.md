@@ -117,8 +117,25 @@ refactor
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
+	+ [x] structure
 	+ [ ] body
+		- [ ] TYPE
+			* [ ] RANGE RIGHT
+			* [ ] INSTANCE FUNCTOR
+			* [ ] INSTANCE FOLDABLE
+		- [ ] PUSH
+		- [ ] ADD
+		- [ ] LOOSEN
+			* [ ] LOOSEN RIGHT
+			* [ ] LOOSEN RIGHT MIN
+			* [ ] LOOSEN RIGHT MAX
+		- [ ] UNFOLDL
+			* [ ] CLASS AND INSTANCE
+			* [ ] UNFOLDL RANGE
+			* [ ] UNFOLDL RANGE MAYBE
+		- [ ] ZIP
+			* [ ] CLASS AND INSTANCE
+			* [ ] FUNCTION
 * [ ] refactor Data.List.Range
 * [ ] refactor Data.List.Length.LengthL
 * [ ] refactor Data.List.Length.LengthR
