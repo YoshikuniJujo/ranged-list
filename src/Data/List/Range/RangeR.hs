@@ -30,9 +30,9 @@ module Data.List.Range.RangeR (
 	-- **** with monad
 	unfoldlMRange, unfoldlMRangeWithBase,
 	-- *** unfoldlRangeMaybe
-	unfoldlRangeMaybe,
+	unfoldlRangeMaybe, unfoldlRangeMaybeWithBase,
 	-- **** without monad
-	unfoldlMRangeMaybeWithBase,
+	unfoldlMRangeMaybe, unfoldlMRangeMaybeWithBase,
 	-- **** with monad
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR ) where
@@ -164,10 +164,10 @@ unfoldlMRange :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (RangeR v w a)
 unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
 
 unfoldlRangeMaybe :: Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
-unfoldlRangeMaybe f s = unfoldlWithBaseRangeMaybe f s NilR
+unfoldlRangeMaybe f s = unfoldlRangeMaybeWithBase f s NilR
 
-unfoldlWithBaseRangeMaybe :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
-unfoldlWithBaseRangeMaybe f s0 xs =
+unfoldlRangeMaybeWithBase :: Unfoldl n v w => (s -> Maybe (s, a)) -> s -> RangeR n w a -> Maybe (RangeR v w a)
+unfoldlRangeMaybeWithBase f s0 xs =
 	fst $ unfoldlRangeMaybeWithBaseGen (\mas -> (isJust mas, mas))
 		(maybe (error "never occur") (\(s, x) -> (x, f s))) xs (f s0)
 
@@ -177,6 +177,9 @@ unfoldlRangeMaybeWithBaseGen :: Unfoldl n v w =>
 	Maybe (s, a) -> (Maybe (RangeR v w a), Maybe (s, a))
 unfoldlRangeMaybeWithBaseGen p f xs =
 	runStateL $ unfoldlMRangeMaybeWithBase (StateL p) (StateL f) xs
+
+unfoldlMRangeMaybe :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (Maybe (RangeR v w a))
+unfoldlMRangeMaybe p f = unfoldlMRangeMaybeWithBase p f NilR
 
 class Unfoldl n v w where
 	unfoldlMRangeWithBase :: Monad m =>

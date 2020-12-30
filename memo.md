@@ -196,13 +196,13 @@ todo
 	+ [x] remove Unfoldl
 	+ [x] rename Unfoldl' to Unfoldl
 * [x] flip argument s for unfoldls
-* [ ] define unfoldl functions
+* [x] define unfoldl functions
 	+ [x] unfoldlRangeWithBaseWithS
 	+ [x] unfoldlRangeWithBase
 	+ [x] unfoldlRange
 	+ [x] unfoldlMRange
-	+ [ ] unfoldlMRangeMaybe
-	+ [ ] unfoldlRangeMaybeWithBase
+	+ [x] unfoldlMRangeMaybe
+	+ [x] unfoldlRangeMaybeWithBase
 
 module name hierarchy
 ---------------------
