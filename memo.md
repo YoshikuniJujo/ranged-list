@@ -114,6 +114,11 @@ refactor
 				+ [x] instance ZipL n m v w
 			* [x] FUNCTION
 * [ ] refactor Data.List.Range.RangeR
+	+ [x] language extensions
+	+ [x] export list
+	+ [x] import list
+	+ [ ] structure
+	+ [ ] body
 * [ ] refactor Data.List.Range
 * [ ] refactor Data.List.Length.LengthL
 * [ ] refactor Data.List.Length.LengthR

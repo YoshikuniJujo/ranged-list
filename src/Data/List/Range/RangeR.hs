@@ -37,12 +37,18 @@ module Data.List.Range.RangeR (
 	-- ** ZipR
 	ZipR, zipR, zipWithR, zipWithMR ) where
 
+import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 import Control.Arrow (second, (***))
-import Control.Monad.Identity
-import Control.Monad.State
-import Data.Bool
-import Data.Maybe
-import GHC.TypeLits
+import Control.Monad.Identity (Identity(..))
+import Control.Monad.State (StateL(..), StateR(..))
+import Data.Bool (bool)
+import Data.Maybe (isJust)
+
+---------------------------------------------------------------------------
+
+--
+
+---------------------------------------------------------------------------
 
 infixl 6 :+, :++
 

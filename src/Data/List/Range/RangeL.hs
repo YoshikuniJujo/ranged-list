@@ -39,8 +39,8 @@ module Data.List.Range.RangeL (
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
 import Control.Arrow (first, second, (***), (&&&))
-import Control.Monad.Identity (Identity(..), runIdentity)
-import Control.Monad.State (StateL(..), runStateL)
+import Control.Monad.Identity (Identity(..))
+import Control.Monad.State (StateL(..))
 import Data.Bool (bool)
 import Data.Maybe (isJust)
 
