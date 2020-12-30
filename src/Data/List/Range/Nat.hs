@@ -3,7 +3,11 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
-module Data.List.Range.Nat where
+module Data.List.Range.Nat (
+	-- * RangedNatL
+	RangedNatL, natL, toIntL, fromIntL, splitAtL,
+	-- * RangedNatR
+	RangedNatR, natR, toIntR, fromIntR, splitAtR ) where
 
 import GHC.TypeNats
 

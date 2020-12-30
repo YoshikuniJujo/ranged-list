@@ -28,7 +28,7 @@ refactor
 			* [x] ListToLengthR
 		- [x] LEFT TO RIGHT
 		- [x] RIGHT TO LEFT
-	+ [ ] Data.List.Range
+	+ [x] Data.List.Range
 		- [x] RANGED LIST LEFT
 			* [x] structure
 			* [x] Type
@@ -51,7 +51,7 @@ refactor
 				+ [x] repeat
 				+ [x] unfoldr
 				+ [x] unfoldrM
-		- [ ] RANGED LIST RIGHT
+		- [x] RANGED LIST RIGHT
 			* [x] structure
 			* [x] Type
 			* [x] PushR
@@ -68,14 +68,18 @@ refactor
 				+ [x] unfoldlRangeMaybe
 					- [x] without monad
 					- [x] with monad
-			* [ ] ZipR
-			* [ ] Repeat and Unfoldl Min and Max
-				+ [ ] repeat
-				+ [ ] unfoldl
-				+ [ ] unfoldlM
-		- [ ] LEFT TO RIGHT
-		- [ ] RIGHT TO LEFT
-	+ [ ] Data.List.Range.Nat
+			* [x] ZipR
+			* [x] Repeat and Unfoldl Min and Max
+				+ [x] repeat
+				+ [x] unfoldl
+				+ [x] unfoldlM
+		- [x] LEFT TO RIGHT
+		- [x] RIGHT TO LEFT
+	+ [x] Data.List.Range.Nat
+		- [x] add export list
+		- [x] structure
+		- [x] RangedNatL
+		- [x] RangedNatR
 * [ ] refactor Data.List.Range.RangeL
 	+ [ ] export list
 	+ [ ] import list
