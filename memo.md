@@ -201,8 +201,8 @@ refactor
 	+ [x] body
 		- [x] LENGED NAT LEFT
 		- [x] LENGED NAT RIGHT
-* [ ] refactor Control.Monad.Identity
-* [ ] refactor Control.Monad.State
+* [x] refactor Control.Monad.Identity
+* [x] refactor Control.Monad.State
 
 todo
 ----
