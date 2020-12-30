@@ -141,12 +141,32 @@ refactor
 		- [x] ZIP
 			* [x] CLASS AND INSTANCE
 			* [x] FUNCTION
-* [ ] refactor Data.List.Range
+* [x] refactor Data.List.Range
 	+ [x] language extension
 	+ [x] export list
 	+ [x] import list
-	+ [ ] structure
-	+ [ ] body
+	+ [x] structure
+	+ [x] body
+		- [x] RANGED LIST LEFT
+			* [x] MIN
+			* [x] MAX
+		- [x] RANGED LIST RIGHT
+			* [x] MIN
+			* [x] MAX
+		- [x] LEFT TO RIGHT
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] LeftToRight n m 0 0
+				+ [x] LeftToRight n m 0 w
+				+ [x] LeftToRight n m v w
+			* [x] FUNCTION
+		- [x] RIGHT TO LEFT
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] RightToLeft 0 0 v w
+				+ [x] RightToLeft 0 m v w
+				+ [x] RightToLeft n m v w
+			* [x] FUNCTION
 * [ ] refactor Data.List.Length.LengthL
 * [ ] refactor Data.List.Length.LengthR
 * [ ] refactor Data.List.Range.Nat
