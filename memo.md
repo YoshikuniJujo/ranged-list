@@ -197,9 +197,9 @@ todo
 	+ [x] rename Unfoldl' to Unfoldl
 * [x] flip argument s for unfoldls
 * [ ] define unfoldl functions
-	+ [ ] unfoldlRangeWithBaseWithS
-	+ [ ] unfoldlRangeWithBase
-	+ [ ] unfoldlRange
+	+ [x] unfoldlRangeWithBaseWithS
+	+ [x] unfoldlRangeWithBase
+	+ [x] unfoldlRange
 	+ [x] unfoldlMRange
 	+ [ ] unfoldlMRangeMaybe
 	+ [ ] unfoldlRangeMaybeWithBase

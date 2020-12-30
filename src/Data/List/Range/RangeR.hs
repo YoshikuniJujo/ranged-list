@@ -26,6 +26,7 @@ module Data.List.Range.RangeR (
 	Unfoldl,
 	-- *** unfoldlRange
 	-- **** without monad
+	unfoldlRange, unfoldlRangeWithBase, unfoldlRangeWithBaseWithS,
 	-- **** with monad
 	unfoldlMRange, unfoldlMRangeWithBase,
 	-- *** unfoldlRangeMaybe
@@ -148,6 +149,16 @@ instance {-# OVERLAPPABLE #-} (
 instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
 	xs +++ ys :+ y = (xs +++ ys) :+ y
 	_ +++ _ = error "never occur"
+
+unfoldlRange :: Unfoldl 0 v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR v w a
+unfoldlRange p f s = unfoldlRangeWithBase p f s NilR
+
+unfoldlRangeWithBase :: Unfoldl n v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
+unfoldlRangeWithBase p f s xs = snd $ unfoldlRangeWithBaseWithS p f s xs
+
+unfoldlRangeWithBaseWithS :: Unfoldl n v w => (s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> (s, RangeR v w a)
+unfoldlRangeWithBaseWithS p f s0 xs =
+	unfoldlMRangeWithBase (StateR $ \s -> (s, p s)) (StateR f) xs `runStateR` s0
 
 unfoldlMRange :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (RangeR v w a)
 unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
