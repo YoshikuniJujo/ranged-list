@@ -87,12 +87,12 @@ refactor
 	+ [x] import list
 	+ [x] structure
 	+ [ ] body
-		- [ ] TYPE
-			* [ ] RANGE LEFT
-			* [ ] INSTANCE FUNCTOR
-			* [ ] INSTANCE FOLDABLE
-		- [ ] PUSH
-		- [ ] ADD
+		- [x] TYPE
+			* [x] RANGE LEFT
+			* [x] INSTANCE FUNCTOR
+			* [x] INSTANCE FOLDABLE
+		- [x] PUSH
+		- [x] ADD
 		- [ ] LOOSEN
 			* [ ] LOOSEN LEFT
 			* [ ] LOOSEN LEFT MIN

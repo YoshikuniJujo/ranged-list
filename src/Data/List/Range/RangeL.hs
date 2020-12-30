@@ -82,8 +82,7 @@ deriving instance Show a => Show (RangeL n m a)
 -- INSTANCE FUNCTOR
 
 instance Functor (RangeL 0 0) where
-	_ `fmap` NilL = NilL
-	_ `fmap` _ = error "never occur"
+	_ `fmap` NilL = NilL; _ `fmap` _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeL 0 (m - 1)) => Functor (RangeL 0 m) where
@@ -93,14 +92,12 @@ instance {-# OVERLAPPABLE #-}
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeL (n - 1) (m - 1)) => Functor (RangeL n m) where
-	f `fmap` (x :. xs) = f x :. (f <$> xs)
-	_ `fmap` _ = error "never occur"
+	f `fmap` (x :. xs) = f x :. (f <$> xs); _ `fmap` _ = error "never occur"
 
 -- INSTANCE FOLDABLE
 
 instance Foldable (RangeL 0 0) where
-	foldr _ z NilL = z
-	foldr _ _ _ = error "never occur"
+	foldr _ z NilL = z; foldr _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Foldable (RangeL 0 (m - 1)) => Foldable (RangeL 0 m) where
@@ -121,11 +118,13 @@ infixr 5 .:..
 
 class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 
-instance PushL 0 m where (.:..) = (:..)
+instance PushL 0 m where
+	x .:.. NilL = x :.. NilL
+	x .:.. xs@(_ :.. _) = x :.. xs
+	_ .:.. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} PushL (n - 1) (m - 1) => PushL n m where
-	x .:.. (y :. ys) = x :. (y .:.. ys)
-	_ .:.. _ = error "never occur"
+	x .:.. (y :. ys) = x :. (y .:.. ys); _ .:.. _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- ADD
@@ -141,15 +140,13 @@ instance AddL 0 0 v w where NilL ++. ys = ys; _ ++. _ = error "never occur"
 instance {-# OVERLAPPABLE #-}
 	(PushL v (m + w - 1), AddL 0 (m - 1) v w, LoosenLMax v w (m + w)) =>
 	AddL 0 m v w where
-	(++.) :: forall a .
-		RangeL 0 m a -> RangeL v w a -> RangeL v (m + w) a
+	(++.) :: forall a .  RangeL 0 m a -> RangeL v w a -> RangeL v (m + w) a
 	NilL ++. ys = loosenLMax ys
 	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL v (m + w - 1) a)
 	_ ++. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
-	x :. xs ++. ys = x :. (xs ++. ys)
-	_ ++. _ = error "never occur"
+	x :. xs ++. ys = x :. (xs ++. ys); _ ++. _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- LOOSEN
