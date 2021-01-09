@@ -41,7 +41,7 @@ packages:
 #
 extra-deps:
 - git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple
-  commit: ddbb8e58d8f8bff1581a65c39dc0a988a010191b
+  commit: 1ee7934889efca26cf200578bb726317b971c828
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

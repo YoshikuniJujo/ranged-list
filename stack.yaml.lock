@@ -10,11 +10,11 @@ packages:
     git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple
     pantry-tree:
       size: 1513
-      sha256: 3f368420c7d3e8c6fc84ed5593f1d42ffc8cbafcb7b15119f48c6de7cb937fea
-    commit: ddbb8e58d8f8bff1581a65c39dc0a988a010191b
+      sha256: c860fda9d777b196c80362861e4eb8e8bf28de59cbbc83ce7a5b22b3c9a46906
+    commit: 1ee7934889efca26cf200578bb726317b971c828
   original:
     git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple
-    commit: ddbb8e58d8f8bff1581a65c39dc0a988a010191b
+    commit: 1ee7934889efca26cf200578bb726317b971c828
 snapshots:
 - completed:
     size: 533252
