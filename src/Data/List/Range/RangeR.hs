@@ -130,7 +130,7 @@ instance {-# OVERLAPPABLE #-} PushR (n - 1) (m - 1) => PushR n m where
 -- ADD
 ---------------------------------------------------------------------------
 
-infixr 5 +++
+infixl 5 +++
 
 class AddR n m v w where
 	(+++) :: RangeR n m a -> RangeR v w a -> RangeR (n + v) (m + w) a
