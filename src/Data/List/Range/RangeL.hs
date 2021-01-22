@@ -230,7 +230,7 @@ instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
+	Unfoldr 0 (v - 1) (w - 1) => Unfoldr 0 v w where
 	unfoldrMRangeWithBase NilL p f =
 		f >>= \x -> (x :.) <$> unfoldrMRangeWithBase NilL p f
 	unfoldrMRangeWithBase (x :.. xs) p f =

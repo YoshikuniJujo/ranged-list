@@ -6,7 +6,7 @@ refactor
 
 * [x] check module name hierarchy
 * [ ] refactor haddock
-	+ [ ] Data.List.Length
+	+ [x] Data.List.Length
 		- [x] LENGHTED LIST LEFT
 			* [x] structure
 			* [x] Type
@@ -17,41 +17,41 @@ refactor
 				+ [x] with monad
 			* [x] ZipL
 			* [x] ListToLengthL
-		- [ ] LENGTHED LIST RIGHT
+		- [x] LENGTHED LIST RIGHT
 			* [x] structure
 			* [x] Type
 			* [x] AddR
-			* [ ] Unfoldl
-				+ [ ] remove "'"
-				+ [ ] structure
-				+ [ ] others
-			* [ ] ZipR
-			* [ ] ListToLengthR
-		- [ ] LEFT TO RIGHT
-		- [ ] RIGHT TO LEFT
+			* [x] Unfoldl
+				+ [x] class
+				+ [x] without monad
+				+ [x] with monad
+			* [x] ZipR
+			* [x] ListToLengthR
+		- [x] LEFT TO RIGHT
+		- [x] RIGHT TO LEFT
 	+ [ ] Data.List.Range
-		- [ ] RANGED LIST LEFT
-			* [ ] structure
-			* [ ] Type
-			* [ ] PushL
-			* [ ] AddL
-			* [ ] LoosenLMin and LoosenLMax
-				+ [ ] loosenL
-				+ [ ] loosenLMin
-				+ [ ] loosenLMax
-			* [ ] Unfoldr
-				+ [ ] class
-				+ [ ] unfoldrRange
-					- [ ] without monad
-					- [ ] with monad
-				+ [ ] unfoldrRangeMaybe
-					- [ ] without monad
-					- [ ] with monad
-			* [ ] ZipL
-			* [ ] Repeat and Unfoldr Min and Max
-				+ [ ] repeat
-				+ [ ] unfoldr
-				+ [ ] unfoldrM
+		- [x] RANGED LIST LEFT
+			* [x] structure
+			* [x] Type
+			* [x] PushL
+			* [x] AddL
+			* [x] LoosenLMin and LoosenLMax
+				+ [x] loosenL
+				+ [x] loosenLMin
+				+ [x] loosenLMax
+			* [x] Unfoldr
+				+ [x] class
+				+ [x] unfoldrRange
+					- [x] without monad
+					- [x] with monad
+				+ [x] unfoldrRangeMaybe
+					- [x] without monad
+					- [x] with monad
+			* [x] ZipL
+			* [x] Repeat and Unfoldr Min and Max
+				+ [x] repeat
+				+ [x] unfoldr
+				+ [x] unfoldrM
 		- [ ] RANGED LIST RIGHT
 			* [ ] structure
 			* [ ] Type
