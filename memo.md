@@ -53,8 +53,8 @@ refactor
 				+ [x] unfoldr
 				+ [x] unfoldrM
 		- [ ] RANGED LIST RIGHT
-			* [ ] structure
-			* [ ] Type
+			* [x] structure
+			* [x] Type
 			* [ ] PushR
 			* [ ] AddR
 			* [ ] LoosenRMin and LoosenRMax
