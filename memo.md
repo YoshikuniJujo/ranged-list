@@ -320,6 +320,9 @@ todo
 	+ [x] unfoldlMRange
 	+ [x] unfoldlMRangeMaybe
 	+ [x] unfoldlRangeMaybeWithBase
+* [ ] add (<=) to RangeL and RangeR definitions
+	+ [x] RangeL
+	+ [ ] RangeR
 
 module name hierarchy
 ---------------------

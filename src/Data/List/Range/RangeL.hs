@@ -71,9 +71,9 @@ import Data.Maybe (isJust)
 -- RANGE LEFT
 
 data RangeL :: Nat -> Nat -> * -> * where
-	NilL :: RangeL 0 m a
+	NilL :: 0 <= m => RangeL 0 m a
 	(:..) :: 1 <= m => a -> RangeL 0 (m - 1) a -> RangeL 0 m a
-	(:.) :: a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
+	(:.) :: (1 <= n, 1 <= m) => a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
 
 infixr 6 :., :..
 
@@ -81,14 +81,12 @@ deriving instance Show a => Show (RangeL n m a)
 
 -- INSTANCE FUNCTOR
 
-instance Functor (RangeL 0 0) where
-	_ `fmap` NilL = NilL; _ `fmap` _ = error "never occur"
+instance Functor (RangeL 0 0) where _ `fmap` NilL = NilL
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeL 0 (m - 1)) => Functor (RangeL 0 m) where
 	_ `fmap` NilL = NilL
 	f `fmap` (x :.. xs) = f x :.. (f <$> xs)
-	_ `fmap` _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeL (n - 1) (m - 1)) => Functor (RangeL n m) where
@@ -96,14 +94,12 @@ instance {-# OVERLAPPABLE #-}
 
 -- INSTANCE FOLDABLE
 
-instance Foldable (RangeL 0 0) where
-	foldr _ z NilL = z; foldr _ _ _ = error "never occur"
+instance Foldable (RangeL 0 0) where foldr _ z NilL = z
 
 instance {-# OVERLAPPABLE #-}
 	Foldable (RangeL 0 (m - 1)) => Foldable (RangeL 0 m) where
 	foldr _ z NilL = z
 	foldr (-<) z (x :.. xs) = x -< foldr (-<) z xs
-	foldr _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Foldable (RangeL (n - 1) (m - 1)) => Foldable (RangeL n m) where
@@ -121,7 +117,6 @@ class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 instance PushL 0 m where
 	x .:.. NilL = x :.. NilL
 	x .:.. xs@(_ :.. _) = x :.. xs
-	_ .:.. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} PushL (n - 1) (m - 1) => PushL n m where
 	x .:.. (y :. ys) = x :. (y .:.. ys); _ .:.. _ = error "never occur"
@@ -135,7 +130,7 @@ infixr 5 ++.
 class AddL n m v w where
 	(++.) :: RangeL n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 
-instance AddL 0 0 v w where NilL ++. ys = ys; _ ++. _ = error "never occur"
+instance AddL 0 0 v w where NilL ++. ys = ys
 
 instance {-# OVERLAPPABLE #-}
 	(PushL v (m + w - 1), AddL 0 (m - 1) v w, LoosenLMax v w (m + w)) =>
@@ -143,7 +138,6 @@ instance {-# OVERLAPPABLE #-}
 	(++.) :: forall a .  RangeL 0 m a -> RangeL v w a -> RangeL v (m + w) a
 	NilL ++. ys = loosenLMax ys
 	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL v (m + w - 1) a)
-	_ ++. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
 	x :. xs ++. ys = x :. (xs ++. ys); _ ++. _ = error "never occur"
@@ -164,7 +158,6 @@ class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
 instance LoosenLMin 0 m 0 where
 	loosenLMin NilL = NilL
 	loosenLMin xa@(_ :.. _) = xa
-	loosenLMin _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	LoosenLMin (n - 1) (m - 1) 0 => LoosenLMin n m 0 where
@@ -180,15 +173,12 @@ instance {-# OVERLAPPABLE #-}
 
 class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
 
-instance LoosenLMax 0 0 w where
-	loosenLMax NilL = NilL
-	loosenLMax _ = error "never occur"
+instance LoosenLMax 0 0 w where loosenLMax NilL = NilL
 
 instance {-# OVERLAPPABLE #-}
 	LoosenLMax 0 (m - 1) (w - 1) => LoosenLMax 0 m w where
 	loosenLMax NilL = NilL
 	loosenLMax (x :.. xs) = x :.. loosenLMax xs
-	loosenLMax _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	LoosenLMax (n - 1) (m - 1) (w - 1) => LoosenLMax n m w where
@@ -209,10 +199,8 @@ class Unfoldr n v w where
 
 instance Unfoldr 0 0 0 where
 	unfoldrMRangeWithBase NilL _ _ = pure NilL
-	unfoldrMRangeWithBase _ _ _ = error "never occur"
 
 	unfoldrMRangeMaybeWithBase NilL p _ = bool (Just NilL) Nothing <$> p
-	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 	unfoldrMRangeWithBase NilL p f =
@@ -220,14 +208,12 @@ instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
 			(x :..) <$> unfoldrMRangeWithBase NilL p f
 	unfoldrMRangeWithBase (x :.. xs) p f =
 		(x :..) <$> unfoldrMRangeWithBase xs p f
-	unfoldrMRangeWithBase _ _ _ = error "never occur"
 
 	unfoldrMRangeMaybeWithBase NilL p f =
 		(p >>=) . bool (pure $ Just NilL) $ f >>= \x ->
 			((x :..) <$>) <$> unfoldrMRangeMaybeWithBase NilL p f
 	unfoldrMRangeMaybeWithBase (x :.. xs) p f =
 		((x :..) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
-	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr 0 (v - 1) (w - 1) => Unfoldr 0 v w where
@@ -235,14 +221,12 @@ instance {-# OVERLAPPABLE #-}
 		f >>= \x -> (x :.) <$> unfoldrMRangeWithBase NilL p f
 	unfoldrMRangeWithBase (x :.. xs) p f =
 		(x :.) <$> unfoldrMRangeWithBase xs p f
-	unfoldrMRangeWithBase _ _ _ = error "never occur"
 
 	unfoldrMRangeMaybeWithBase NilL p f =
 		(p >>=) . bool (pure Nothing) $ f >>= \x ->
 			((x :.) <$>) <$> unfoldrMRangeMaybeWithBase NilL p f
 	unfoldrMRangeMaybeWithBase (x :.. xs) p f =
 		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
-	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
@@ -306,9 +290,7 @@ class ZipL n m v w where
 		(a -> b -> q c) -> RangeL n m a -> RangeL v w b ->
 		q (RangeL n m c, RangeL (v - m) (w - n) b)
 
-instance ZipL 0 0 v w where
-	zipWithML _ NilL ys = pure (NilL, ys)
-	zipWithML _ _ _ = error "never occur"
+instance ZipL 0 0 v w where zipWithML _ NilL ys = pure (NilL, ys)
 
 instance {-# OVERLAPPABLE #-} (
 	LoosenLMin v w (v - m), LoosenLMax (v - m) (w - 1) w,
