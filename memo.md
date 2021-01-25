@@ -55,20 +55,20 @@ refactor
 		- [ ] RANGED LIST RIGHT
 			* [x] structure
 			* [x] Type
-			* [ ] PushR
-			* [ ] AddR
-			* [ ] LoosenRMin and LoosenRMax
-				+ [ ] loosenR
-				+ [ ] loosenRMin
-				+ [ ] loosenRMax
-			* [ ] Unfoldl
-				+ [ ] class
-				+ [ ] unfoldlRange
-					- [ ] without monad
-					- [ ] with monad
-				+ [ ] unfoldlRangeMaybe
-					- [ ] without monad
-					- [ ] with monad
+			* [x] PushR
+			* [x] AddR
+			* [x] LoosenRMin and LoosenRMax
+				+ [x] loosenR
+				+ [x] loosenRMin
+				+ [x] loosenRMax
+			* [x] Unfoldl
+				+ [x] class
+				+ [x] unfoldlRange
+					- [x] without monad
+					- [x] with monad
+				+ [x] unfoldlRangeMaybe
+					- [x] without monad
+					- [x] with monad
 			* [ ] ZipR
 			* [ ] Repeat and Unfoldl Min and Max
 				+ [ ] repeat
