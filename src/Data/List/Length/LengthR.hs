@@ -2,7 +2,8 @@
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
 	UndecidableInstances #-}
-{-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+-- {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
 module Data.List.Length.LengthR (
 	LengthR, unfoldl, unfoldlWithBase, unfoldlM, unfoldlMWithBase,
@@ -54,7 +55,7 @@ instance ListToLengthR 1 where
 	listToLengthR (x : xs) = Right (NilR :+ x, xs)
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= (n - 1), ListToLengthR (n - 1)) => ListToLengthR n where
+	(1 <= n, 1 <= (n - 1), ListToLengthR (n - 1)) => ListToLengthR n where
 	listToLengthR [] = Left NilR
 	listToLengthR (x : xs) = case listToLengthR xs of
 		Left ys -> Left $ ys :++ x

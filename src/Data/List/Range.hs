@@ -169,7 +169,6 @@ instance {-# OVERLAPPABLE #-} (
 	(++..) :: forall a . RangeR 0 m a -> RangeL v w a -> RangeL v (m + w) a
 	NilR ++.. v = loosenLMax v :: RangeL v (m + w) a
 	n :++ x ++.. v = n ++.. (x .:.. v :: RangeL v (w + 1) a)
-	_ ++.. _ = error "never occur"
 
 instance {-# OVERLAPPABLE #-}
 	RightToLeft (n - 1) (m - 1) (v + 1) (w + 1) => RightToLeft n m v w where
