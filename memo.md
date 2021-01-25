@@ -5,7 +5,7 @@ refactor
 --------
 
 * [x] check module name hierarchy
-* [ ] refactor haddock
+* [x] refactor haddock
 	+ [x] Data.List.Length
 		- [x] LENGHTED LIST LEFT
 			* [x] structure
@@ -29,7 +29,7 @@ refactor
 			* [x] ListToLengthR
 		- [x] LEFT TO RIGHT
 		- [x] RIGHT TO LEFT
-	+ [ ] Data.List.Range
+	+ [x] Data.List.Range
 		- [x] RANGED LIST LEFT
 			* [x] structure
 			* [x] Type
@@ -52,7 +52,7 @@ refactor
 				+ [x] repeat
 				+ [x] unfoldr
 				+ [x] unfoldrM
-		- [ ] RANGED LIST RIGHT
+		- [x] RANGED LIST RIGHT
 			* [x] structure
 			* [x] Type
 			* [x] PushR
@@ -69,24 +69,23 @@ refactor
 				+ [x] unfoldlRangeMaybe
 					- [x] without monad
 					- [x] with monad
-			* [ ] ZipR
-			* [ ] Repeat and Unfoldl Min and Max
-				+ [ ] repeat
-				+ [ ] unfoldl
-				+ [ ] unfoldlM
-		- [ ] LEFT TO RIGHT
-		- [ ] RIGHT TO LEFT
-	+ [ ] Data.List.Range.Nat
-		- [ ] add export list
-		- [ ] structure
-		- [ ] RangedNatL
-		- [ ] RangedNatR
-* [ ] refactor with hlint
+			* [x] ZipR
+			* [x] Repeat and Unfoldl Min and Max
+				+ [x] repeat
+				+ [x] unfoldl
+				+ [x] unfoldlM
+		- [x] LEFT TO RIGHT
+		- [x] RIGHT TO LEFT
+	+ [x] Data.List.Range.Nat
+		- [x] structure
+		- [x] RangedNatL
+		- [x] RangedNatR
+* [x] refactor with hlint
 * [ ] refactor Data.List.Range.RangeL
-	+ [ ] language extensions
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] language extensions
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] TYPE
 			* [ ] RANGE LEFT
@@ -115,93 +114,93 @@ refactor
 				+ [ ] instance ZipL n m v w
 			* [ ] FUNCTION
 * [ ] refactor Data.List.Range.RangeR
-	+ [x] language extensions
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] TYPE
-			* [x] RANGE RIGHT
-			* [x] INSTANCE FUNCTOR
-			* [x] INSTANCE FOLDABLE
-		- [x] PUSH
-		- [x] ADD
-		- [x] LOOSEN
-			* [x] LOOSEN RIGHT
-			* [x] LOOSEN RIGHT MIN
-			* [x] LOOSEN RIGHT MAX
-		- [x] UNFOLDL
-			* [x] CLASS AND INSTANCE
-				+ [x] class Unfoldl
-				+ [x] instance Unfoldl 0 0 0
-				+ [x] instance Unfoldl 0 0 w
-				+ [x] instance Unfoldl 0 v w
-				+ [x] instance Unfoldl n v w
-			* [x] UNFOLDL RANGE
-			* [x] UNFOLDL RANGE MAYBE
-		- [x] ZIP
-			* [x] CLASS AND INSTANCE
-			* [x] FUNCTION
+	+ [ ] language extensions
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] TYPE
+			* [ ] RANGE RIGHT
+			* [ ] INSTANCE FUNCTOR
+			* [ ] INSTANCE FOLDABLE
+		- [ ] PUSH
+		- [ ] ADD
+		- [ ] LOOSEN
+			* [ ] LOOSEN RIGHT
+			* [ ] LOOSEN RIGHT MIN
+			* [ ] LOOSEN RIGHT MAX
+		- [ ] UNFOLDL
+			* [ ] CLASS AND INSTANCE
+				+ [ ] class Unfoldl
+				+ [ ] instance Unfoldl 0 0 0
+				+ [ ] instance Unfoldl 0 0 w
+				+ [ ] instance Unfoldl 0 v w
+				+ [ ] instance Unfoldl n v w
+			* [ ] UNFOLDL RANGE
+			* [ ] UNFOLDL RANGE MAYBE
+		- [ ] ZIP
+			* [ ] CLASS AND INSTANCE
+			* [ ] FUNCTION
 * [ ] refactor Data.List.Range
-	+ [x] language extension
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] RANGED LIST LEFT
-			* [x] MIN
-			* [x] MAX
-		- [x] RANGED LIST RIGHT
-			* [x] MIN
-			* [x] MAX
-		- [x] LEFT TO RIGHT
-			* [x] CLASS
-			* [x] INSTANCE
-				+ [x] LeftToRight n m 0 0
-				+ [x] LeftToRight n m 0 w
-				+ [x] LeftToRight n m v w
-			* [x] FUNCTION
-		- [x] RIGHT TO LEFT
-			* [x] CLASS
-			* [x] INSTANCE
-				+ [x] RightToLeft 0 0 v w
-				+ [x] RightToLeft 0 m v w
-				+ [x] RightToLeft n m v w
-			* [x] FUNCTION
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] RANGED LIST LEFT
+			* [ ] MIN
+			* [ ] MAX
+		- [ ] RANGED LIST RIGHT
+			* [ ] MIN
+			* [ ] MAX
+		- [ ] LEFT TO RIGHT
+			* [ ] CLASS
+			* [ ] INSTANCE
+				+ [ ] LeftToRight n m 0 0
+				+ [ ] LeftToRight n m 0 w
+				+ [ ] LeftToRight n m v w
+			* [ ] FUNCTION
+		- [ ] RIGHT TO LEFT
+			* [ ] CLASS
+			* [ ] INSTANCE
+				+ [ ] RightToLeft 0 0 v w
+				+ [ ] RightToLeft 0 m v w
+				+ [ ] RightToLeft n m v w
+			* [ ] FUNCTION
 * [ ] refactor Data.List.Length.LengthL
-	+ [x] language extension
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] TYPE
-		- [x] UNFOLDR
-		- [x] LIST TO LENGTH LEFT
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] TYPE
+		- [ ] UNFOLDR
+		- [ ] LIST TO LENGTH LEFT
 * [ ] refactor Data.List.Length.LengthR
-	+ [x] language extension
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] TYPE
-		- [x] UNFOLDL
-		- [x] LIST TO LENGTH RIGHT
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] TYPE
+		- [ ] UNFOLDL
+		- [ ] LIST TO LENGTH RIGHT
 * [ ] refactor Data.List.Length
-	+ [x] language extension
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] LENGTH LEFT
-		- [x] LENGTH RIGHT
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] LENGTH LEFT
+		- [ ] LENGTH RIGHT
 * [ ] refactor Data.List.Range.Nat
-	+ [x] language extension
-	+ [x] export list
-	+ [x] import list
-	+ [x] structure
-	+ [x] body
-		- [x] LENGED NAT LEFT
-		- [x] LENGED NAT RIGHT
+	+ [ ] language extension
+	+ [ ] export list
+	+ [ ] import list
+	+ [ ] structure
+	+ [ ] body
+		- [ ] LENGED NAT LEFT
+		- [ ] LENGED NAT RIGHT
 * [ ] refactor Control.Monad.Identity
 * [ ] refactor Control.Monad.State
 
