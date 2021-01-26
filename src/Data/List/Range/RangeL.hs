@@ -113,11 +113,10 @@ infixr 5 .:..
 class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 
 instance PushL 0 m where
-	x .:.. NilL = x :.. NilL
-	x .:.. xs@(_ :.. _) = x :.. xs
+	(.:..) x = \case NilL -> x :.. NilL; xs@(_ :.. _) -> x :.. xs
 
-instance {-# OVERLAPPABLE #-} PushL (n - 1) (m - 1) => PushL n m where
-	x .:.. (y :. ys) = x :. (y .:.. ys); _ .:.. _ = error "never occur"
+instance {-# OVERLAPPABLE #-} (1 <= n, PushL (n - 1) (m - 1)) => PushL n m where
+	x .:.. y :. ys = x :. (y .:.. ys)
 
 ---------------------------------------------------------------------------
 -- ADD
