@@ -282,19 +282,17 @@ class ZipR n m v w where
 instance ZipR n m 0 0 where zipWithMR _ xs NilR = pure (xs, NilR)
 
 instance {-# OVERLAPPABLE #-} (
-	LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
+	1 <= n, LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
 	ZipR (n - 1) (m - 1) 0 (w - 1) ) => ZipR n m 0 w where
 	zipWithMR _ xs NilR = pure (loosenRMin xs, NilR)
-	zipWithMR f (xs :+ x) (ys :++ y) =
-		f x y >>= \z -> (loosenRMax *** (:++ z)) <$> zipWithMR f xs ys
-	zipWithMR _ _ _ = error "never occur"
+	zipWithMR (%) (xs :+ x) (ys :++ y) =
+		x % y >>= \z -> (loosenRMax *** (:++ z)) <$> zipWithMR (%) xs ys
 
-instance {-# OVERLAPPABLE #-}
-	(v <= m, w <= n, ZipR (n - 1) (m - 1) (v - 1) (w - 1)) =>
-	ZipR n m v w where
-	zipWithMR f (xs :+ x) (ys :+ y) = do
-		f x y >>= \z -> ((:+ z) `second`) <$> zipWithMR f xs ys
-	zipWithMR _ _ _ = error "never occur"
+instance {-# OVERLAPPABLE #-} (
+	1 <= n, 1 <= v, v <= m, w <= n,
+	ZipR (n - 1) (m - 1) (v - 1) (w - 1) ) => ZipR n m v w where
+	zipWithMR (%) (xs :+ x) (ys :+ y) =
+		x % y >>= \z -> ((:+ z) `second`) <$> zipWithMR (%) xs ys
 
 -- FUNCTION
 
@@ -304,4 +302,4 @@ zipR = zipWithR (,)
 
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)
-zipWithR op xs ys = runIdentity $ zipWithMR (\x y -> Identity $ x `op` y) xs ys
+zipWithR op = (runIdentity .) . zipWithMR ((Identity .) . op)

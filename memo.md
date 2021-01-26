@@ -124,12 +124,12 @@ refactor
 			* [x] FUNCTION
 				+ [x] zipL
 				+ [x] zipWithL
-* [ ] refactor Data.List.Range.RangeR
+* [x] refactor Data.List.Range.RangeR
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] TYPE
 			* [x] RANGE RIGHT
 			* [x] INSTANCE FUNCTOR
@@ -158,15 +158,15 @@ refactor
 				+ [x] type St
 				+ [x] unfoldlRangeMaybeWithBaseGen
 				+ [x] unfoldlMRangeMaybe
-		- [ ] ZIP
-			* [ ] CLASS AND INSTANCE
+		- [x] ZIP
+			* [x] CLASS AND INSTANCE
 				+ [x] class ZipR
-				+ [ ] instance ZipR n m 0 0
-				+ [ ] instance ZipR n m 0 w
-				+ [ ] instance ZipR n m v w
-			* [ ] FUNCTION
-				+ [ ] zipR
-				+ [ ] zipWithR
+				+ [x] instance ZipR n m 0 0
+				+ [x] instance ZipR n m 0 w
+				+ [x] instance ZipR n m v w
+			* [x] FUNCTION
+				+ [x] zipR
+				+ [x] zipWithR
 * [ ] refactor Data.List.Range
 	+ [ ] language extension
 	+ [ ] export list
