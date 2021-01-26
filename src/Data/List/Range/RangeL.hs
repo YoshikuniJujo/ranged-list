@@ -154,18 +154,15 @@ loosenL = loosenLMax . loosenLMin
 class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
 
 instance LoosenLMin 0 m 0 where
-	loosenLMin NilL = NilL
-	loosenLMin xa@(_ :.. _) = xa
+	loosenLMin = \case NilL -> NilL; xs@(_ :.. _) -> xs
 
 instance {-# OVERLAPPABLE #-}
-	LoosenLMin (n - 1) (m - 1) 0 => LoosenLMin n m 0 where
+	(1 <= n, LoosenLMin (n - 1) (m - 1) 0) => LoosenLMin n m 0 where
 	loosenLMin (x :. xs) = x :.. loosenLMin xs
-	loosenLMin _ = error "never occur"
 	
 instance {-# OVERLAPPABLE #-}
-	LoosenLMin (n - 1) (m - 1) (v - 1) => LoosenLMin n m v where
+	(1 <= n, LoosenLMin (n - 1) (m - 1) (v - 1)) => LoosenLMin n m v where
 	loosenLMin (x :. xs) = x :. loosenLMin xs
-	loosenLMin _ = error "never occur"
 
 -- LOOSEN LEFT MAX
 
@@ -175,13 +172,11 @@ instance LoosenLMax 0 0 w where loosenLMax NilL = NilL
 
 instance {-# OVERLAPPABLE #-}
 	LoosenLMax 0 (m - 1) (w - 1) => LoosenLMax 0 m w where
-	loosenLMax NilL = NilL
-	loosenLMax (x :.. xs) = x :.. loosenLMax xs
+	loosenLMax = \case NilL -> NilL; (x :.. xs) -> x :.. loosenLMax xs
 
 instance {-# OVERLAPPABLE #-}
-	LoosenLMax (n - 1) (m - 1) (w - 1) => LoosenLMax n m w where
+	(1 <= n, LoosenLMax (n - 1) (m - 1) (w - 1)) => LoosenLMax n m w where
 	loosenLMax (x :. xs) = x :. loosenLMax xs
-	loosenLMax _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- UNFOLDR

@@ -93,10 +93,10 @@ refactor
 			* [x] INSTANCE FOLDABLE
 		- [x] PUSH
 		- [x] ADD
-		- [ ] LOOSEN
-			* [ ] LOOSEN LEFT
-			* [ ] LOOSEN LEFT MIN
-			* [ ] LOOSEN LEFT MAX
+		- [x] LOOSEN
+			* [x] LOOSEN LEFT
+			* [x] LOOSEN LEFT MIN
+			* [x] LOOSEN LEFT MAX
 		- [ ] UNFOLDR
 			* [ ] CLASS
 				+ [ ] class Unfoldr
