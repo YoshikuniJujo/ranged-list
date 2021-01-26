@@ -134,7 +134,7 @@ refactor
 			* [x] RANGE RIGHT
 			* [x] INSTANCE FUNCTOR
 			* [x] INSTANCE FOLDABLE
-		- [ ] PUSH
+		- [x] PUSH
 		- [ ] ADD
 		- [ ] LOOSEN
 			* [ ] LOOSEN RIGHT

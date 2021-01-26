@@ -114,11 +114,10 @@ infixl 5 .:++
 class PushR n m where (.:++) :: RangeR n m a -> a -> RangeR n (m + 1) a
 
 instance PushR 0 m where
-	NilR .:++ x = NilR :++ x
-	xs@(_ :++ _) .:++ x = xs :++ x
+	(.:++) = \case NilR -> (NilR :++); xs@(_ :++ _) -> (xs :++)
 
-instance {-# OVERLAPPABLE #-} PushR (n - 1) (m - 1) => PushR n m where
-	xs :+ x .:++ y = (xs .:++ x) :+ y; _ .:++ _ = error "never occur"
+instance {-# OVERLAPPABLE #-} (1 <= n, PushR (n - 1) (m - 1)) => PushR n m where
+	xs :+ x .:++ y = (xs .:++ x) :+ y
 
 ---------------------------------------------------------------------------
 -- ADD
