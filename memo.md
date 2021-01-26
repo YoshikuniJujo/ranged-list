@@ -97,15 +97,24 @@ refactor
 			* [x] LOOSEN LEFT
 			* [x] LOOSEN LEFT MIN
 			* [x] LOOSEN LEFT MAX
-		- [ ] UNFOLDR
-			* [ ] CLASS
-				+ [ ] class Unfoldr
-				+ [ ] instance Unfoldr 0 0 0
-				+ [ ] instance Unfoldr 0 0 w
-				+ [ ] instance Unfoldr 0 v w
-				+ [ ] instance Unfoldr n v w
-			* [ ] UNFOLDR RANGE
-			* [ ] UNFOLDR RANGE MAYBE
+		- [x] UNFOLDR
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] instance Unfoldr 0 0 0
+				+ [x] instance Unfoldr 0 0 w
+				+ [x] instance Unfoldr 0 v w
+				+ [x] instance Unfoldr n v w
+			* [x] UNFOLDR RANGE
+				+ [x] unfoldrRange
+				+ [x] unfoldrRangeWithBase
+				+ [x] unfoldrRangeWithBaseWithS
+				+ [x] unfoldrMRange
+			* [x] UNFOLDR RANGE MAYBE
+				+ [x] unfoldrRangeMaybe
+				+ [x] unfoldrRangeMaybeWithBase
+				+ [x] type St
+				+ [x] unfoldrRangeMaybeWithBaseGen
+				+ [x] unfoldrMRangeMaybe
 		- [ ] ZIP
 			* [ ] CLASS
 				+ [ ] class

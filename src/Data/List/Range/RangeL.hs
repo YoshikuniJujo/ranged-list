@@ -58,6 +58,7 @@ import Data.Maybe (isJust)
 -- 	+ LOOSEN LEFT MAX
 -- * UNFOLDR
 -- 	+ CLASS
+-- 	+ INSTANCE
 -- 	+ UNFOLDR RANGE
 -- 	+ UNFOLDR RANGE MAYBE
 -- * ZIP
@@ -190,9 +191,10 @@ class Unfoldr n v w where
 	unfoldrMRangeMaybeWithBase :: Monad m =>
 		RangeL n w a -> m Bool -> m a -> m (Maybe (RangeL v w a))
 
+-- INSTANCE
+
 instance Unfoldr 0 0 0 where
 	unfoldrMRangeWithBase NilL _ _ = pure NilL
-
 	unfoldrMRangeMaybeWithBase NilL p _ = bool (Just NilL) Nothing <$> p
 
 instance {-# OVERLAPPABLE #-} Unfoldr 0 0 (w - 1) => Unfoldr 0 0 w where
@@ -222,14 +224,12 @@ instance {-# OVERLAPPABLE #-}
 		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
 
 instance {-# OVERLAPPABLE #-}
-	Unfoldr (n - 1) (v - 1) (w - 1) => Unfoldr n v w where
+	(1 <= n, Unfoldr (n - 1) (v - 1) (w - 1)) => Unfoldr n v w where
 	unfoldrMRangeWithBase (x :. xs) p f =
 		(x :.) <$> unfoldrMRangeWithBase xs p f
-	unfoldrMRangeWithBase _ _ _ = error "never occur"
 
 	unfoldrMRangeMaybeWithBase (x :. xs) p f =
 		((x :.) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
-	unfoldrMRangeMaybeWithBase _ _ _ = error "never occur"
 
 -- UNFOLDR RANGE
 
@@ -244,7 +244,7 @@ unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
 unfoldrRangeWithBaseWithS :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
 unfoldrRangeWithBaseWithS xs p f =
-	runStateL $ unfoldrMRangeWithBase xs (StateL \s -> (p s, s)) (StateL f)
+	runStateL $ unfoldrMRangeWithBase xs (StateL $ p &&& id) (StateL f)
 
 unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
 unfoldrMRange = unfoldrMRangeWithBase NilL
@@ -257,8 +257,8 @@ unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
 
 unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
-unfoldrRangeMaybeWithBase xs f = fst
-	. unfoldrRangeMaybeWithBaseGen xs (isJust &&& id)
+unfoldrRangeMaybeWithBase xs f =
+	fst . unfoldrRangeMaybeWithBaseGen xs (isJust &&& id)
 		(maybe (error "never occur") (f `second`)) . f
 
 type St a s r = Maybe (a, s) -> (r, Maybe (a, s))
