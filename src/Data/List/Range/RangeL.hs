@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE BlockArguments, LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -73,7 +73,8 @@ import Data.Maybe (isJust)
 data RangeL :: Nat -> Nat -> * -> * where
 	NilL :: 0 <= m => RangeL 0 m a
 	(:..) :: 1 <= m => a -> RangeL 0 (m - 1) a -> RangeL 0 m a
-	(:.) :: (1 <= n, 1 <= m) => a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
+	(:.) :: (1 <= n, 1 <= m) =>
+		a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
 
 infixr 6 :., :..
 
@@ -85,12 +86,11 @@ instance Functor (RangeL 0 0) where _ `fmap` NilL = NilL
 
 instance {-# OVERLAPPABLE #-}
 	Functor (RangeL 0 (m - 1)) => Functor (RangeL 0 m) where
-	_ `fmap` NilL = NilL
-	f `fmap` (x :.. xs) = f x :.. (f <$> xs)
+	fmap f = \case NilL -> NilL; x :.. xs -> f x :.. (f <$> xs)
 
 instance {-# OVERLAPPABLE #-}
-	Functor (RangeL (n - 1) (m - 1)) => Functor (RangeL n m) where
-	f `fmap` (x :. xs) = f x :. (f <$> xs); _ `fmap` _ = error "never occur"
+	(1 <= n, Functor (RangeL (n - 1) (m - 1))) => Functor (RangeL n m) where
+	f `fmap` (x :. xs) = f x :. (f <$> xs)
 
 -- INSTANCE FOLDABLE
 
@@ -98,13 +98,11 @@ instance Foldable (RangeL 0 0) where foldr _ z NilL = z
 
 instance {-# OVERLAPPABLE #-}
 	Foldable (RangeL 0 (m - 1)) => Foldable (RangeL 0 m) where
-	foldr _ z NilL = z
-	foldr (-<) z (x :.. xs) = x -< foldr (-<) z xs
+	foldr (-<) z = \case NilL -> z; x :.. xs -> x -< foldr (-<) z xs
 
-instance {-# OVERLAPPABLE #-}
-	Foldable (RangeL (n - 1) (m - 1)) => Foldable (RangeL n m) where
+instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeL (n - 1) (m - 1))) =>
+	Foldable (RangeL n m) where
 	foldr (-<) z (x :. xs) = x -< foldr (-<) z xs
-	foldr _ _ _ = error "never occur"
 
 ---------------------------------------------------------------------------
 -- PUSH
