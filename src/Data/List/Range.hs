@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE BlockArguments, LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -30,7 +30,7 @@ module Data.List.Range (
 	-- * RIGHT TO LEFT
 	RightToLeft, (++..), rightToLeft ) where
 
-import GHC.TypeNats (type (+), type (-))
+import GHC.TypeNats (type (+), type (-), type (<=))
 import Data.List.Length.LengthL (unfoldr, unfoldrM)
 import Data.List.Length.LengthR (unfoldl, unfoldlM)
 import Data.List.Range.RangeL
@@ -131,16 +131,14 @@ instance LeftToRight n m 0 0 where n ++.+ _ = n
 instance {-# OVERLAPPABLE #-} (
 	PushR (n - 1) (m - 1), LoosenRMax n m (m + w),
 	LeftToRight n (m + 1) 0 (w - 1) ) => LeftToRight n m 0 w where
-	(++.+) :: forall a . RangeR n m a -> RangeL 0 w a -> RangeR n (m + w) a
-	n ++.+ NilL = loosenRMax n :: RangeR n (m + w) a
-	n ++.+ x :.. v= (n .:++ x :: RangeR n (m + 1) a) ++.+ v
+	(++.+) n = \case NilL -> loosenRMax n; x :.. v -> n .:++ x ++.+ v
 
 instance {-# OVERLAPPABLE #-}
-	LeftToRight (n + 1) (m + 1) (v - 1) (w - 1) => LeftToRight n m v w where
+	(1 <= v, LeftToRight (n + 1) (m + 1) (v - 1) (w - 1)) =>
+	LeftToRight n m v w where
 	(++.+) :: forall a .
 		RangeR n m a -> RangeL v w a -> RangeR (n + v) (m + w) a
 	n ++.+ x :. v = (n :+ x :: RangeR (n + 1) (m + 1) a) ++.+ v
-	_ ++.+ _ = error "never occur"
 
 -- FUNCTION
 

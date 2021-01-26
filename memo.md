@@ -168,24 +168,24 @@ refactor
 				+ [x] zipR
 				+ [x] zipWithR
 * [ ] refactor Data.List.Range
-	+ [ ] language extension
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
-		- [ ] RANGED LIST LEFT
-			* [ ] MIN
-			* [ ] MAX
-		- [ ] RANGED LIST RIGHT
-			* [ ] MIN
-			* [ ] MAX
-		- [ ] LEFT TO RIGHT
-			* [ ] CLASS
-			* [ ] INSTANCE
-				+ [ ] LeftToRight n m 0 0
-				+ [ ] LeftToRight n m 0 w
-				+ [ ] LeftToRight n m v w
-			* [ ] FUNCTION
+		- [x] RANGED LIST LEFT
+			* [x] MIN
+			* [x] MAX
+		- [x] RANGED LIST RIGHT
+			* [x] MIN
+			* [x] MAX
+		- [x] LEFT TO RIGHT
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] LeftToRight n m 0 0
+				+ [x] LeftToRight n m 0 w
+				+ [x] LeftToRight n m v w
+			* [x] FUNCTION
 		- [ ] RIGHT TO LEFT
 			* [ ] CLASS
 			* [ ] INSTANCE
