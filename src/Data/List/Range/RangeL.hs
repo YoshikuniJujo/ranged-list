@@ -1,4 +1,4 @@
-{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE BlockArguments, LambdaCase, TupleSections #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
@@ -283,7 +283,7 @@ class ZipL n m v w where
 		(a -> b -> q c) -> RangeL n m a -> RangeL v w b ->
 		q (RangeL n m c, RangeL (v - m) (w - n) b)
 
-instance ZipL 0 0 v w where zipWithML _ NilL ys = pure (NilL, ys)
+instance ZipL 0 0 v w where zipWithML _ NilL = pure . (NilL ,)
 
 instance {-# OVERLAPPABLE #-} (
 	1 <= v, LoosenLMin v w (v - m), LoosenLMax (v - m) (w - 1) w,

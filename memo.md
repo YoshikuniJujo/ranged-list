@@ -160,7 +160,13 @@ refactor
 				+ [x] unfoldlMRangeMaybe
 		- [ ] ZIP
 			* [ ] CLASS AND INSTANCE
+				+ [x] class ZipR
+				+ [ ] instance ZipR n m 0 0
+				+ [ ] instance ZipR n m 0 w
+				+ [ ] instance ZipR n m v w
 			* [ ] FUNCTION
+				+ [ ] zipR
+				+ [ ] zipWithR
 * [ ] refactor Data.List.Range
 	+ [ ] language extension
 	+ [ ] export list
