@@ -81,12 +81,12 @@ refactor
 		- [x] RangedNatL
 		- [x] RangedNatR
 * [x] refactor with hlint
-* [ ] refactor Data.List.Range.RangeL
+* [x] refactor Data.List.Range.RangeL
 	+ [x] language extensions
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] TYPE
 			* [x] RANGE LEFT
 			* [x] INSTANCE FUNCTOR
@@ -115,13 +115,15 @@ refactor
 				+ [x] type St
 				+ [x] unfoldrRangeMaybeWithBaseGen
 				+ [x] unfoldrMRangeMaybe
-		- [ ] ZIP
-			* [ ] CLASS
-				+ [ ] class
-				+ [ ] instance ZipL 0 0 v w
-				+ [ ] instance ZipL 0 m v w
-				+ [ ] instance ZipL n m v w
-			* [ ] FUNCTION
+		- [x] ZIP
+			* [x] CLASS
+				+ [x] class
+				+ [x] instance ZipL 0 0 v w
+				+ [x] instance ZipL 0 m v w
+				+ [x] instance ZipL n m v w
+			* [x] FUNCTION
+				+ [x] zipL
+				+ [x] zipWithL
 * [ ] refactor Data.List.Range.RangeR
 	+ [ ] language extensions
 	+ [ ] export list
