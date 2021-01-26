@@ -140,15 +140,24 @@ refactor
 			* [x] LOOSEN RIGHT
 			* [x] LOOSEN RIGHT MIN
 			* [x] LOOSEN RIGHT MAX
-		- [ ] UNFOLDL
-			* [ ] CLASS
-			* [ ] INSTANCE
-				+ [ ] instance Unfoldl 0 0 0
-				+ [ ] instance Unfoldl 0 0 w
-				+ [ ] instance Unfoldl 0 v w
-				+ [ ] instance Unfoldl n v w
-			* [ ] UNFOLDL RANGE
-			* [ ] UNFOLDL RANGE MAYBE
+		- [x] UNFOLDL
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] instance Unfoldl 0 0 0
+				+ [x] instance Unfoldl 0 0 w
+				+ [x] instance Unfoldl 0 v w
+				+ [x] instance Unfoldl n v w
+			* [x] UNFOLDL RANGE
+				+ [x] unfoldlRange
+				+ [x] unfoldlRangeWithBase
+				+ [x] unfoldlRangeWithBaseWithS
+				+ [x] unfoldlMRange
+			* [x] UNFOLDL RANGE MAYBE
+				+ [x] unfoldlRangeMaybe
+				+ [x] unfoldlRangeMaybeWithBase
+				+ [x] type St
+				+ [x] unfoldlRangeMaybeWithBaseGen
+				+ [x] unfoldlMRangeMaybe
 		- [ ] ZIP
 			* [ ] CLASS AND INSTANCE
 			* [ ] FUNCTION

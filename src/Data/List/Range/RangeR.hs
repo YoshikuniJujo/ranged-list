@@ -196,45 +196,36 @@ class Unfoldl n v w where
 
 instance Unfoldl 0 0 0 where
 	unfoldlMRangeWithBase _ _ NilR = pure NilR
-
 	unfoldlMRangeMaybeWithBase p _ NilR = bool (Just NilR) Nothing <$> p
 
-instance {-# OVERLAPPABLE #-}
-	Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
-	unfoldlMRangeWithBase p f NilR =
-		(p >>=) . bool (pure NilR) $ f >>= \x ->
+instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
+	unfoldlMRangeWithBase p f = \case
+		NilR -> (p >>=) . bool (pure NilR) $ f >>= \x ->
 			(:++ x) <$> unfoldlMRangeWithBase p f NilR
-	unfoldlMRangeWithBase p f (xs :++ x) =
-		(:++ x) <$> unfoldlMRangeWithBase p f xs
+		xs :++ x -> (:++ x) <$> unfoldlMRangeWithBase p f xs
 
-	unfoldlMRangeMaybeWithBase p f NilR =
-		(p >>=) . bool (pure $ Just NilR) $ f >>= \x ->
+	unfoldlMRangeMaybeWithBase p f = \case
+		NilR -> (p >>=) . bool (pure $ Just NilR) $ f >>= \x ->
 			((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f NilR
-	unfoldlMRangeMaybeWithBase p f (xs :++ x) =
-		((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
+		xs :++ x -> ((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
 
-instance {-# OVERLAPPABLE #-}
-	Unfoldl 0 (v - 1) (w - 1) => Unfoldl 0 v w where
-	unfoldlMRangeWithBase p f NilR =
-		f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase p f NilR
-	unfoldlMRangeWithBase p f (xs :++ x) =
-		(:+ x) <$> unfoldlMRangeWithBase p f xs
+instance {-# OVERLAPPABLE #-} Unfoldl 0 (v - 1) (w - 1) => Unfoldl 0 v w where
+	unfoldlMRangeWithBase p f = \case
+		NilR -> f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase p f NilR
+		xs :++ x -> (:+ x) <$> unfoldlMRangeWithBase p f xs
 
-	unfoldlMRangeMaybeWithBase p f NilR =
-		(p >>=) . bool (pure Nothing) $ f >>= \x ->
+	unfoldlMRangeMaybeWithBase p f = \case
+		NilR -> (p >>=) . bool (pure Nothing) $ f >>= \x ->
 			((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f NilR
-	unfoldlMRangeMaybeWithBase p f (xs :++ x) =
-		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
+		xs :++ x -> ((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
 
 instance {-# OVERLAPPABLE #-}
-	Unfoldl (n - 1) (v - 1) (w - 1) => Unfoldl n v w where
+	(1 <= n, Unfoldl (n - 1) (v - 1) (w - 1)) => Unfoldl n v w where
 	unfoldlMRangeWithBase p f (xs :+ x) =
 		(:+ x) <$> unfoldlMRangeWithBase p f xs
-	unfoldlMRangeWithBase _ _ _ = error "never occur"
 
 	unfoldlMRangeMaybeWithBase p f (xs :+ x) =
 		((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
-	unfoldlMRangeMaybeWithBase _ _ _ = error "never occur"
 
 -- UNFOLDL RANGE
 
@@ -244,7 +235,7 @@ unfoldlRange p f s = unfoldlRangeWithBase p f s NilR
 
 unfoldlRangeWithBase :: Unfoldl n v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
-unfoldlRangeWithBase p f s = snd . unfoldlRangeWithBaseWithS p f s
+unfoldlRangeWithBase p f = (snd .) . unfoldlRangeWithBaseWithS p f
 
 unfoldlRangeWithBaseWithS :: Unfoldl n v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> (s, RangeR v w a)
@@ -256,8 +247,8 @@ unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
 
 -- UNFOLDL RANGE MAYBE
 
-unfoldlRangeMaybe :: Unfoldl 0 v w =>
-	(s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
+unfoldlRangeMaybe ::
+	Unfoldl 0 v w => (s -> Maybe (s, a)) -> s -> Maybe (RangeR v w a)
 unfoldlRangeMaybe f s = unfoldlRangeMaybeWithBase f s NilR
 
 unfoldlRangeMaybeWithBase :: Unfoldl n v w =>
