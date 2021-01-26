@@ -136,10 +136,10 @@ refactor
 			* [x] INSTANCE FOLDABLE
 		- [x] PUSH
 		- [x] ADD
-		- [ ] LOOSEN
-			* [ ] LOOSEN RIGHT
-			* [ ] LOOSEN RIGHT MIN
-			* [ ] LOOSEN RIGHT MAX
+		- [x] LOOSEN
+			* [x] LOOSEN RIGHT
+			* [x] LOOSEN RIGHT MIN
+			* [x] LOOSEN RIGHT MAX
 		- [ ] UNFOLDL
 			* [ ] CLASS
 			* [ ] INSTANCE
