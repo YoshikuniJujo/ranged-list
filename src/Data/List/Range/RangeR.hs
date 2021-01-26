@@ -134,11 +134,13 @@ instance {-# OVERLAPPABLE #-}
 	(PushR n (m + w - 1), AddR n m 0 (w - 1), LoosenRMax n m (m + w)) =>
 	AddR n m 0 w where
 	(+++) :: forall a . RangeR n m a -> RangeR 0 w a -> RangeR n (m + w) a
-	xs +++ NilR = loosenRMax xs
-	xs +++ ys :++ y = (xs +++ ys :: RangeR n (m + w - 1) a) .:++ y
+	(+++) xs = \case
+		NilR -> loosenRMax xs
+		ys :++ y -> (xs +++ ys :: RangeR n (m + w - 1) a) .:++ y
 
-instance {-# OVERLAPPABLE #-} AddR n m (v - 1) (w - 1) => AddR n m v w where
-	xs +++ ys :+ y = (xs +++ ys) :+ y; _ +++ _ = error "never occur"
+instance {-# OVERLAPPABLE #-}
+	(1 <= v, AddR n m (v - 1) (w - 1)) => AddR n m v w where
+	xs +++ ys :+ y = (xs +++ ys) :+ y
 
 ---------------------------------------------------------------------------
 -- LOOSEN
