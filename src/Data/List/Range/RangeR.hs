@@ -1,10 +1,9 @@
-{-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
 	UndecidableInstances #-}
+{-# LANGUAGE StandaloneDeriving #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 module Data.List.Range.RangeR (
@@ -57,7 +56,8 @@ import Data.Maybe (isJust)
 --	+ LOOSEN RIGHT MIN
 --	+ LOOSEN RIGHT MAX
 -- * UNFOLDL
---	+ CLASS AND INSTANCE
+--	+ CLASS
+--	+ INSTANCE
 --	+ UNFOLDL RANGE
 --	+ UNFOLDL RANGE MAYBE
 -- * ZIP
@@ -189,13 +189,15 @@ instance {-# OVERLAPPABLE #-}
 -- UNFOLDL
 ---------------------------------------------------------------------------
 
--- CLASS AND INSTANCE
+-- CLASS
 
 class Unfoldl n v w where
 	unfoldlMRangeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
 	unfoldlMRangeMaybeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
+
+-- INSTANCE
 
 instance Unfoldl 0 0 0 where
 	unfoldlMRangeWithBase _ _ NilR = pure NilR

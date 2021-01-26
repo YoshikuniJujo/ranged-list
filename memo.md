@@ -125,10 +125,10 @@ refactor
 				+ [x] zipL
 				+ [x] zipWithL
 * [ ] refactor Data.List.Range.RangeR
-	+ [ ] language extensions
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] language extensions
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] TYPE
 			* [ ] RANGE RIGHT
@@ -141,8 +141,8 @@ refactor
 			* [ ] LOOSEN RIGHT MIN
 			* [ ] LOOSEN RIGHT MAX
 		- [ ] UNFOLDL
-			* [ ] CLASS AND INSTANCE
-				+ [ ] class Unfoldl
+			* [ ] CLASS
+			* [ ] INSTANCE
 				+ [ ] instance Unfoldl 0 0 0
 				+ [ ] instance Unfoldl 0 0 w
 				+ [ ] instance Unfoldl 0 v w
