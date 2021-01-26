@@ -92,7 +92,7 @@ refactor
 			* [x] INSTANCE FUNCTOR
 			* [x] INSTANCE FOLDABLE
 		- [x] PUSH
-		- [ ] ADD
+		- [x] ADD
 		- [ ] LOOSEN
 			* [ ] LOOSEN LEFT
 			* [ ] LOOSEN LEFT MIN

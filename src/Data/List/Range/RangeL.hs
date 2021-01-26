@@ -136,8 +136,9 @@ instance {-# OVERLAPPABLE #-}
 	NilL ++. ys = loosenLMax ys
 	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL v (m + w - 1) a)
 
-instance {-# OVERLAPPABLE #-} AddL (n - 1) (m - 1) v w => AddL n m v w where
-	x :. xs ++. ys = x :. (xs ++. ys); _ ++. _ = error "never occur"
+instance {-# OVERLAPPABLE #-}
+	(1 <= n, AddL (n - 1) (m - 1) v w) => AddL n m v w where
+	x :. xs ++. ys = x :. (xs ++. ys)
 
 ---------------------------------------------------------------------------
 -- LOOSEN
