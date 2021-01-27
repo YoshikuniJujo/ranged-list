@@ -202,15 +202,15 @@ refactor
 		- [x] TYPE
 		- [x] UNFOLDR
 		- [x] LIST TO LENGTH LEFT
-* [ ] refactor Data.List.Length.LengthR
+* [x] refactor Data.List.Length.LengthR
 	+ [x] language extension
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
-		- [ ] TYPE
-		- [ ] UNFOLDL
-		- [ ] LIST TO LENGTH RIGHT
+	+ [x] body
+		- [x] TYPE
+		- [x] UNFOLDL
+		- [x] LIST TO LENGTH RIGHT
 * [ ] refactor Data.List.Length
 	+ [ ] language extension
 	+ [ ] export list
