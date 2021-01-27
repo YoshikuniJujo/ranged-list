@@ -193,15 +193,15 @@ refactor
 				+ [x] RightToLeft 0 m v w
 				+ [x] RightToLeft n m v w
 			* [x] FUNCTION
-* [ ] refactor Data.List.Length.LengthL
+* [x] refactor Data.List.Length.LengthL
 	+ [x] language extension
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] TYPE
-		- [ ] UNFOLDR
-		- [ ] LIST TO LENGTH LEFT
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
+	+ [x] body
+		- [x] TYPE
+		- [x] UNFOLDR
+		- [x] LIST TO LENGTH LEFT
 * [ ] refactor Data.List.Length.LengthR
 	+ [ ] language extension
 	+ [ ] export list

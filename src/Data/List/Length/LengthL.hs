@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
@@ -8,6 +9,7 @@ module Data.List.Length.LengthL (
 	ListToLengthL, listToLengthL ) where
 
 import GHC.TypeNats (type (-), type (<=))
+import Control.Arrow (first, (+++))
 import Control.Monad.State (StateL(..))
 import Data.List.Range.RangeL (RangeL(..), Unfoldr, unfoldrMRangeWithBase)
 
@@ -32,7 +34,7 @@ unfoldr = unfoldrWithBase NilL
 
 unfoldrWithBase ::
 	Unfoldr n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
-unfoldrWithBase xs f = fst . runStateL (unfoldrMWithBase xs $ StateL f)
+unfoldrWithBase xs = (fst .) . runStateL . unfoldrMWithBase xs . StateL
 
 unfoldrM :: (Monad m, Unfoldr 0 n n) => m a -> m (LengthL n a)
 unfoldrM = unfoldrMWithBase NilL
@@ -49,11 +51,10 @@ class ListToLengthL n where
 	listToLengthL :: [a] -> Either (RangeL 0 (n - 1) a) (LengthL n a, [a])
 
 instance ListToLengthL 1 where
-	listToLengthL [] = Left NilL; listToLengthL (x : xs) = Right (x :. NilL, xs)
+	listToLengthL = \case [] -> Left NilL; x : xs -> Right (x :. NilL, xs)
 
 instance {-# OVERLAPPABLE #-}
 	(1 <= n, 1 <= (n - 1), ListToLengthL (n - 1)) => ListToLengthL n where
-	listToLengthL [] = Left NilL
-	listToLengthL (x : xs) = case listToLengthL xs of
-		Left ys -> Left $ x :.. ys
-		Right (ys, xs') -> Right (x :. ys, xs')
+	listToLengthL = \case
+		[] -> Left NilL
+		x : xs -> (x :..) +++ ((x :.) `first`) $ listToLengthL xs
