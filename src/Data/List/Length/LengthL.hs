@@ -80,9 +80,43 @@ sampleUnfoldrWithBase =
 unfoldrM :: (Monad m, Unfoldr 0 n n) => m a -> m (LengthL n a)
 unfoldrM = unfoldrMWithBase NilL
 
+{-^
+
+It is like unfoldr. But it use monad as an argument instead of function.
+
+@
+sampleUnfoldrM :: IO (LengthL 3 String)
+sampleUnfoldrM = unfoldrM getLine
+@
+
+>>> sampleUnfoldrM
+hello
+world
+!
+"hello" :. ("world" :. ("!" :. NilL))
+
+-}
+
 unfoldrMWithBase ::
 	(Monad m, Unfoldr n w w) => RangeL n w a -> m a -> m (LengthL w a)
 unfoldrMWithBase = (`unfoldrMRangeWithBase` undefined)
+
+{-^
+
+It is like unfoldrM. But it has already prepared values.
+
+@
+sampleUnfoldrMWithBase :: IO (LengthL 5 String)
+sampleUnfoldrMWithBase = unfoldrMWithBase ("foo" :. "bar" :.. NilL) getLine
+@
+
+>>> sampleUnfoldrMWithBase
+hello
+world
+!
+"foo" :. ("bar" :. ("hello" :. ("world" :. ("!" :. NilL))))
+
+-}
 
 ---------------------------------------------------------------------------
 -- LIST TO LENGTH LEFT

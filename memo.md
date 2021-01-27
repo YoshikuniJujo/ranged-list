@@ -12,10 +12,10 @@ haddock
 			* [x] type LengthL
 			* [x] data RangeL
 		- [x] AddL
-		- [ ] Unfoldr
+		- [x] Unfoldr
 			* [x] class
 			* [x] without monad
-			* [ ] with monad
+			* [x] with monad
 		- [ ] ZipL
 		- [ ] ListToLengthL
 	+ [ ] LENGTHED LIST RIGHT
