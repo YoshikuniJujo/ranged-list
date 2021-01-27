@@ -204,9 +204,9 @@ refactor
 		- [x] LIST TO LENGTH LEFT
 * [ ] refactor Data.List.Length.LengthR
 	+ [x] language extension
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
 	+ [ ] body
 		- [ ] TYPE
 		- [ ] UNFOLDL
