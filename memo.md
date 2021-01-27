@@ -167,12 +167,12 @@ refactor
 			* [x] FUNCTION
 				+ [x] zipR
 				+ [x] zipWithR
-* [ ] refactor Data.List.Range
+* [x] refactor Data.List.Range
 	+ [x] language extension
 	+ [x] export list
 	+ [x] import list
 	+ [x] structure
-	+ [ ] body
+	+ [x] body
 		- [x] RANGED LIST LEFT
 			* [x] MIN
 			* [x] MAX
@@ -186,13 +186,13 @@ refactor
 				+ [x] LeftToRight n m 0 w
 				+ [x] LeftToRight n m v w
 			* [x] FUNCTION
-		- [ ] RIGHT TO LEFT
-			* [ ] CLASS
-			* [ ] INSTANCE
-				+ [ ] RightToLeft 0 0 v w
-				+ [ ] RightToLeft 0 m v w
-				+ [ ] RightToLeft n m v w
-			* [ ] FUNCTION
+		- [x] RIGHT TO LEFT
+			* [x] CLASS
+			* [x] INSTANCE
+				+ [x] RightToLeft 0 0 v w
+				+ [x] RightToLeft 0 m v w
+				+ [x] RightToLeft n m v w
+			* [x] FUNCTION
 * [ ] refactor Data.List.Length.LengthL
 	+ [ ] language extension
 	+ [ ] export list

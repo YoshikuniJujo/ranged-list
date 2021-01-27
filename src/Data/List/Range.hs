@@ -164,16 +164,14 @@ instance RightToLeft 0 0 v w where _ ++.. v = v
 instance {-# OVERLAPPABLE #-} (
 	PushL (v - 1) (w - 1), LoosenLMax v w (m + w),
 	RightToLeft 0 (m - 1) v (w + 1) ) => RightToLeft 0 m v w where
-	(++..) :: forall a . RangeR 0 m a -> RangeL v w a -> RangeL v (m + w) a
-	NilR ++.. v = loosenLMax v :: RangeL v (m + w) a
-	n :++ x ++.. v = n ++.. (x .:.. v :: RangeL v (w + 1) a)
+	(++..) = \case NilR -> loosenLMax; n :++ x -> (n ++..) . (x .:..)
 
-instance {-# OVERLAPPABLE #-}
-	RightToLeft (n - 1) (m - 1) (v + 1) (w + 1) => RightToLeft n m v w where
+instance {-# OVERLAPPABLE #-} (
+	1 <= n, RightToLeft (n - 1) (m - 1) (v + 1) (w + 1) ) =>
+	RightToLeft n m v w where
 	(++..) :: forall a .
 		RangeR n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 	n :+ x ++.. v = n ++.. (x :. v :: RangeL (v + 1) (w + 1) a)
-	_ ++.. _ = error "never occur"
 
 -- FUNCTION
 
