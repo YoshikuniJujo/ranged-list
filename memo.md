@@ -219,15 +219,15 @@ refactor
 	+ [x] body
 		- [x] LENGTH LEFT
 		- [x] LENGTH RIGHT
-* [ ] refactor Data.List.Range.Nat
-	+ [ ] language extension
-	+ [ ] export list
-	+ [ ] import list
-	+ [ ] structure
-	+ [ ] body
-		- [ ] LENGED NAT LEFT
-		- [ ] LENGED NAT RIGHT
-* [ ] refactor Control.Monad.Identity
+* [x] refactor Data.List.Range.Nat
+	+ [x] language extension
+	+ [x] export list
+	+ [x] import list
+	+ [x] structure
+	+ [x] body
+		- [x] LENGED NAT LEFT
+		- [x] LENGED NAT RIGHT
+* [x] refactor Control.Monad.Identity
 * [ ] refactor Control.Monad.State
 
 todo
