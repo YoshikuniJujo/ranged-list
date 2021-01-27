@@ -228,7 +228,11 @@ refactor
 		- [x] LENGED NAT LEFT
 		- [x] LENGED NAT RIGHT
 * [x] refactor Control.Monad.Identity
-* [ ] refactor Control.Monad.State
+* [x] refactor Control.Monad.State
+	+ [x] structure
+	+ [x] body
+		- [x] STATE LEFT
+		- [x] STATE RIGHT
 
 todo
 ----
