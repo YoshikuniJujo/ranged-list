@@ -69,8 +69,36 @@ import Data.List.Length.LengthR (
 repeatL :: Unfoldr 0 n n => a -> LengthL n a
 repeatL = fillL NilL
 
+{-^
+
+To repeat a value of type @a@ to construct a list of type @LengthL n a@.
+
+@
+sampleRepeatL :: LengthL 5 Char
+sampleRepeatL = repeatL \'c\'
+@
+
+>>> sampleRepeatL
+'c' :. ('c' :. ('c' :. ('c' :. ('c' :. NilL))))
+
+-}
+
 fillL :: Unfoldr n m m => RangeL n m a -> a -> LengthL m a
 fillL = (`unfoldrWithBase` \x -> (x, x))
+
+{-^
+
+To fill a list of type @LengthL n a@ with a value of type @a@.
+
+@
+sampleFillL :: LengthL 5 Char
+sampleFillL = fillL ('a' :. 'b' :.. NilL) 'c'
+@
+
+>>> sampleFillL
+'a' :. ('b' :. ('c' :. ('c' :. ('c' :. NilL))))
+
+-}
 
 chunksL :: ListToLengthL n => [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
 chunksL = either ([] ,) (uncurry first . ((:) *** chunksL)) . listToLengthL

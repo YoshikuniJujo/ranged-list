@@ -43,9 +43,39 @@ sampleLengthL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :. NilL
 unfoldr :: Unfoldr 0 n n => (s -> (a, s)) -> s -> LengthL n a
 unfoldr = unfoldrWithBase NilL
 
+{-^
+
+To evaluate function repeatedly to construct a list of type @LengthL n a@.
+The function recieve a state and return an element value and a new state.
+
+@
+sampleUnfoldr :: LengthL 5 Integer
+sampleUnfoldr = unfoldr (\n -> (2 * n, n + 1)) 0
+@
+
+>>> sampleUnfoldr
+0 :. (2 :. (4 :. (6 :. (8 :. NilL))))
+
+-}
+
 unfoldrWithBase ::
 	Unfoldr n m m => RangeL n m a -> (s -> (a, s)) -> s -> LengthL m a
 unfoldrWithBase xs = (fst .) . runStateL . unfoldrMWithBase xs . StateL
+
+{-^
+
+It is like @unfoldr@. But it has already prepared values.
+
+@
+sampleUnfoldrWithBase :: LengthL 5 Integer
+sampleUnfoldrWithBase =
+	unfoldrWithBase (123 :. 456 :.. NilL) (\n -> (2 * n, n + 1)) 0
+@
+
+>>> sampleUnfoldrWithBase
+123 :. (456 :. (0 :. (2 :. (4 :. NilL))))
+
+-}
 
 unfoldrM :: (Monad m, Unfoldr 0 n n) => m a -> m (LengthL n a)
 unfoldrM = unfoldrMWithBase NilL

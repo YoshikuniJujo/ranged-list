@@ -13,8 +13,8 @@ haddock
 			* [x] data RangeL
 		- [x] AddL
 		- [ ] Unfoldr
-			* [ ] class
-			* [ ] without monad
+			* [x] class
+			* [x] without monad
 			* [ ] with monad
 		- [ ] ZipL
 		- [ ] ListToLengthL
