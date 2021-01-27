@@ -25,6 +25,17 @@ import Data.List.Range.RangeL (RangeL(..), Unfoldr, unfoldrMRangeWithBase)
 
 type LengthL n = RangeL n n
 
+{-^
+
+@LengthL n a@ mean list which have just n member of a type value.
+
+@
+sampleLengthL :: Length 5 Char
+sampleLengthL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :. NilL
+@
+
+-}
+
 ---------------------------------------------------------------------------
 -- UNFOLDR
 ---------------------------------------------------------------------------

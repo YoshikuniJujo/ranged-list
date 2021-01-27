@@ -77,6 +77,17 @@ data RangeL :: Nat -> Nat -> * -> * where
 	(:.) :: (1 <= n, 1 <= m) =>
 		a -> RangeL (n - 1) (m - 1) a -> RangeL n m a
 
+{-^
+
+@RangeL n m a@ is list of type a values whose element number is at minimum n, and at maximum m.
+
+@
+sampleRangeL :: RangeL 3 8 Char
+sampleRangeL = h :. e :. l :. l :.. o :.. NilL
+@
+
+-}
+
 infixr 6 :., :..
 
 deriving instance Show a => Show (RangeL n m a)

@@ -1,6 +1,31 @@
 memo
 ====
 
+haddock
+-------
+
+### each modules
+
+* [ ] Data.List.Length
+	+ [ ] LENGTHED LIST LEFT
+		- [x] Type
+			* [x] type LengthL
+			* [x] data RangeL
+		- [ ] AddL
+		- [ ] Unfoldr
+			* [ ] class
+			* [ ] without monad
+			* [ ] with monad
+		- [ ] ZipL
+		- [ ] ListToLengthL
+	+ [ ] LENGTHED LIST RIGHT
+	+ [ ] LEFT TO RIGHT
+	+ [ ] RIGHT TO LEFT
+* [ ] Data.List.Range
+* [ ] Data.List.Range.Nat
+
+### README.md
+
 refactor
 --------
 
