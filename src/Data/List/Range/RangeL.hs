@@ -79,7 +79,9 @@ data RangeL :: Nat -> Nat -> * -> * where
 
 {-^
 
-@RangeL n m a@ is list of type a values whose element number is at minimum n, and at maximum m.
+@RangeL n m a@ is a list of type @a@ values whose element number is
+at minimum @n@, and at maximum @m@.
+This list can push and pop an element from left.
 
 @
 sampleRangeL :: RangeL 3 8 Char
@@ -138,6 +140,25 @@ infixr 5 ++.
 
 class AddL n m v w where
 	(++.) :: RangeL n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
+
+{-^
+
+Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
+
+@
+sampleRangeL1 :: RangeL 2 5 Char
+sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL
+
+sampleRangeL2 :: RangeL 1 6 Char
+sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL
+@
+
+>>> sampleRangeL1 ++. sampleRangeL2
+'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
+>>> :type it
+it :: RangeL 3 11 Char
+
+-}
 
 instance AddL 0 0 v w where NilL ++. ys = ys
 

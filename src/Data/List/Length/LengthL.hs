@@ -27,7 +27,7 @@ type LengthL n = RangeL n n
 
 {-^
 
-@LengthL n a@ mean list which have just n member of a type value.
+@LengthL n a@ is a list which have just @n@ members of type @a@.
 
 @
 sampleLengthL :: Length 5 Char
