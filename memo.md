@@ -194,7 +194,7 @@ refactor
 				+ [x] RightToLeft n m v w
 			* [x] FUNCTION
 * [ ] refactor Data.List.Length.LengthL
-	+ [ ] language extension
+	+ [x] language extension
 	+ [ ] export list
 	+ [ ] import list
 	+ [ ] structure
