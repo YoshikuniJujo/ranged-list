@@ -7,7 +7,7 @@ haddock
 ### each modules
 
 * [ ] Data.List.Length
-	+ [ ] LENGTHED LIST LEFT
+	+ [x] LENGTHED LIST LEFT
 		- [x] Type
 			* [x] type LengthL
 			* [x] data RangeL
@@ -20,10 +20,10 @@ haddock
 			* [x] zipL
 			* [x] zipWithL
 			* [x] zipWithML
-		- [ ] ListToLengthL
+		- [x] ListToLengthL
 			* [x] listToLengthL
 			* [x] chunksL
-			* [ ] chunksL'
+			* [x] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT

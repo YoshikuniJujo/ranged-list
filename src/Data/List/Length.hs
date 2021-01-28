@@ -109,7 +109,7 @@ To separate a list to multiple lengthed lists.
 It return separeted lengthed lists and a not enough length fragment.
 
 >>> chunksL @3 "foo bar"
-['f' :. ('o' :. ('o' :. NilL)),' ' :. ('b' :. ('a' :. NilL))],'r' :.. NilL)
+(['f' :. ('o' :. ('o' :. NilL)),' ' :. ('b' :. ('a' :. NilL))],'r' :.. NilL)
 
 -}
 
@@ -117,6 +117,18 @@ chunksL' :: (Unfoldr 0 n n, LoosenLMax 0 (n - 1) n, ListToLengthL n) =>
 	a -> [a] -> [LengthL n a]
 chunksL' z xs = case chunksL xs of
 	(cs, NilL) -> cs; (cs, rs) -> cs ++ [loosenLMax rs `fillL` z]
+
+{-^
+
+It is like chunksL.
+But if there is a not enough length fragment, then it fill with a default value.
+
+>>> print `mapM_` chunksL' @3 '@' "foo bar"
+'f' :. ('o' :. ('o' :. NilL))
+' ' :. ('b' :. ('a' :. NilL))
+'r' :. ('@' :. ('@' :. NilL))
+
+-}
 
 ---------------------------------------------------------------------------
 -- LENGTH RIGHT
