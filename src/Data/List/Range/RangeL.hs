@@ -147,10 +147,10 @@ Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
 
 @
 sampleRangeL1 :: RangeL 2 5 Char
-sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL
+sampleRangeL1 = \'f\' :. \'o\' :. \'o\' :.. NilL
 
 sampleRangeL2 :: RangeL 1 6 Char
-sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL
+sampleRangeL2 = \'b\' :. \'a\' :.. \'r\' :.. NilL
 @
 
 >>> sampleRangeL1 ++. sampleRangeL2

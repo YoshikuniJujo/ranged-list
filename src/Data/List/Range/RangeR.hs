@@ -141,6 +141,25 @@ infixl 5 +++
 class AddR n m v w where
 	(+++) :: RangeR n m a -> RangeR v w a -> RangeR (n + v) (m + w) a
 
+{-^
+
+Concatenation of two lists whose types are @RangeR n m a@ and @RangeR v w a@.
+
+@
+sampleRangeR1 :: RangeR 2 5 Char
+sampleRangeR1 = NilR :++ \'f\' :+ \'o\' :+ \'o\'
+
+sampleRangeR2 :: RangeR 1 6 Char
+sampleRangeR2 = NilR :++ \'b\' :++ \'a\' :+ \'r\'
+@
+
+>>> sampleRangeR1 +++ sampleRangeR2
+((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
+>>> :type it
+it :: RangeR 3 11 Char
+
+-}
+
 instance AddR n m 0 0 where xs +++ NilR = xs
 
 instance {-# OVERLAPPABLE #-}

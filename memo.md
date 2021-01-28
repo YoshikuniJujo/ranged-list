@@ -28,7 +28,7 @@ haddock
 		- [x] Type
 			* [x] type LengthR
 			* [x] data RangeR
-		- [ ] AddR
+		- [x] AddR
 		- [ ] Unfoldl
 		- [ ] ZipR
 		- [ ] ListToLengthR
