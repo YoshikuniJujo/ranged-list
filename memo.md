@@ -21,6 +21,9 @@ haddock
 			* [x] zipWithL
 			* [x] zipWithML
 		- [ ] ListToLengthL
+			* [x] listToLengthL
+			* [ ] chunksL
+			* [ ] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT
