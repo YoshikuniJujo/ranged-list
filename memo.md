@@ -33,7 +33,7 @@ haddock
 			* [x] class
 			* [ ] without monad
 				+ [x] repeatR
-				+ [ ] fillR
+				+ [x] fillR
 				+ [ ] unfoldl
 				+ [ ] unfoldlWithBase
 			* [ ] with monad

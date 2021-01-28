@@ -92,7 +92,7 @@ To fill a list of type @LengthL n a@ with a value of type @a@.
 
 @
 sampleFillL :: LengthL 5 Char
-sampleFillL = fillL ('a' :. 'b' :.. NilL) 'c'
+sampleFillL = fillL (\'a\' :. \'b\' :.. NilL) \'c\'
 @
 
 >>> sampleFillL
@@ -153,6 +153,20 @@ sampleRepeatR = repeatR \'c\'
 
 fillR :: Unfoldl n m m => a -> RangeR n m a -> LengthR m a
 fillR = unfoldlWithBase \x -> (x, x)
+
+{-^
+
+To fill a list of type @LengthR n a@ with a value of type @a@.
+
+@
+sampleFillR :: LengthR 5 Char
+sampleFillR = fillR \'c\' (NilR :++ \'a\' :+ \'b\')
+@
+
+>>> sampleFillR
+((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'a') :+ 'b'
+
+-}
 
 chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR = either ([] ,) (uncurry first . ((:) *** chunksR)) . listToLengthR
