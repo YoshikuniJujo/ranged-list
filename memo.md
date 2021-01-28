@@ -16,10 +16,10 @@ haddock
 			* [x] class
 			* [x] without monad
 			* [x] with monad
-		- [ ] ZipL
+		- [x] ZipL
 			* [x] zipL
 			* [x] zipWithL
-			* [ ] zipWithML
+			* [x] zipWithML
 		- [ ] ListToLengthL
 	+ [ ] LENGTHED LIST RIGHT
 	+ [ ] LEFT TO RIGHT

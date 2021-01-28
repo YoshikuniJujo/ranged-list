@@ -315,6 +315,27 @@ class ZipL n m v w where
 		(a -> b -> q c) -> RangeL n m a -> RangeL v w b ->
 		q (RangeL n m c, RangeL (v - m) (w - n) b)
 
+{-^
+
+@zipWithML@ is like zipWithL.
+But it use function which return monad instead of a simple value.
+
+@
+sampleZipWithML1 :: RangeL 2 4 Int
+sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL
+
+sampleZipWithML2 :: RangeL 5 7 Char
+sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL
+@
+
+>>> zipWithML (\n -> putStrLn . replicate n) samplezipWithML1 sampleZipWithML2
+a
+bb
+ccc
+(() :. (() :. (() :.. NilL)),'d' :. ('e' :.. ('f' :.. NilL)))
+
+-}
+
 instance ZipL 0 0 v w where zipWithML _ NilL = pure . (NilL ,)
 
 instance {-# OVERLAPPABLE #-} (
