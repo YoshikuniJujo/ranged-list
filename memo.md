@@ -34,7 +34,7 @@ haddock
 			* [ ] without monad
 				+ [x] repeatR
 				+ [x] fillR
-				+ [ ] unfoldl
+				+ [x] unfoldl
 				+ [ ] unfoldlWithBase
 			* [ ] with monad
 		- [ ] ZipR

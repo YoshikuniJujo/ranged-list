@@ -51,7 +51,7 @@ The function recieve a state and return an element value and a new state.
 
 @
 sampleUnfoldr :: LengthL 5 Integer
-sampleUnfoldr = unfoldr (\n -> (2 * n, n + 1)) 0
+sampleUnfoldr = unfoldr (\\n -> (2 * n, n + 1)) 0
 @
 
 >>> sampleUnfoldr

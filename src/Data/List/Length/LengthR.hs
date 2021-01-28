@@ -44,6 +44,21 @@ sampleLengthR = NilR :+ \'h\' :+ \'e\' :+ \'l\' :+ \'l\' :+ \'o\'
 unfoldl :: Unfoldl 0 n n => (s -> (s, a)) -> s -> LengthR n a
 unfoldl f s = unfoldlWithBase f s NilR
 
+{-^
+
+To eveluate function repeatedly to construct a list of type @LengthR n a@.
+The function recieve a state and return a new state and an element value.
+
+@
+sampleUnfoldl :: LengthR 5 Integer
+sampleUnfoldl = unfoldl (\\n -> (n + 1, 2 * n)) 0
+@
+
+>>> sampleUnfoldl
+((((NilR :+ 8) :+ 6) :+ 4) :+ 2) :+ 0
+
+-}
+
 unfoldlWithBase ::
 	Unfoldl n m m => (s -> (s, a)) -> s -> RangeR n m a -> LengthR m a
 unfoldlWithBase f = (snd .) . flip (runStateR . unfoldlMWithBase (StateR f))
