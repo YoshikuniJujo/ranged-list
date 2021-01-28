@@ -30,6 +30,13 @@ haddock
 			* [x] data RangeR
 		- [x] AddR
 		- [ ] Unfoldl
+			* [x] class
+			* [ ] without monad
+				+ [x] repeatR
+				+ [ ] fillR
+				+ [ ] unfoldl
+				+ [ ] unfoldlWithBase
+			* [ ] with monad
 		- [ ] ZipR
 		- [ ] ListToLengthR
 	+ [ ] LEFT TO RIGHT

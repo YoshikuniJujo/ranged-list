@@ -137,6 +137,20 @@ But if there is a not enough length fragment, then it fill with a default value.
 repeatR :: Unfoldl 0 n n => a -> LengthR n a
 repeatR = (`fillR` NilR)
 
+{-^
+
+To repeat a value of type @a@ to construct a list of type @LengthR n a@.
+
+@
+sampleRepeatR :: LengthR 5 Char
+sampleRepeatR = repeatR \'c\'
+@
+
+>>> sampleRepeatR
+((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'c') :+ 'c'
+
+-}
+
 fillR :: Unfoldl n m m => a -> RangeR n m a -> LengthR m a
 fillR = unfoldlWithBase \x -> (x, x)
 
