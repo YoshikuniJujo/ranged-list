@@ -336,6 +336,26 @@ zipL :: ZipL n m v w => RangeL n m a -> RangeL v w b ->
 	(RangeL n m (a, b), RangeL (v - m) (w - n) b)
 zipL = zipWithL (,)
 
+{-^
+
+To recieve two lists and return a tuple list and rest of second list.
+First list must be shorter or equal than second list.
+
+@
+sampleZipL1 :: RangeL 2 4 Integer
+sampleZipL1 = 1 :. 2 :. 3 :.. NilL
+
+sampleZipL2 :: RangeL 5 7 Integer
+sampleZipL2 = 7 :. 6 :. 5 :. 4 :. 3 :. 2 :.. NilL
+@
+
+>>> zipL sampleZipL1 sampleZipL2
+((1,7) :. ((2,6) :. ((3,5) :.. NilL)),4 :. (3 :.. (2 :.. NilL)))
+>>> :type it
+it :: (RangeL 2 4 (Integer, Integer), RangeL 1 5 Integer)
+
+-}
+
 zipWithL :: ZipL n m v w => (a -> b -> c) -> RangeL n m a -> RangeL v w b ->
 	(RangeL n m c, RangeL (v - m) (w - n) b)
 zipWithL op = (runIdentity .) . zipWithML ((Identity .) . op)
