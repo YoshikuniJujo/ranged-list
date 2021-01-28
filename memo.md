@@ -25,6 +25,13 @@ haddock
 			* [x] chunksL
 			* [x] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
+		- [ ] Type
+			* [x] type LengthR
+			* [ ] data RangeR
+		- [ ] AddR
+		- [ ] Unfoldl
+		- [ ] ZipR
+		- [ ] ListToLengthR
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT
 * [ ] Data.List.Range

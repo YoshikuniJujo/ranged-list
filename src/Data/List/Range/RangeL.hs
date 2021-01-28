@@ -81,11 +81,11 @@ data RangeL :: Nat -> Nat -> * -> * where
 
 @RangeL n m a@ is a list of type @a@ values whose element number is
 at minimum @n@, and at maximum @m@.
-This list can push and pop an element from left.
+You can push and pop an element from left.
 
 @
 sampleRangeL :: RangeL 3 8 Char
-sampleRangeL = h :. e :. l :. l :.. o :.. NilL
+sampleRangeL = \'h\' :. \'e\' :. \'l\' :. \'l\' :.. \'o\' :.. NilL
 @
 
 -}

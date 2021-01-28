@@ -25,6 +25,18 @@ import Data.List.Range.RangeR (RangeR(..), Unfoldl, unfoldlMRangeWithBase)
 
 type LengthR n = RangeR n n
 
+{-^
+
+@LengthR n a@ is a list which have just n members of type @a@.
+You can push and pop an element from right.
+
+@
+sampleLengthR :: LengthR 5 Char
+sampleLengthR = NilR :+ \'h\' :+ \'e\' :+ \'l\' :+ \'l\' :+ \'o\'
+@
+
+-}
+
 ---------------------------------------------------------------------------
 -- UNFOLDL
 ---------------------------------------------------------------------------
