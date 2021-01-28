@@ -25,9 +25,9 @@ haddock
 			* [x] chunksL
 			* [x] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
-		- [ ] Type
+		- [x] Type
 			* [x] type LengthR
-			* [ ] data RangeR
+			* [x] data RangeR
 		- [ ] AddR
 		- [ ] Unfoldl
 		- [ ] ZipR

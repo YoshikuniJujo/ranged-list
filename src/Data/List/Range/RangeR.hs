@@ -77,6 +77,19 @@ data RangeR :: Nat -> Nat -> * -> * where
 	(:+) :: (1 <= n, 1 <= m) =>
 		RangeR (n - 1) (m - 1) a -> a -> RangeR n m a
 
+{-^
+
+@RangeR n m a@ is a list of type @a@ values whose element number is
+at minimum @n@, and at maximum @m@.
+You can push and pop an element from right.
+
+@
+sampleRangeR :: RangeR 3 8 Char
+sampleRangeR = NilR :++ \'h\' :++ \'e\' :+ \'l\' :+ \'l\' :+ \'o\'
+@
+
+-}
+
 infixl 6 :+, :++
 
 deriving instance Show a => Show (RangeR n m a)
