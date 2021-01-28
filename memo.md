@@ -22,7 +22,7 @@ haddock
 			* [x] zipWithML
 		- [ ] ListToLengthL
 			* [x] listToLengthL
-			* [ ] chunksL
+			* [x] chunksL
 			* [ ] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
 	+ [ ] LEFT TO RIGHT

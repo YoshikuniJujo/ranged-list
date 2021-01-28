@@ -103,6 +103,16 @@ sampleFillL = fillL ('a' :. 'b' :.. NilL) 'c'
 chunksL :: ListToLengthL n => [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
 chunksL = either ([] ,) (uncurry first . ((:) *** chunksL)) . listToLengthL
 
+{-^
+
+To separate a list to multiple lengthed lists.
+It return separeted lengthed lists and a not enough length fragment.
+
+>>> chunksL @3 "foo bar"
+['f' :. ('o' :. ('o' :. NilL)),' ' :. ('b' :. ('a' :. NilL))],'r' :.. NilL)
+
+-}
+
 chunksL' :: (Unfoldr 0 n n, LoosenLMax 0 (n - 1) n, ListToLengthL n) =>
 	a -> [a] -> [LengthL n a]
 chunksL' z xs = case chunksL xs of
