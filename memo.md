@@ -18,7 +18,7 @@ haddock
 			* [x] with monad
 		- [ ] ZipL
 			* [x] zipL
-			* [ ] zipWithL
+			* [x] zipWithL
 			* [ ] zipWithML
 		- [ ] ListToLengthL
 	+ [ ] LENGTHED LIST RIGHT
