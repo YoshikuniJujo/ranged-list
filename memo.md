@@ -6,7 +6,7 @@ haddock
 
 ### each modules
 
-* [ ] Data.List.Length
+* [x] Data.List.Length
 	+ [x] LENGTHED LIST LEFT
 		- [x] Type
 			* [x] type LengthL
@@ -51,10 +51,30 @@ haddock
 	+ [x] LEFT TO RIGHT
 		- [x] (++.+)
 		- [x] leftToRight
-	+ [ ] RIGHT TO LEFT
-		- [ ] (++..)
-		- [ ] rightToLeft
+	+ [x] RIGHT TO LEFT
+		- [x] (++..)
+		- [x] rightToLeft
 * [ ] Data.List.Range
+	+ [ ] RANGED LIST LEFT
+		- [x] Type
+		- [ ] PushL
+		- [x] AddL
+		- [ ] LoosenLMin and LoosenLMax
+			* [ ] loosenL
+			* [ ] loosenLMin
+			* [ ] loosenLMax
+		- [ ] Unfoldr
+			* [ ] class
+			* [ ] unfoldrRange
+			* [ ] unfoldrRangeMaybe
+		- [x] ZipL
+		- [ ] Repeat and Unfoldr Min and Max
+			* [ ] repeat
+			* [ ] unfoldr
+			* [ ] unfoldrM
+	+ [ ] RANGED LIST RIGHT
+	+ [x] LEFT TO RIGHT
+	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
 
 ### README.md

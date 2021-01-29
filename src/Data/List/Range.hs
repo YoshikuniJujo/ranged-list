@@ -190,6 +190,23 @@ infixr 5 ++..
 class RightToLeft n m v w where
 	(++..) :: RangeR n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 
+{-^
+
+@(++..)@: To concatenate a right-list and a left-list and return a left-list.
+
+@
+sampleRightToLeft1 :: RangeR 1 4 Char
+sampleRightToLeft1 = NilR :++ \'f\' :++ \'o\' :+ \'o\'
+
+sampleRightToLeft2 :: RangeL 2 3 Char
+sampleRightToLeft2 = \'b\' :. \'a\' :. \'r\' :.. NilL
+@
+
+>>> sampleRightToLeft1 ++.. sampleRightToLeft2
+'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
+
+-}
+
 -- INSTANCE
 
 instance RightToLeft 0 0 v w where _ ++.. v = v
@@ -211,3 +228,17 @@ instance {-# OVERLAPPABLE #-} (
 rightToLeft ::
 	forall n m a . RightToLeft n m 0 0 => RangeR n m a -> RangeL n m a
 rightToLeft = (++.. (NilL :: RangeL 0 0 a))
+
+{-^
+
+To convert a right-list to a left-list.
+
+@
+sampleRightToLeft :: RangeR 3 8 Char
+sampleRightToLeft = NilR :++ \'h\' :++ \'e\' :+ \'l\' :+ \'l\' :+ \'o\'
+@
+
+>>> rightToLeft sampleRightToLeft
+'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
+
+-}
