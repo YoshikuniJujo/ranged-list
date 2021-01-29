@@ -30,10 +30,8 @@ type LengthL n = RangeL n n
 @LengthL n a@ is a list which have just @n@ members of type @a@.
 You can push and pop an element from right.
 
-@
-sampleLengthL :: Length 5 Char
-sampleLengthL = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :. NilL
-@
+>>> :set -XDataKinds
+>>> sampleLengthL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :. NilL :: LengthL 5 Char
 
 -}
 

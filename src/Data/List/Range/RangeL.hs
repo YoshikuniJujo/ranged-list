@@ -83,10 +83,8 @@ data RangeL :: Nat -> Nat -> * -> * where
 at minimum @n@, and at maximum @m@.
 You can push and pop an element from left.
 
-@
-sampleRangeL :: RangeL 3 8 Char
-sampleRangeL = \'h\' :. \'e\' :. \'l\' :. \'l\' :.. \'o\' :.. NilL
-@
+>>> :set -XDataKinds
+>>> sampleRangeL = 'h' :. 'e' :. 'l' :. 'l' :.. 'o' :.. NilL :: RangeL 3 8 Char
 
 -}
 
