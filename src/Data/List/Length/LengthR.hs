@@ -126,6 +126,18 @@ world
 class ListToLengthR n where
 	listToLengthR :: [a] -> Either (RangeR 0 (n - 1) a) (LengthR n a, [a])
 
+{-^
+
+@listToLengthR@: To take a lengthed list from a list.
+If an original list has not enough elements, then it return a left value.
+
+>>> listToLengthR @4 "Hi!"
+Left (((NilR :++ '!') :++ 'i') :++ 'H')
+>>> listToLengthR @4 "Hello!"
+Right ((((NilR :+ 'l') :+ 'l') :+ 'e') :+ 'H',"o!")
+
+-}
+
 instance ListToLengthR 1 where
 	listToLengthR = \case [] -> Left NilR; x : xs -> Right (NilR :+ x, xs)
 
