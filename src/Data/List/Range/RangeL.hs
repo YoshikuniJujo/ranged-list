@@ -333,6 +333,39 @@ unfoldrRange :: Unfoldr 0 v w =>
 	(s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrRangeWithBase NilL
 
+{-^
+
+To evaluate function to construct a list.
+The function recieve state and return an element and new state.
+First argument is predication which are evaluated
+when element number is greater than minimum and not greater than maximum.
+
+@
+sampleUnfoldrRange1 :: RangeL 3 5 Int
+sampleUnfoldrRange1 = unfoldrRange (\< 2) (\\n -\> (n * 3, n + 1)) 1
+@
+
+>>> sampleUnfoldrRange1
+3 :. (6 :. (9 :. NilL))
+
+@
+sampleUnfoldrRange2 :: RangeL 3 5 Int
+sampleUnfoldrRange2 = unfoldrRange (\< 5) (\\n -\> (n * 3, n + 1)) 1
+@
+
+>>> sampleUnfoldrRange2
+3 :. (6 :. (9 :. (12 :.. NilL)))
+
+@
+sampleUnfoldrRange3 :: RangeL 3 5 Int
+sampleUnfoldrRange3 = unfoldrRange (\< 10) (\\n -\> (n * 3, n + 1)) 1
+@
+
+>>> sampleUnfoldrRange3
+3 :. (6 :. (9 :. (12 :.. (15 :.. NilL))))
+
+-}
+
 unfoldrRangeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
