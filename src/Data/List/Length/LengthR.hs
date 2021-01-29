@@ -102,6 +102,23 @@ unfoldlMWithBase ::
 	(Monad m, Unfoldl n w w) => m a -> RangeR n w a -> m (LengthR w a)
 unfoldlMWithBase = unfoldlMRangeWithBase undefined
 
+{-^
+
+It is like unfoldlM. But it has already prepared values.
+
+@
+sampleUnfoldlMWithBase :: IO (LengthR 5 String)
+sampleUnfoldlMWithBase = unfoldlMWithBase getLine (NilR :++ "foo" :+ "bar")
+@
+
+>>> sampleUnfoldlMWithBase
+hello
+world
+!
+((((NilR :+ "!") :+ "world") :+ "hello") :+ "foo") :+ "bar"
+
+-}
+
 ---------------------------------------------------------------------------
 -- LIST TO LENGTH RIGHT
 ---------------------------------------------------------------------------
