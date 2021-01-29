@@ -57,7 +57,7 @@ haddock
 * [ ] Data.List.Range
 	+ [ ] RANGED LIST LEFT
 		- [x] Type
-		- [ ] PushL
+		- [x] PushL
 		- [x] AddL
 		- [ ] LoosenLMin and LoosenLMax
 			* [ ] loosenL

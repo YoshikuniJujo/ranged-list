@@ -126,6 +126,22 @@ infixr 5 .:..
 
 class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 
+{-^
+
+@(.:..)@: To push an optional element.
+
+@
+samplePushL :: RangeL 3 7 Char
+samplePushL = \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
+@
+
+>>> 'h' .:.. samplePushL
+'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
+>>> :type it
+it :: RangeL 3 8 Char
+
+-}
+
 instance PushL 0 m where
 	(.:..) x = \case NilL -> x :.. NilL; xs@(_ :.. _) -> x :.. xs
 
