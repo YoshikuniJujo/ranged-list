@@ -37,7 +37,7 @@ haddock
 				+ [x] unfoldl
 				+ [x] unfoldlWithBase
 			* [ ] with monad
-				+ [ ] unfoldlM
+				+ [x] unfoldlM
 				+ [ ] unfoldlMWithBase
 		- [ ] ZipR
 		- [ ] ListToLengthR

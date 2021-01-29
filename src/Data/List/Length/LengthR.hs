@@ -81,6 +81,23 @@ sampleUnfoldlWithBase =
 unfoldlM :: (Monad m, Unfoldl 0 n n) => m a -> m (LengthR n a)
 unfoldlM = (`unfoldlMWithBase` NilR)
 
+{-^
+
+It is like unfoldl. But it use monad as an argument instead of function.
+
+@
+sampleUnfoldlM :: IO (LengthR 3 String)
+sampleUnfoldlM = unfoldlM getLine
+@
+
+>>> sampleUnfoldlM
+hello
+world
+!
+((NilR :+ "!") :+ "world") :+ "hello"
+
+-}
+
 unfoldlMWithBase ::
 	(Monad m, Unfoldl n w w) => m a -> RangeR n w a -> m (LengthR w a)
 unfoldlMWithBase = unfoldlMRangeWithBase undefined
