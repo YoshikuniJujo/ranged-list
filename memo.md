@@ -39,12 +39,15 @@ haddock
 			* [x] with monad
 				+ [x] unfoldlM
 				+ [x] unfoldlMWithBase
-		- [ ] ZipR
+		- [x] ZipR
 			* [x] class
 			* [x] zipR
-			* [ ] zipWithR
-			* [ ] zipWithMR
+			* [x] zipWithR
+			* [x] zipWithMR
 		- [ ] ListToLengthR
+			* [ ] listToLengthR
+			* [ ] chunksR
+			* [ ] chunksR'
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT
 * [ ] Data.List.Range

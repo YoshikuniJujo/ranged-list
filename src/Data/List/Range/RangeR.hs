@@ -376,3 +376,23 @@ it :: (RangeR 1 5 Integer, RangeR 2 4 (Integer, Integer))
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)
 zipWithR op = (runIdentity .) . zipWithMR ((Identity .) . op)
+
+{-^
+
+It is like @zipR@.
+But it evaluate function to make values instead of put together in tuples.
+
+@
+sampleZipWithR1 :: RangeR 5 7 Integer
+sampleZipWithR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6
+
+sampleZipWithR2 :: RangeR 2 4 Integer
+sampleZipWithR2 = NilR :++ 7 :+ 6 :+ 5
+@
+
+>>> zipWithR (+) sampleZipWithR1 sampleZipWithR2
+(((NilR :++ 1) :++ 2) :+ 3,((NilR :++ 11) :+ 11) :+ 11)
+>>> :type it
+it :: (RangeR 1 5 Integer, RangeR 2 4 Integer)
+
+-}
