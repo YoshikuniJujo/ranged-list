@@ -63,6 +63,21 @@ unfoldlWithBase ::
 	Unfoldl n m m => (s -> (s, a)) -> s -> RangeR n m a -> LengthR m a
 unfoldlWithBase f = (snd .) . flip (runStateR . unfoldlMWithBase (StateR f))
 
+{-^
+
+It is like @unfoldl@. But it has already prepared values.
+
+@
+sampleUnfoldlWithBase :: LengthR 5 Integer
+sampleUnfoldlWithBase =
+	unfoldlWithBase (\\n -> (n + 1, 2 * n)) 0 (NilR :++ 123 :+ 456)
+@
+
+>>> sampleUnfoldlWithBase
+((((NilR :+ 4) :+ 2) :+ 0) :+ 123) :+ 456
+
+-}
+
 unfoldlM :: (Monad m, Unfoldl 0 n n) => m a -> m (LengthR n a)
 unfoldlM = (`unfoldlMWithBase` NilR)
 

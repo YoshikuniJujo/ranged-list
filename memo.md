@@ -31,12 +31,14 @@ haddock
 		- [x] AddR
 		- [ ] Unfoldl
 			* [x] class
-			* [ ] without monad
+			* [x] without monad
 				+ [x] repeatR
 				+ [x] fillR
 				+ [x] unfoldl
-				+ [ ] unfoldlWithBase
+				+ [x] unfoldlWithBase
 			* [ ] with monad
+				+ [ ] unfoldlM
+				+ [ ] unfoldlMWithBase
 		- [ ] ZipR
 		- [ ] ListToLengthR
 	+ [ ] LEFT TO RIGHT

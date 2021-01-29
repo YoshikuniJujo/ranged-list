@@ -70,7 +70,7 @@ It is like @unfoldr@. But it has already prepared values.
 @
 sampleUnfoldrWithBase :: LengthL 5 Integer
 sampleUnfoldrWithBase =
-	unfoldrWithBase (123 :. 456 :.. NilL) (\n -> (2 * n, n + 1)) 0
+	unfoldrWithBase (123 :. 456 :.. NilL) (\\n -> (2 * n, n + 1)) 0
 @
 
 >>> sampleUnfoldrWithBase
