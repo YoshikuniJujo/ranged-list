@@ -124,6 +124,25 @@ infixl 5 ++.+
 class LeftToRight n m v w where
 	(++.+) :: RangeR n m a -> RangeL v w a -> RangeR (n + v) (m + w) a
 
+{-^
+
+@(++.+)@: To concatenate a right-list and a left-list and return a right-list.
+
+@
+sampleLeftToRight1 :: RangeR 1 4 Char
+sampleLeftToRight1 = NilR :++ \'f\' :++ \'o\' :+ \'o\'
+
+sampleLeftToRight2 :: RangeL 2 3 Char
+sampleLeftToRight2 = \'b\' :. \'a\' :. \'r\' :.. NilL
+@
+
+>>> sampleLeftToRight1 ++.+ sampleLeftToRight2
+(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
+>>> :type it
+it :: RangeR 3 7 Char
+
+-}
+
 -- INSTANCE
 
 instance LeftToRight n m 0 0 where n ++.+ _ = n

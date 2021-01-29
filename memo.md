@@ -49,7 +49,11 @@ haddock
 			* [x] chunksR
 			* [x] chunksR'
 	+ [ ] LEFT TO RIGHT
+		- [x] (++.+)
+		- [ ] leftToRight
 	+ [ ] RIGHT TO LEFT
+		- [ ] (++..)
+		- [ ] rightToLeft
 * [ ] Data.List.Range
 * [ ] Data.List.Range.Nat
 
