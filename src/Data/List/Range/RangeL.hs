@@ -325,7 +325,7 @@ sampleZipWithML1 :: RangeL 2 4 Int
 sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL
 
 sampleZipWithML2 :: RangeL 5 7 Char
-sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL
+sampleZipWithML2 = \'a\' :. \'b\' :. \'c\' :. \'d\' :. \'e\' :. \'f\' :.. NilL
 @
 
 >>> zipWithML (\n -> putStrLn . replicate n) samplezipWithML1 sampleZipWithML2
