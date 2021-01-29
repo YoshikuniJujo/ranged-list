@@ -46,7 +46,7 @@ haddock
 			* [x] zipWithMR
 		- [ ] ListToLengthR
 			* [x] listToLengthR
-			* [ ] chunksR
+			* [x] chunksR
 			* [ ] chunksR'
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT

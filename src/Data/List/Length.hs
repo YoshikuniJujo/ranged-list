@@ -171,6 +171,16 @@ sampleFillR = fillR \'c\' (NilR :++ \'a\' :+ \'b\')
 chunksR :: ListToLengthR n => [a] -> ([LengthR n a], RangeR 0 (n - 1) a)
 chunksR = either ([] ,) (uncurry first . ((:) *** chunksR)) . listToLengthR
 
+{-^
+
+To separate a list to multiple lengthed lists.
+It return separated lengthed lists and a not enough length fragment.
+
+>>> chunksR @3 "foo bar"
+([((NilR :+ 'o') :+ 'o') :+ 'f',((NilR :+ 'a') :+ 'b') :+ ' '],NilR :++ 'r')
+
+-}
+
 chunksR' :: (Unfoldl 0 n n, LoosenRMax 0 (n - 1) n, ListToLengthR n) =>
 	a -> [a] -> [LengthR n a]
 chunksR' z xs = case chunksR xs of
