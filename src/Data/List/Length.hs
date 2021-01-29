@@ -185,3 +185,15 @@ chunksR' :: (Unfoldl 0 n n, LoosenRMax 0 (n - 1) n, ListToLengthR n) =>
 	a -> [a] -> [LengthR n a]
 chunksR' z xs = case chunksR xs of
 	(cs, NilR) -> cs; (cs, rs) -> cs ++ [z `fillR` loosenRMax rs]
+
+{-^
+
+It is like @chunksR@.
+But if there is a not enough length fragment, then it fill with a default value.
+
+>>> print `mapM_` chunksR' @3 '@' "foo bar"
+((NilR :+ 'o') :+ 'o') :+ 'f'
+((NilR :+ 'a') :+ 'b') :+ ' '
+((NilR :+ '@') :+ '@') :+ 'r'
+
+-}

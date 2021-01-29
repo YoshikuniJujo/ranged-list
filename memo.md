@@ -24,7 +24,7 @@ haddock
 			* [x] listToLengthL
 			* [x] chunksL
 			* [x] chunksL'
-	+ [ ] LENGTHED LIST RIGHT
+	+ [x] LENGTHED LIST RIGHT
 		- [x] Type
 			* [x] type LengthR
 			* [x] data RangeR
@@ -44,10 +44,10 @@ haddock
 			* [x] zipR
 			* [x] zipWithR
 			* [x] zipWithMR
-		- [ ] ListToLengthR
+		- [x] ListToLengthR
 			* [x] listToLengthR
 			* [x] chunksR
-			* [ ] chunksR'
+			* [x] chunksR'
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT
 * [ ] Data.List.Range
