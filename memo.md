@@ -48,9 +48,9 @@ haddock
 			* [x] listToLengthR
 			* [x] chunksR
 			* [x] chunksR'
-	+ [ ] LEFT TO RIGHT
+	+ [x] LEFT TO RIGHT
 		- [x] (++.+)
-		- [ ] leftToRight
+		- [x] leftToRight
 	+ [ ] RIGHT TO LEFT
 		- [ ] (++..)
 		- [ ] rightToLeft

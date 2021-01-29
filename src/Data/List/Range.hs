@@ -165,6 +165,20 @@ leftToRight ::
 	forall v w a . LeftToRight 0 0 v w => RangeL v w a -> RangeR v w a
 leftToRight = ((NilR :: RangeR 0 0 a) ++.+)
 
+{-^
+
+To convert a left-list to a right-list.
+
+@
+sampleLeftToRight :: RangeL 3 8 Char
+sampleLeftToRight = \'h\' :. \'e\' :. \'l\' :. \'l\' :.. \'o\' :.. NilL
+@
+
+>>> leftToRight sampleLeftToRight
+((((NilR :++ 'h') :++ 'e') :+ 'l') :+ 'l') :+ 'o'
+
+-}
+
 ---------------------------------------------------------------------------
 -- RIGHT TO LEFT
 ---------------------------------------------------------------------------
