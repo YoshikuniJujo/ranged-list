@@ -41,7 +41,7 @@ haddock
 				+ [x] unfoldlMWithBase
 		- [ ] ZipR
 			* [x] class
-			* [ ] zipR
+			* [x] zipR
 			* [ ] zipWithR
 			* [ ] zipWithMR
 		- [ ] ListToLengthR

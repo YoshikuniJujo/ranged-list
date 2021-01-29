@@ -353,6 +353,26 @@ zipR :: ZipR n m v w => RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w (a, b))
 zipR = zipWithR (,)
 
+{-^
+
+To recieve two lists and return a tuple list and rest of first list.
+Second list must be shorter or equal than first list.
+
+@
+sampleZipR1 :: RangeR 5 7 Integer
+sampleZipR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6
+
+sampleZipR2 :: RangeR 2 4 Integer
+sampleZipR2 = NilR :++ 3 :+ 2 :+ 1
+@
+
+>>> zipR sampleZipR1 sampleZipR2
+(((NilR :++ 1) :++ 2) :+ 3,((NilR :++ (4,3)) :+ (5,2)) :+ (6,1))
+>>> :type it
+it :: (RangeR 1 5 Integer, RangeR 2 4 (Integer, Integer))
+
+-}
+
 zipWithR :: ZipR n m v w => (a -> b -> c) -> RangeR n m a -> RangeR v w b ->
 	(RangeR (n - w) (m - v) a, RangeR v w c)
 zipWithR op = (runIdentity .) . zipWithMR ((Identity .) . op)
