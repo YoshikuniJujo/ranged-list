@@ -59,10 +59,10 @@ haddock
 		- [x] Type
 		- [x] PushL
 		- [x] AddL
-		- [ ] LoosenLMin and LoosenLMax
+		- [x] LoosenLMin and LoosenLMax
 			* [x] loosenL
-			* [ ] loosenLMin
-			* [ ] loosenLMax
+			* [x] loosenLMin
+			* [x] loosenLMax
 		- [ ] Unfoldr
 			* [ ] class
 			* [ ] unfoldrRange

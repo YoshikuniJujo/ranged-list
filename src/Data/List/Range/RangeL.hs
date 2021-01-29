@@ -210,13 +210,29 @@ sampleLoosenL = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
 >>> loosenL sampleLoosenL :: RangeL 2 8 Char
 'h' :. 'e' :. 'l' :.. 'l' :.. 'o' :.. NilL
 >>> :type it
-RangeL 2 8 Char
+it :: RangeL 2 8 Char
 
 -}
 
 -- LOOSEN LEFT MIN
 
 class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
+
+{-^
+
+To loosen lower bound of element number.
+
+@
+sampleLoosenLMin :: RangeL 4 6 Char
+sampleLoosenLMin = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
+@
+
+>>> loosenLMin sampleLoosenLMin :: RangeL 2 6 Char
+'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
+>> :type it
+it :: RangeL 2 6 Char
+
+-}
 
 instance LoosenLMin 0 m 0 where
 	loosenLMin = \case NilL -> NilL; xs@(_ :.. _) -> xs
@@ -232,6 +248,22 @@ instance {-# OVERLAPPABLE #-}
 -- LOOSEN LEFT MAX
 
 class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
+
+{-^
+
+To loosen upper bound of element number.
+
+@
+sampleLoosenLMax :: RangeL 4 6 Char
+sampleLoosenLMax = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
+@
+
+>>> loosenLMax sampleLoosenLMax :: RangeL 4 8 Char
+'h' :. ('e' :. ('l' :. ('l' :. ('o' :.. NilL))))
+>>> :type it
+it :: RangeL 4 8 Char
+
+-}
 
 instance LoosenLMax 0 0 w where loosenLMax NilL = NilL
 
