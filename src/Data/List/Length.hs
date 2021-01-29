@@ -73,11 +73,8 @@ repeatL = fillL NilL
 
 To repeat a value of type @a@ to construct a list of type @LengthL n a@.
 
-@
-sampleRepeatL :: LengthL 5 Char
-sampleRepeatL = repeatL \'c\'
-@
-
+>>> :set -XDataKinds
+>>> sampleRepeatL = repeatL 'c' :: LengthL 5 Char
 >>> sampleRepeatL
 'c' :. ('c' :. ('c' :. ('c' :. ('c' :. NilL))))
 
@@ -90,11 +87,8 @@ fillL = (`unfoldrWithBase` \x -> (x, x))
 
 To fill a list of type @LengthL n a@ with a value of type @a@.
 
-@
-sampleFillL :: LengthL 5 Char
-sampleFillL = fillL (\'a\' :. \'b\' :.. NilL) \'c\'
-@
-
+>>> :set -XDataKinds
+>>> sampleFillL = fillL ('a' :. 'b' :.. NilL) 'c' :: LengthL 5 Char
 >>> sampleFillL
 'a' :. ('b' :. ('c' :. ('c' :. ('c' :. NilL))))
 
@@ -108,6 +102,7 @@ chunksL = either ([] ,) (uncurry first . ((:) *** chunksL)) . listToLengthL
 To separate a list to multiple lengthed lists.
 It return separeted lengthed lists and a not enough length fragment.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> chunksL @3 "foo bar"
 (['f' :. ('o' :. ('o' :. NilL)),' ' :. ('b' :. ('a' :. NilL))],'r' :.. NilL)
 
@@ -123,6 +118,7 @@ chunksL' z xs = case chunksL xs of
 It is like chunksL.
 But if there is a not enough length fragment, then it fill with a default value.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> print `mapM_` chunksL' @3 '@' "foo bar"
 'f' :. ('o' :. ('o' :. NilL))
 ' ' :. ('b' :. ('a' :. NilL))
@@ -141,11 +137,8 @@ repeatR = (`fillR` NilR)
 
 To repeat a value of type @a@ to construct a list of type @LengthR n a@.
 
-@
-sampleRepeatR :: LengthR 5 Char
-sampleRepeatR = repeatR \'c\'
-@
-
+>>> :set -XDataKinds
+>>> sampleRepeatR = repeatR 'c' :: LengthR 5 Char
 >>> sampleRepeatR
 ((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'c') :+ 'c'
 
@@ -158,11 +151,8 @@ fillR = unfoldlWithBase \x -> (x, x)
 
 To fill a list of type @LengthR n a@ with a value of type @a@.
 
-@
-sampleFillR :: LengthR 5 Char
-sampleFillR = fillR \'c\' (NilR :++ \'a\' :+ \'b\')
-@
-
+>>> :set -XDataKinds
+>>> sampleFillR = fillR 'c' (NilR :++ 'a' :+ 'b') :: LengthR 5 Char
 >>> sampleFillR
 ((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'a') :+ 'b'
 
@@ -176,6 +166,7 @@ chunksR = either ([] ,) (uncurry first . ((:) *** chunksR)) . listToLengthR
 To separate a list to multiple lengthed lists.
 It return separated lengthed lists and a not enough length fragment.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> chunksR @3 "foo bar"
 ([((NilR :+ 'o') :+ 'o') :+ 'f',((NilR :+ 'a') :+ 'b') :+ ' '],NilR :++ 'r')
 
@@ -191,6 +182,7 @@ chunksR' z xs = case chunksR xs of
 It is like @chunksR@.
 But if there is a not enough length fragment, then it fill with a default value.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> print `mapM_` chunksR' @3 '@' "foo bar"
 ((NilR :+ 'o') :+ 'o') :+ 'f'
 ((NilR :+ 'a') :+ 'b') :+ ' '

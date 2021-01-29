@@ -128,18 +128,13 @@ class LeftToRight n m v w where
 
 @(++.+)@: To concatenate a right-list and a left-list and return a right-list.
 
-@
-sampleLeftToRight1 :: RangeR 1 4 Char
-sampleLeftToRight1 = NilR :++ \'f\' :++ \'o\' :+ \'o\'
-
-sampleLeftToRight2 :: RangeL 2 3 Char
-sampleLeftToRight2 = \'b\' :. \'a\' :. \'r\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleLeftToRight1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
+>>> sampleLeftToRight2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
 >>> sampleLeftToRight1 ++.+ sampleLeftToRight2
 (((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
->>> :type it
-it :: RangeR 3 7 Char
+>>> :type sampleLeftToRight1 ++.+ sampleLeftToRight2
+sampleLeftToRight1 ++.+ sampleLeftToRight2 :: RangeR 3 7 Char
 
 -}
 
@@ -169,11 +164,8 @@ leftToRight = ((NilR :: RangeR 0 0 a) ++.+)
 
 To convert a left-list to a right-list.
 
-@
-sampleLeftToRight :: RangeL 3 8 Char
-sampleLeftToRight = \'h\' :. \'e\' :. \'l\' :. \'l\' :.. \'o\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleLeftToRight = 'h' :. 'e' :. 'l' :. 'l' :.. 'o' :.. NilL :: RangeL 3 8 Char
 >>> leftToRight sampleLeftToRight
 ((((NilR :++ 'h') :++ 'e') :+ 'l') :+ 'l') :+ 'o'
 
@@ -194,14 +186,9 @@ class RightToLeft n m v w where
 
 @(++..)@: To concatenate a right-list and a left-list and return a left-list.
 
-@
-sampleRightToLeft1 :: RangeR 1 4 Char
-sampleRightToLeft1 = NilR :++ \'f\' :++ \'o\' :+ \'o\'
-
-sampleRightToLeft2 :: RangeL 2 3 Char
-sampleRightToLeft2 = \'b\' :. \'a\' :. \'r\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleRightToLeft1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
+>>> sampleRightToLeft2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
 >>> sampleRightToLeft1 ++.. sampleRightToLeft2
 'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
 
@@ -233,11 +220,8 @@ rightToLeft = (++.. (NilL :: RangeL 0 0 a))
 
 To convert a right-list to a left-list.
 
-@
-sampleRightToLeft :: RangeR 3 8 Char
-sampleRightToLeft = NilR :++ \'h\' :++ \'e\' :+ \'l\' :+ \'l\' :+ \'o\'
-@
-
+>>> :set -XDataKinds
+>>> sampleRightToLeft = NilR :++ 'h' :++ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 3 8 Char
 >>> rightToLeft sampleRightToLeft
 'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
 

@@ -130,15 +130,12 @@ class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 
 @(.:..)@: To push an optional element.
 
-@
-samplePushL :: RangeL 3 7 Char
-samplePushL = \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> samplePushL = 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 3 7 Char
 >>> 'h' .:.. samplePushL
 'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
->>> :type it
-it :: RangeL 3 8 Char
+>>> :type 'h' .:.. samplePushL
+'h' .:.. samplePushL :: RangeL 3 8 Char
 
 -}
 
@@ -161,18 +158,13 @@ class AddL n m v w where
 
 Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
 
-@
-sampleRangeL1 :: RangeL 2 5 Char
-sampleRangeL1 = \'f\' :. \'o\' :. \'o\' :.. NilL
-
-sampleRangeL2 :: RangeL 1 6 Char
-sampleRangeL2 = \'b\' :. \'a\' :.. \'r\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL :: RangeL 2 5 Char
+>>> sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL :: RangeL 1 6 Char
 >>> sampleRangeL1 ++. sampleRangeL2
 'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
->>> :type it
-it :: RangeL 3 11 Char
+>>> :type sampleRangeL1 ++. sampleRangeL2
+sampleRangeL1 ++. sampleRangeL2 :: RangeL 3 11 Char
 
 -}
 
@@ -202,15 +194,10 @@ loosenL = loosenLMax . loosenLMin
 
 To loosen range of element number.
 
-@
-sampleLoosenL :: RangeL 4 6 Char
-sampleLoosenL = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleLoosenL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
 >>> loosenL sampleLoosenL :: RangeL 2 8 Char
-'h' :. 'e' :. 'l' :.. 'l' :.. 'o' :.. NilL
->>> :type it
-it :: RangeL 2 8 Char
+'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
 
 -}
 
@@ -222,15 +209,10 @@ class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
 
 To loosen lower bound of element number.
 
-@
-sampleLoosenLMin :: RangeL 4 6 Char
-sampleLoosenLMin = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleLoosenLMin = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
 >>> loosenLMin sampleLoosenLMin :: RangeL 2 6 Char
 'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
->> :type it
-it :: RangeL 2 6 Char
 
 -}
 
@@ -253,15 +235,10 @@ class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
 
 To loosen upper bound of element number.
 
-@
-sampleLoosenLMax :: RangeL 4 6 Char
-sampleLoosenLMax = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleLoosenLMax = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
 >>> loosenLMax sampleLoosenLMax :: RangeL 4 8 Char
 'h' :. ('e' :. ('l' :. ('l' :. ('o' :.. NilL))))
->>> :type it
-it :: RangeL 4 8 Char
 
 -}
 
@@ -340,27 +317,16 @@ The function recieve state and return an element and new state.
 First argument is predication which are evaluated
 when element number is greater than minimum and not greater than maximum.
 
-@
-sampleUnfoldrRange1 :: RangeL 3 5 Int
-sampleUnfoldrRange1 = unfoldrRange (\< 2) (\\n -\> (n * 3, n + 1)) 1
-@
-
+>>> :set -XDataKinds
+>>> sampleUnfoldrRange1 = unfoldrRange (< 2) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
 >>> sampleUnfoldrRange1
 3 :. (6 :. (9 :. NilL))
 
-@
-sampleUnfoldrRange2 :: RangeL 3 5 Int
-sampleUnfoldrRange2 = unfoldrRange (\< 5) (\\n -\> (n * 3, n + 1)) 1
-@
-
+>>> sampleUnfoldrRange2 = unfoldrRange (< 5) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
 >>> sampleUnfoldrRange2
 3 :. (6 :. (9 :. (12 :.. NilL)))
 
-@
-sampleUnfoldrRange3 :: RangeL 3 5 Int
-sampleUnfoldrRange3 = unfoldrRange (\< 10) (\\n -\> (n * 3, n + 1)) 1
-@
-
+>>> sampleUnfoldrRange3 = unfoldrRange (< 10) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
 >>> sampleUnfoldrRange3
 3 :. (6 :. (9 :. (12 :.. (15 :.. NilL))))
 
@@ -417,15 +383,10 @@ class ZipL n m v w where
 @zipWithML@ is like zipWithL.
 But it use function which return monad instead of a simple value.
 
-@
-sampleZipWithML1 :: RangeL 2 4 Int
-sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL
-
-sampleZipWithML2 :: RangeL 5 7 Char
-sampleZipWithML2 = \'a\' :. \'b\' :. \'c\' :. \'d\' :. \'e\' :. \'f\' :.. NilL
-@
-
->>> zipWithML (\n -> putStrLn . replicate n) samplezipWithML1 sampleZipWithML2
+>>> :set -XDataKinds
+>>> sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
+>>> sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL :: RangeL 5 7 Char
+>>> zipWithML (\n -> putStrLn . replicate n) sampleZipWithML1 sampleZipWithML2
 a
 bb
 ccc
@@ -459,18 +420,14 @@ zipL = zipWithL (,)
 To recieve two lists and return a tuple list and rest of second list.
 First list must be shorter or equal than second list.
 
-@
-sampleZipL1 :: RangeL 2 4 Integer
-sampleZipL1 = 1 :. 2 :. 3 :.. NilL
-
-sampleZipL2 :: RangeL 5 7 Integer
-sampleZipL2 = 7 :. 6 :. 5 :. 4 :. 3 :. 2 :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleZipL1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Integer
+>>> sampleZipL2 = 7 :. 6 :. 5 :. 4 :. 3 :. 2 :.. NilL :: RangeL 5 7 Integer
 >>> zipL sampleZipL1 sampleZipL2
 ((1,7) :. ((2,6) :. ((3,5) :.. NilL)),4 :. (3 :.. (2 :.. NilL)))
->>> :type it
-it :: (RangeL 2 4 (Integer, Integer), RangeL 1 5 Integer)
+>>> :type zipL sampleZipL1 sampleZipL2
+zipL sampleZipL1 sampleZipL2
+  :: (RangeL 2 4 (Integer, Integer), RangeL 1 5 Integer)
 
 -}
 
@@ -483,17 +440,13 @@ zipWithL op = (runIdentity .) . zipWithML ((Identity .) . op)
 It is like @zipL@.
 But it evaluate function to make values instead of put together in tuples.
 
-@
-sampleZipWithL1 :: RangeL 2 4 Integer
-sampleZipWithL1 = 1 :. 2 :. 3 :.. NilL
-
-sampleZipWithL2 :: RangeL 5 7 Integer
-sampleZipWithL2 = 7 :. 6 :. 5 :. 4 :. 3 :. 2 :.. NilL
-@
-
+>>> :set -XDataKinds
+>>> sampleZipWithL1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Integer
+>>> sampleZipWithL2 = 7 :. 6 :. 5 :. 4 :. 3 :. 2 :.. NilL :: RangeL 5 7 Integer
 >>> zipWithL (+) sampleZipWithL1 sampleZipWithL2
 (8 :. (8 :. (8 :.. NilL)),4 :. (3 :.. (2 :.. NilL)))
->>> :type it
-it :: (RangeL 2 4 Integer, RangeL 1 5 Integer)
+>>> :type zipWithL (+) sampleZipWithL1 sampleZipWithL2
+zipWithL (+) sampleZipWithL1 sampleZipWithL2
+  :: (RangeL 2 4 Integer, RangeL 1 5 Integer)
 
 -}

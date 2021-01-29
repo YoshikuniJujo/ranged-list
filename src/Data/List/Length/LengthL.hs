@@ -49,11 +49,8 @@ unfoldr = unfoldrWithBase NilL
 To evaluate function repeatedly to construct a list of type @LengthL n a@.
 The function recieve a state and return an element value and a new state.
 
-@
-sampleUnfoldr :: LengthL 5 Integer
-sampleUnfoldr = unfoldr (\\n -> (2 * n, n + 1)) 0
-@
-
+>>> :set -XDataKinds
+>>> sampleUnfoldr = unfoldr (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
 >>> sampleUnfoldr
 0 :. (2 :. (4 :. (6 :. (8 :. NilL))))
 
@@ -67,12 +64,8 @@ unfoldrWithBase xs = (fst .) . runStateL . unfoldrMWithBase xs . StateL
 
 It is like @unfoldr@. But it has already prepared values.
 
-@
-sampleUnfoldrWithBase :: LengthL 5 Integer
-sampleUnfoldrWithBase =
-	unfoldrWithBase (123 :. 456 :.. NilL) (\\n -> (2 * n, n + 1)) 0
-@
-
+>>> :set -XDataKinds
+>>> sampleUnfoldrWithBase = unfoldrWithBase (123 :. 456 :.. NilL) (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
 >>> sampleUnfoldrWithBase
 123 :. (456 :. (0 :. (2 :. (4 :. NilL))))
 
@@ -85,16 +78,13 @@ unfoldrM = unfoldrMWithBase NilL
 
 It is like unfoldr. But it use monad as an argument instead of function.
 
-@
-sampleUnfoldrM :: IO (LengthL 3 String)
-sampleUnfoldrM = unfoldrM getLine
-@
-
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 0
+>>> count = readIORef r >>= \n -> n <$ writeIORef r (n +1)
+>>> sampleUnfoldrM = unfoldrM count :: IO (LengthL 3 Integer)
 >>> sampleUnfoldrM
-hello
-world
-!
-"hello" :. ("world" :. ("!" :. NilL))
+0 :. (1 :. (2 :. NilL))
 
 -}
 
@@ -106,16 +96,13 @@ unfoldrMWithBase = (`unfoldrMRangeWithBase` undefined)
 
 It is like unfoldrM. But it has already prepared values.
 
-@
-sampleUnfoldrMWithBase :: IO (LengthL 5 String)
-sampleUnfoldrMWithBase = unfoldrMWithBase ("foo" :. "bar" :.. NilL) getLine
-@
-
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 0
+>>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
+>>> sampleUnfoldrMWithBase = unfoldrMWithBase (123 :. 456 :.. NilL) count :: IO (LengthL 5 Integer)
 >>> sampleUnfoldrMWithBase
-hello
-world
-!
-"foo" :. ("bar" :. ("hello" :. ("world" :. ("!" :. NilL))))
+123 :. (456 :. (0 :. (1 :. (2 :. NilL))))
 
 -}
 
@@ -132,6 +119,7 @@ class ListToLengthL n where
 If an original list has not enough elements, then it return
 a left value.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> listToLengthL @4 "Hi!"
 Left ('H' :.. ('i' :.. ('!' :.. NilL)))
 >>> listToLengthL @4 "Hello!"

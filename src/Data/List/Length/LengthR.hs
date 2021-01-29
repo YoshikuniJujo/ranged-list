@@ -49,11 +49,8 @@ unfoldl f s = unfoldlWithBase f s NilR
 To eveluate function repeatedly to construct a list of type @LengthR n a@.
 The function recieve a state and return a new state and an element value.
 
-@
-sampleUnfoldl :: LengthR 5 Integer
-sampleUnfoldl = unfoldl (\\n -> (n + 1, 2 * n)) 0
-@
-
+>>> :set -XDataKinds
+>>> sampleUnfoldl = unfoldl (\n -> (n + 1, 2 * n)) 0 :: LengthR 5 Integer
 >>> sampleUnfoldl
 ((((NilR :+ 8) :+ 6) :+ 4) :+ 2) :+ 0
 
@@ -67,12 +64,8 @@ unfoldlWithBase f = (snd .) . flip (runStateR . unfoldlMWithBase (StateR f))
 
 It is like @unfoldl@. But it has already prepared values.
 
-@
-sampleUnfoldlWithBase :: LengthR 5 Integer
-sampleUnfoldlWithBase =
-	unfoldlWithBase (\\n -> (n + 1, 2 * n)) 0 (NilR :++ 123 :+ 456)
-@
-
+>>> :set -XDataKinds
+>>> sampleUnfoldlWithBase = unfoldlWithBase (\n -> (n + 1, 2 * n)) 0 (NilR :++ 123 :+ 456) :: LengthR 5 Integer
 >>> sampleUnfoldlWithBase
 ((((NilR :+ 4) :+ 2) :+ 0) :+ 123) :+ 456
 
@@ -85,16 +78,13 @@ unfoldlM = (`unfoldlMWithBase` NilR)
 
 It is like unfoldl. But it use monad as an argument instead of function.
 
-@
-sampleUnfoldlM :: IO (LengthR 3 String)
-sampleUnfoldlM = unfoldlM getLine
-@
-
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 0
+>>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
+>>> sampleUnfoldlM = unfoldlM count :: IO (LengthR 3 Integer)
 >>> sampleUnfoldlM
-hello
-world
-!
-((NilR :+ "!") :+ "world") :+ "hello"
+((NilR :+ 2) :+ 1) :+ 0
 
 -}
 
@@ -106,16 +96,13 @@ unfoldlMWithBase = unfoldlMRangeWithBase undefined
 
 It is like unfoldlM. But it has already prepared values.
 
-@
-sampleUnfoldlMWithBase :: IO (LengthR 5 String)
-sampleUnfoldlMWithBase = unfoldlMWithBase getLine (NilR :++ "foo" :+ "bar")
-@
-
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 0
+>>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
+>>> sampleUnfoldlMWithBase = unfoldlMWithBase count (NilR :++ 123 :+ 456) :: IO (LengthR 5 Integer)
 >>> sampleUnfoldlMWithBase
-hello
-world
-!
-((((NilR :+ "!") :+ "world") :+ "hello") :+ "foo") :+ "bar"
+((((NilR :+ 2) :+ 1) :+ 0) :+ 123) :+ 456
 
 -}
 
@@ -131,6 +118,7 @@ class ListToLengthR n where
 @listToLengthR@: To take a lengthed list from a list.
 If an original list has not enough elements, then it return a left value.
 
+>>> :set -XTypeApplications -XDataKinds
 >>> listToLengthR @4 "Hi!"
 Left (((NilR :++ '!') :++ 'i') :++ 'H')
 >>> listToLengthR @4 "Hello!"

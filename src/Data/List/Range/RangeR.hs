@@ -145,18 +145,13 @@ class AddR n m v w where
 
 Concatenation of two lists whose types are @RangeR n m a@ and @RangeR v w a@.
 
-@
-sampleRangeR1 :: RangeR 2 5 Char
-sampleRangeR1 = NilR :++ \'f\' :+ \'o\' :+ \'o\'
-
-sampleRangeR2 :: RangeR 1 6 Char
-sampleRangeR2 = NilR :++ \'b\' :++ \'a\' :+ \'r\'
-@
-
+>>> :set -XDataKinds
+>>> sampleRangeR1 = NilR :++ 'f' :+ 'o' :+ 'o' :: RangeR 2 5 Char
+>>> sampleRangeR2 = NilR :++ 'b' :++ 'a' :+ 'r' :: RangeR 1 6 Char
 >>> sampleRangeR1 +++ sampleRangeR2
-((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
->>> :type it
-it :: RangeR 3 11 Char
+(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
+>>> :type sampleRangeR1 +++ sampleRangeR2
+sampleRangeR1 +++ sampleRangeR2 :: RangeR 3 11 Char
 
 -}
 
@@ -316,14 +311,9 @@ class ZipR n m v w where
 @zipWithMR@ is like zipWithR.
 But it use function which return monad instead of a simple value.
 
-@
-sampleZipWithMR1 :: RangeR 5 7 Int
-sampleZipWithMR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6
-
-sampleZipWithMR2 :: RangeR 2 4 Char
-sampleZipWithMR2 = NilR :++ \'a\' :+ \'b\' :+ \'c\'
-@
-
+>>> :set -XDataKinds
+>>> sampleZipWithMR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
+>>> sampleZipWithMR2 = NilR :++ 'a' :+ 'b' :+ 'c' :: RangeR 2 4 Char
 >>> zipWithMR (\n -> putStrLn . replicate n) sampleZipWithMR1 sampleZipWithMR2
 cccccc
 bbbbb
@@ -358,18 +348,14 @@ zipR = zipWithR (,)
 To recieve two lists and return a tuple list and rest of first list.
 Second list must be shorter or equal than first list.
 
-@
-sampleZipR1 :: RangeR 5 7 Integer
-sampleZipR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6
-
-sampleZipR2 :: RangeR 2 4 Integer
-sampleZipR2 = NilR :++ 3 :+ 2 :+ 1
-@
-
+>>> :set -XDataKinds
+>>> sampleZipR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Integer
+>>> sampleZipR2 = NilR :++ 3 :+ 2 :+ 1 :: RangeR 2 4 Integer
 >>> zipR sampleZipR1 sampleZipR2
 (((NilR :++ 1) :++ 2) :+ 3,((NilR :++ (4,3)) :+ (5,2)) :+ (6,1))
->>> :type it
-it :: (RangeR 1 5 Integer, RangeR 2 4 (Integer, Integer))
+>>> :type zipR sampleZipR1 sampleZipR2
+zipR sampleZipR1 sampleZipR2
+  :: (RangeR 1 5 Integer, RangeR 2 4 (Integer, Integer))
 
 -}
 
@@ -382,17 +368,13 @@ zipWithR op = (runIdentity .) . zipWithMR ((Identity .) . op)
 It is like @zipR@.
 But it evaluate function to make values instead of put together in tuples.
 
-@
-sampleZipWithR1 :: RangeR 5 7 Integer
-sampleZipWithR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6
-
-sampleZipWithR2 :: RangeR 2 4 Integer
-sampleZipWithR2 = NilR :++ 7 :+ 6 :+ 5
-@
-
+>>> :set -XDataKinds
+>>> sampleZipWithR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Integer
+>>> sampleZipWithR2 = NilR :++ 7 :+ 6 :+ 5 :: RangeR 2 4 Integer
 >>> zipWithR (+) sampleZipWithR1 sampleZipWithR2
 (((NilR :++ 1) :++ 2) :+ 3,((NilR :++ 11) :+ 11) :+ 11)
->>> :type it
-it :: (RangeR 1 5 Integer, RangeR 2 4 Integer)
+>>> :type zipWithR (+) sampleZipWithR1 sampleZipWithR2
+zipWithR (+) sampleZipWithR1 sampleZipWithR2
+  :: (RangeR 1 5 Integer, RangeR 2 4 Integer)
 
 -}
