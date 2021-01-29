@@ -198,6 +198,22 @@ instance {-# OVERLAPPABLE #-}
 loosenL :: (LoosenLMin n m v, LoosenLMax v m w) => RangeL n m a -> RangeL v w a
 loosenL = loosenLMax . loosenLMin
 
+{-^
+
+To loosen range of element number.
+
+@
+sampleLoosenL :: RangeL 4 6 Char
+sampleLoosenL = \'h\' :. \'e\' :. \'l\' :. \'l\' :. \'o\' :.. NilL
+@
+
+>>> loosenL sampleLoosenL :: RangeL 2 8 Char
+'h' :. 'e' :. 'l' :.. 'l' :.. 'o' :.. NilL
+>>> :type it
+RangeL 2 8 Char
+
+-}
+
 -- LOOSEN LEFT MIN
 
 class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a

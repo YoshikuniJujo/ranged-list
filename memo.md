@@ -60,7 +60,7 @@ haddock
 		- [x] PushL
 		- [x] AddL
 		- [ ] LoosenLMin and LoosenLMax
-			* [ ] loosenL
+			* [x] loosenL
 			* [ ] loosenLMin
 			* [ ] loosenLMax
 		- [ ] Unfoldr
