@@ -364,6 +364,19 @@ It is like @unfoldrRangeWithBase@. But it return not only a list but also a stat
 unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
 unfoldrMRange = unfoldrMRangeWithBase NilL
 
+{-^
+
+It is like @unfoldrRange@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldrMRange ((< 5) <$> readIORef r) count :: IO (RangeL 3 5 Integer)
+3 :. (6 :. (9 :. (12 :.. NilL)))
+
+-}
+
 -- UNFOLDR RANGE MAYBE
 
 unfoldrRangeMaybe :: Unfoldr 0 v w =>
