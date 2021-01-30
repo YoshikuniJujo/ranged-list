@@ -68,10 +68,10 @@ haddock
 				+ [ ] unfoldrMRangeWithBase
 				+ [ ] unfoldrMRangeMaybeWithBase
 			* [ ] unfoldrRange
-				+ [ ] without monad
+				+ [x] without monad
 					- [x] unfoldrRange
 					- [x] unfoldrRangeWithBase
-					- [ ] unfoldrRangeWithBaseWithS
+					- [x] unfoldrRangeWithBaseWithS
 				+ [ ] with monad
 					- [ ] unfoldrMRange
 					- [ ] unfoldrMRangeWithBase

@@ -350,6 +350,17 @@ unfoldrRangeWithBaseWithS :: Unfoldr n v w =>
 unfoldrRangeWithBaseWithS xs p f =
 	runStateL $ unfoldrMRangeWithBase xs (StateL $ p &&& id) (StateL f)
 
+{-^
+
+It is like @unfoldrRangeWithBase@. But it return not only a list but also a state value.
+
+>>> :set -XDataKinds
+>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
+>>> unfoldrRangeWithBaseWithS xs (< 3) (\n -> (n * 3, n + 1)) 1 :: (RangeL 3 5 Integer, Integer)
+(123 :. (456 :. (3 :. (6 :.. NilL))),3)
+
+-}
+
 unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
 unfoldrMRange = unfoldrMRangeWithBase NilL
 
