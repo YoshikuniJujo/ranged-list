@@ -334,6 +334,17 @@ unfoldrRangeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRangeWithBase xs p f = fst . unfoldrRangeWithBaseWithS xs p f
 
+{-^
+
+It is like @unfoldrRange@. But it has already prepared values.
+
+>>> :set -XDataKinds
+>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
+>>> unfoldrRangeWithBase xs (< 3) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Integer
+123 :. (456 :. (3 :. (6 :.. NilL)))
+
+-}
+
 unfoldrRangeWithBaseWithS :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Bool) -> (s -> (a, s)) -> s -> (RangeL v w a, s)
 unfoldrRangeWithBaseWithS xs p f =

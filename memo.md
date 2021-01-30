@@ -70,7 +70,7 @@ haddock
 			* [ ] unfoldrRange
 				+ [ ] without monad
 					- [x] unfoldrRange
-					- [ ] unfoldrRangeWithBase
+					- [x] unfoldrRangeWithBase
 					- [ ] unfoldrRangeWithBaseWithS
 				+ [ ] with monad
 					- [ ] unfoldrMRange
