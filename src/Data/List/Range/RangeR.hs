@@ -139,19 +139,19 @@ infixl 5 +++
 class AddR n m v w where
 	(+++) :: RangeR n m a -> RangeR v w a -> RangeR (n + v) (m + w) a
 
-{-^
+	{-^
 
-Concatenation of two lists whose types are @RangeR n m a@ and @RangeR v w a@.
+	Concatenation of two lists whose types are @RangeR n m a@ and @RangeR v w a@.
 
->>> :set -XDataKinds
->>> sampleRangeR1 = NilR :++ 'f' :+ 'o' :+ 'o' :: RangeR 2 5 Char
->>> sampleRangeR2 = NilR :++ 'b' :++ 'a' :+ 'r' :: RangeR 1 6 Char
->>> sampleRangeR1 +++ sampleRangeR2
-(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
->>> :type sampleRangeR1 +++ sampleRangeR2
-sampleRangeR1 +++ sampleRangeR2 :: RangeR 3 11 Char
+	>>> :set -XDataKinds
+	>>> sampleRangeR1 = NilR :++ 'f' :+ 'o' :+ 'o' :: RangeR 2 5 Char
+	>>> sampleRangeR2 = NilR :++ 'b' :++ 'a' :+ 'r' :: RangeR 1 6 Char
+	>>> sampleRangeR1 +++ sampleRangeR2
+	(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
+	>>> :type sampleRangeR1 +++ sampleRangeR2
+	sampleRangeR1 +++ sampleRangeR2 :: RangeR 3 11 Char
 
--}
+	-}
 
 instance AddR n m 0 0 where xs +++ NilR = xs
 
@@ -304,21 +304,21 @@ class ZipR n m v w where
 		(a -> b -> q c) -> RangeR n m a -> RangeR v w b ->
 		q (RangeR (n - w) (m - v) a, RangeR v w c)
 
-{-^
+	{-^
 
-@zipWithMR@ is like zipWithR.
-But it use function which return monad instead of a simple value.
+	@zipWithMR@ is like zipWithR.
+	But it use function which return monad instead of a simple value.
 
->>> :set -XDataKinds
->>> sampleZipWithMR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
->>> sampleZipWithMR2 = NilR :++ 'a' :+ 'b' :+ 'c' :: RangeR 2 4 Char
->>> zipWithMR (\n -> putStrLn . replicate n) sampleZipWithMR1 sampleZipWithMR2
-cccccc
-bbbbb
-aaaa
-(((NilR :++ 1) :++ 2) :+ 3,((NilR :++ ()) :+ ()) :+ ())
+	>>> :set -XDataKinds
+	>>> sampleZipWithMR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
+	>>> sampleZipWithMR2 = NilR :++ 'a' :+ 'b' :+ 'c' :: RangeR 2 4 Char
+	>>> zipWithMR (\n -> putStrLn . replicate n) sampleZipWithMR1 sampleZipWithMR2
+	cccccc
+	bbbbb
+	aaaa
+	(((NilR :++ 1) :++ 2) :+ 3,((NilR :++ ()) :+ ()) :+ ())
 
--}
+	-}
 
 instance ZipR n m 0 0 where zipWithMR _ xs NilR = pure (xs, NilR)
 

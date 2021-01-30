@@ -6,7 +6,7 @@ haddock
 
 ### each modules
 
-* [ ] move document from classes to class functions
+* [x] move document from classes to class functions
 * [x] Data.List.Length
 	+ [x] LENGTHED LIST LEFT
 		- [x] Type

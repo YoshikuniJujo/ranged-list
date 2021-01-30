@@ -122,20 +122,21 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeL (n - 1) (m - 1))) =>
 
 infixr 5 .:..
 
-class PushL n m where (.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
+class PushL n m where
+	(.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
 
-{-^
+	{-^
 
-@(.:..)@: To push an optional element.
+	@(.:..)@: To push an optional element.
 
->>> :set -XDataKinds
->>> samplePushL = 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 3 7 Char
->>> 'h' .:.. samplePushL
-'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
->>> :type 'h' .:.. samplePushL
-'h' .:.. samplePushL :: RangeL 3 8 Char
+	>>> :set -XDataKinds
+	>>> samplePushL = 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 3 7 Char
+	>>> 'h' .:.. samplePushL
+	'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
+	>>> :type 'h' .:.. samplePushL
+	'h' .:.. samplePushL :: RangeL 3 8 Char
 
--}
+	-}
 
 instance PushL 0 m where
 	(.:..) x = \case NilL -> x :.. NilL; xs@(_ :.. _) -> x :.. xs
@@ -152,19 +153,19 @@ infixr 5 ++.
 class AddL n m v w where
 	(++.) :: RangeL n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 
-{-^
+	{-^
 
-Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
+	Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
 
->>> :set -XDataKinds
->>> sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL :: RangeL 2 5 Char
->>> sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL :: RangeL 1 6 Char
->>> sampleRangeL1 ++. sampleRangeL2
-'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
->>> :type sampleRangeL1 ++. sampleRangeL2
-sampleRangeL1 ++. sampleRangeL2 :: RangeL 3 11 Char
+	>>> :set -XDataKinds
+	>>> sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL :: RangeL 2 5 Char
+	>>> sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL :: RangeL 1 6 Char
+	>>> sampleRangeL1 ++. sampleRangeL2
+	'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
+	>>> :type sampleRangeL1 ++. sampleRangeL2
+	sampleRangeL1 ++. sampleRangeL2 :: RangeL 3 11 Char
 
--}
+	-}
 
 instance AddL 0 0 v w where NilL ++. ys = ys
 
@@ -201,18 +202,19 @@ To loosen range of element number.
 
 -- LOOSEN LEFT MIN
 
-class LoosenLMin n m v where loosenLMin :: RangeL n m a -> RangeL v m a
+class LoosenLMin n m v where
+	loosenLMin :: RangeL n m a -> RangeL v m a
 
-{-^
+	{-^
 
-To loosen lower bound of element number.
+	To loosen lower bound of element number.
 
->>> :set -XDataKinds
->>> sampleLoosenLMin = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
->>> loosenLMin sampleLoosenLMin :: RangeL 2 6 Char
-'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
+	>>> :set -XDataKinds
+	>>> sampleLoosenLMin = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
+	>>> loosenLMin sampleLoosenLMin :: RangeL 2 6 Char
+	'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
 
--}
+	-}
 
 instance LoosenLMin 0 m 0 where
 	loosenLMin = \case NilL -> NilL; xs@(_ :.. _) -> xs
@@ -227,18 +229,19 @@ instance {-# OVERLAPPABLE #-}
 
 -- LOOSEN LEFT MAX
 
-class LoosenLMax n m w where loosenLMax :: RangeL n m a -> RangeL n w a
+class LoosenLMax n m w where
+	loosenLMax :: RangeL n m a -> RangeL n w a
 
-{-^
+	{-^
 
-To loosen upper bound of element number.
+	To loosen upper bound of element number.
 
->>> :set -XDataKinds
->>> sampleLoosenLMax = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
->>> loosenLMax sampleLoosenLMax :: RangeL 4 8 Char
-'h' :. ('e' :. ('l' :. ('l' :. ('o' :.. NilL))))
+	>>> :set -XDataKinds
+	>>> sampleLoosenLMax = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
+	>>> loosenLMax sampleLoosenLMax :: RangeL 4 8 Char
+	'h' :. ('e' :. ('l' :. ('l' :. ('o' :.. NilL))))
 
--}
+	-}
 
 instance LoosenLMax 0 0 w where loosenLMax NilL = NilL
 
@@ -424,21 +427,21 @@ class ZipL n m v w where
 		(a -> b -> q c) -> RangeL n m a -> RangeL v w b ->
 		q (RangeL n m c, RangeL (v - m) (w - n) b)
 
-{-^
+	{-^
 
-@zipWithML@ is like zipWithL.
-But it use function which return monad instead of a simple value.
+	@zipWithML@ is like zipWithL.
+	But it use function which return monad instead of a simple value.
 
->>> :set -XDataKinds
->>> sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
->>> sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL :: RangeL 5 7 Char
->>> zipWithML (\n -> putStrLn . replicate n) sampleZipWithML1 sampleZipWithML2
-a
-bb
-ccc
-(() :. (() :. (() :.. NilL)),'d' :. ('e' :.. ('f' :.. NilL)))
+	>>> :set -XDataKinds
+	>>> sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
+	>>> sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL :: RangeL 5 7 Char
+	>>> zipWithML (\n -> putStrLn . replicate n) sampleZipWithML1 sampleZipWithML2
+	a
+	bb
+	ccc
+	(() :. (() :. (() :.. NilL)),'d' :. ('e' :.. ('f' :.. NilL)))
 
--}
+	-}
 
 instance ZipL 0 0 v w where zipWithML _ NilL = pure . (NilL ,)
 

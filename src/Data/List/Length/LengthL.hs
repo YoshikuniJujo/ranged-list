@@ -111,19 +111,19 @@ It is like unfoldrM. But it has already prepared values.
 class ListToLengthL n where
 	listToLengthL :: [a] -> Either (RangeL 0 (n - 1) a) (LengthL n a, [a])
 
-{-^
+	{-^
 
-@listToLengthL@: To take a lengthed list from a list.
-If an original list has not enough elements, then it return
-a left value.
+	@listToLengthL@: To take a lengthed list from a list.
+	If an original list has not enough elements, then it return
+	a left value.
 
->>> :set -XTypeApplications -XDataKinds
->>> listToLengthL @4 "Hi!"
-Left ('H' :.. ('i' :.. ('!' :.. NilL)))
->>> listToLengthL @4 "Hello!"
-Right ('H' :. ('e' :. ('l' :. ('l' :. NilL))),"o!")
+	>>> :set -XTypeApplications -XDataKinds
+	>>> listToLengthL @4 "Hi!"
+	Left ('H' :.. ('i' :.. ('!' :.. NilL)))
+	>>> listToLengthL @4 "Hello!"
+	Right ('H' :. ('e' :. ('l' :. ('l' :. NilL))),"o!")
 
--}
+	-}
 
 instance ListToLengthL 1 where
 	listToLengthL = \case [] -> Left NilL; x : xs -> Right (x :. NilL, xs)

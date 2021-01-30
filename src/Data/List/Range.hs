@@ -124,19 +124,19 @@ infixl 5 ++.+
 class LeftToRight n m v w where
 	(++.+) :: RangeR n m a -> RangeL v w a -> RangeR (n + v) (m + w) a
 
-{-^
+	{-^
 
-@(++.+)@: To concatenate a right-list and a left-list and return a right-list.
+	@(++.+)@: To concatenate a right-list and a left-list and return a right-list.
 
->>> :set -XDataKinds
->>> sampleLeftToRight1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
->>> sampleLeftToRight2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
->>> sampleLeftToRight1 ++.+ sampleLeftToRight2
-(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
->>> :type sampleLeftToRight1 ++.+ sampleLeftToRight2
-sampleLeftToRight1 ++.+ sampleLeftToRight2 :: RangeR 3 7 Char
+	>>> :set -XDataKinds
+	>>> sampleLeftToRight1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
+	>>> sampleLeftToRight2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
+	>>> sampleLeftToRight1 ++.+ sampleLeftToRight2
+	(((((NilR :++ 'f') :++ 'o') :++ 'o') :+ 'b') :+ 'a') :+ 'r'
+	>>> :type sampleLeftToRight1 ++.+ sampleLeftToRight2
+	sampleLeftToRight1 ++.+ sampleLeftToRight2 :: RangeR 3 7 Char
 
--}
+	-}
 
 -- INSTANCE
 
@@ -182,17 +182,17 @@ infixr 5 ++..
 class RightToLeft n m v w where
 	(++..) :: RangeR n m a -> RangeL v w a -> RangeL (n + v) (m + w) a
 
-{-^
+	{-^
 
-@(++..)@: To concatenate a right-list and a left-list and return a left-list.
+	@(++..)@: To concatenate a right-list and a left-list and return a left-list.
 
->>> :set -XDataKinds
->>> sampleRightToLeft1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
->>> sampleRightToLeft2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
->>> sampleRightToLeft1 ++.. sampleRightToLeft2
-'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
+	>>> :set -XDataKinds
+	>>> sampleRightToLeft1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
+	>>> sampleRightToLeft2 = 'b' :. 'a' :. 'r' :.. NilL :: RangeL 2 3 Char
+	>>> sampleRightToLeft1 ++.. sampleRightToLeft2
+	'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
 
--}
+	-}
 
 -- INSTANCE
 
