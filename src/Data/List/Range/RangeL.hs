@@ -259,8 +259,21 @@ instance {-# OVERLAPPABLE #-}
 class Unfoldr n v w where
 	unfoldrMRangeWithBase :: Monad m =>
 		RangeL n w a -> m Bool -> m a -> m (RangeL v w a)
+
+	{-^
+	
+	foo
+	
+	-}
+
 	unfoldrMRangeMaybeWithBase :: Monad m =>
 		RangeL n w a -> m Bool -> m a -> m (Maybe (RangeL v w a))
+
+	{-^
+	
+	bar
+	
+	-}
 
 -- INSTANCE
 
