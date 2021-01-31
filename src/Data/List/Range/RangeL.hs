@@ -407,6 +407,25 @@ unfoldrRangeMaybe :: Unfoldr 0 v w =>
 	(s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
 
+{-^
+
+To eveluate function to construct a list.
+The function recieve state and return a nothing value or an element and new state.
+If number of created elements is less than minimum number of list elements or
+greater than maximum number, then return Nothing.
+
+>>> :set -XDataKinds
+>>> unfoldrRangeMaybe (\n -> if n < 2 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+Nothing
+
+>>> unfoldrRangeMaybe (\n -> if n < 5 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+Just (3 :. (6 :. (9 :. (12 :.. NilL))))
+
+>>> unfoldrRangeMaybe (\n -> if n < 10 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+Nothing
+
+-}
+
 unfoldrRangeMaybeWithBase :: Unfoldr n v w =>
 	RangeL n w a -> (s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybeWithBase xs f =
