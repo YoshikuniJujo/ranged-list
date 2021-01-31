@@ -74,9 +74,9 @@ haddock
 					- [x] unfoldrMRange
 					- [x] unfoldrMRangeWithBase
 			* [ ] unfoldrRangeMaybe
-				+ [ ] without monad
+				+ [x] without monad
 					- [x] unfoldrRangeMaybe
-					- [ ] unfoldrRangeMaybeWithBase
+					- [x] unfoldrRangeMaybeWithBase
 				+ [ ] with monad
 					- [ ] unfoldrMRangeMaybe
 					- [ ] unfoldrMRangeMaybeWithBase
