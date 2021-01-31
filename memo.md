@@ -65,17 +65,14 @@ haddock
 			* [x] loosenLMin
 			* [x] loosenLMax
 		- [ ] Unfoldr
-			* [ ] class
-				+ [ ] unfoldrMRangeWithBase
-				+ [ ] unfoldrMRangeMaybeWithBase
-			* [ ] unfoldrRange
+			* [x] unfoldrRange
 				+ [x] without monad
 					- [x] unfoldrRange
 					- [x] unfoldrRangeWithBase
 					- [x] unfoldrRangeWithBaseWithS
-				+ [ ] with monad
+				+ [x] with monad
 					- [x] unfoldrMRange
-					- [ ] unfoldrMRangeWithBase
+					- [x] unfoldrMRangeWithBase
 			* [ ] unfoldrRangeMaybe
 				+ [ ] without monad
 					- [ ] unfoldrRangeMaybe
