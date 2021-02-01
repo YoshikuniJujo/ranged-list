@@ -78,7 +78,7 @@ haddock
 					- [x] unfoldrRangeMaybe
 					- [x] unfoldrRangeMaybeWithBase
 				+ [ ] with monad
-					- [ ] unfoldrMRangeMaybe
+					- [x] unfoldrMRangeMaybe
 					- [ ] unfoldrMRangeMaybeWithBase
 		- [x] ZipL
 		- [ ] Repeat and Unfoldr Min and Max
@@ -89,6 +89,7 @@ haddock
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
+* [ ] refactor documents
 
 ### README.md
 

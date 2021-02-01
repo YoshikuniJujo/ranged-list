@@ -454,6 +454,33 @@ unfoldrMRangeMaybe :: (Unfoldr 0 v w, Monad m) =>
 	m Bool -> m a -> m (Maybe (RangeL v w a))
 unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
 
+{-^
+
+It is like @unfoldrRangeMaybe@.
+But it use monad instead of function.
+First argument monad return boolean value.
+It create values while this boolean value is True.
+If this boolean value is False before to create enough values or
+True after to create full values, then @unfoldrMRangeMaybe@
+return Nothing.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldrMRangeMaybe ((< 2) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+Nothing
+
+>>> writeIORef r 1
+>>> unfoldrMRangeMaybe ((< 5) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+Just (3 :. (6 :. (9 :. (12 :.. NilL))))
+
+>>> writeIORef r 1
+>>> unfoldrMRangeMaybe ((< 10) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+Nothing
+
+-}
+
 ---------------------------------------------------------------------------
 -- ZIP
 ---------------------------------------------------------------------------
