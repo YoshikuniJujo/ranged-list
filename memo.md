@@ -56,7 +56,7 @@ haddock
 		- [x] (++..)
 		- [x] rightToLeft
 * [ ] Data.List.Range
-	+ [ ] RANGED LIST LEFT
+	+ [x] RANGED LIST LEFT
 		- [x] Type
 		- [x] PushL
 		- [x] AddL
@@ -81,16 +81,16 @@ haddock
 					- [x] unfoldrMRangeMaybe
 					- [x] unfoldrMRangeMaybeWithBase
 		- [x] ZipL
-		- [ ] Repeat and Unfoldr Min and Max
+		- [x] Repeat and Unfoldr Min and Max
 			* [x] repeat
 				+ [x] repeatLMin
 				+ [x] repeatLMax
 			* [x] unfoldr
 				+ [x] unfoldrMin
 				+ [x] unfoldrMax
-			* [ ] unfoldrM
-				+ [ ] unfoldrMMin
-				+ [ ] unfoldrMMax
+			* [x] unfoldrM
+				+ [x] unfoldrMMin
+				+ [x] unfoldrMMax
 	+ [ ] RANGED LIST RIGHT
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT

@@ -91,6 +91,19 @@ unfoldrMMin ::
 	(Monad m, LoosenLMax n n w, Unfoldr 0 n n) => m a -> m (RangeL n w a)
 unfoldrMMin f = loosenLMax <$> unfoldrM f
 
+{-^
+
+It is like @unfoldrMin@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldrMMin count :: IO (RangeL 3 5 Integer)
+3 :. (6 :. (9 :. NilL))
+
+-}
+
 -- MAX
 
 repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
@@ -124,6 +137,19 @@ The function recieve state and return a value and new state.
 unfoldrMMax ::
 	(Monad m, LoosenLMin w w n, Unfoldr 0 w w) => m a -> m (RangeL n w a)
 unfoldrMMax f = loosenLMin <$> unfoldrM f
+
+{-^
+
+It is like @unfoldrMax@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldrMMax count :: IO (RangeL 3 5 Integer)
+3 :. (6 :. (9 :. (12 :.. (15 :.. NilL))))
+
+-}
 
 ---------------------------------------------------------------------------
 -- RANGED LIST RIGHT
