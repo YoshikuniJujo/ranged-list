@@ -85,9 +85,9 @@ haddock
 			* [x] repeat
 				+ [x] repeatLMin
 				+ [x] repeatLMax
-			* [ ] unfoldr
-				+ [ ] unfoldrMin
-				+ [ ] unfoldrMax
+			* [x] unfoldr
+				+ [x] unfoldrMin
+				+ [x] unfoldrMax
 			* [ ] unfoldrM
 				+ [ ] unfoldrMMin
 				+ [ ] unfoldrMMax

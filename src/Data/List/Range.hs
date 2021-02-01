@@ -76,6 +76,17 @@ unfoldrMin ::
 	(LoosenLMax n n m, Unfoldr 0 n n) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f = loosenLMax . unfoldr f
 
+{-^
+
+To evaluate a function to construct values minimum number of times.
+The function recieve state and return a value and new state.
+
+>>> :set -XDataKinds
+>>> unfoldrMin (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Integer
+3 :. (6 :. (9 :. NilL))
+
+-}
+
 unfoldrMMin ::
 	(Monad m, LoosenLMax n n w, Unfoldr 0 n n) => m a -> m (RangeL n w a)
 unfoldrMMin f = loosenLMax <$> unfoldrM f
@@ -98,6 +109,17 @@ To repeat a value maximum number of times.
 unfoldrMax ::
 	(LoosenLMin m m n, Unfoldr 0 m m) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMax f = loosenLMin . unfoldr f
+
+{-^
+
+To evaluate a function to construct values maximum number of times.
+The function recieve state and return a value and new state.
+
+>>> :set -XDataKinds
+>>> unfoldrMax (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Integer
+3 :. (6 :. (9 :. (12 :.. (15 :.. NilL))))
+
+-}
 
 unfoldrMMax ::
 	(Monad m, LoosenLMin w w n, Unfoldr 0 w w) => m a -> m (RangeL n w a)
