@@ -122,7 +122,21 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeR (n - 1) (m - 1))) =>
 
 infixl 5 .:++
 
-class PushR n m where (.:++) :: RangeR n m a -> a -> RangeR n (m + 1) a
+class PushR n m where
+	(.:++) :: RangeR n m a -> a -> RangeR n (m + 1) a
+
+	{-^
+
+	To push an optional element.
+
+	>>> :set -XDataKinds
+	>>> samplePushR = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :: RangeR 3 7 Char
+	>>> samplePushR .:++ 'o'
+	((((NilR :++ 'h') :++ 'e') :+ 'l') :+ 'l') :+ 'o'
+	>>> :type samplePushR .:++ 'o'
+	samplePushR .:++ 'o' :: RangeR 3 8 Char
+
+	-}
 
 instance PushR 0 m where
 	(.:++) = \case NilR -> (NilR :++); xs@(_ :++ _) -> (xs :++)

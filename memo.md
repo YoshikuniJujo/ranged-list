@@ -92,6 +92,16 @@ haddock
 				+ [x] unfoldrMMin
 				+ [x] unfoldrMMax
 	+ [ ] RANGED LIST RIGHT
+		- [x] Type
+		- [x] PushR
+		- [x] AddR
+		- [ ] LoosenRMin and LoosenRMax
+			* [ ] loosenR
+			* [ ] loosenRMin
+			* [ ] loosenRMax
+		- [ ] Unfoldl
+		- [x] ZipR
+		- [ ] Repeat and Unfoldl Min and Max
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
