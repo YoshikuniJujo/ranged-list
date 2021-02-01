@@ -82,9 +82,9 @@ haddock
 					- [x] unfoldrMRangeMaybeWithBase
 		- [x] ZipL
 		- [ ] Repeat and Unfoldr Min and Max
-			* [ ] repeat
+			* [x] repeat
 				+ [x] repeatLMin
-				+ [ ] repeatLMax
+				+ [x] repeatLMax
 			* [ ] unfoldr
 				+ [ ] unfoldrMin
 				+ [ ] unfoldrMax

@@ -85,6 +85,16 @@ unfoldrMMin f = loosenLMax <$> unfoldrM f
 repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
 repeatLMax = unfoldrMax \x -> (x, x)
 
+{-^
+
+To repeat a value maximum number of times.
+
+>>> :set -XDataKinds
+>>> repeatLMax 123 :: RangeL 3 5 Integer
+123 :. (123 :. (123 :. (123 :.. (123 :.. NilL))))
+
+-}
+
 unfoldrMax ::
 	(LoosenLMin m m n, Unfoldr 0 m m) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMax f = loosenLMin . unfoldr f
