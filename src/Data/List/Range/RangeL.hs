@@ -282,7 +282,16 @@ class Unfoldr n v w where
 
 	{-^
 	
-	bar
+	It is like @unfoldrMRangeMaybe@.
+	But it has already prepared values.
+
+	>>> :set -XDataKinds
+	>>> :module + Data.IORef
+	>>> r <- newIORef 1
+	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+	>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
+	>>> unfoldrMRangeMaybeWithBase xs ((< 3) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+	Just (123 :. (456 :. (3 :. (6 :.. NilL))))
 	
 	-}
 

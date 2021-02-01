@@ -64,7 +64,7 @@ haddock
 			* [x] loosenL
 			* [x] loosenLMin
 			* [x] loosenLMax
-		- [ ] Unfoldr
+		- [x] Unfoldr
 			* [x] unfoldrRange
 				+ [x] without monad
 					- [x] unfoldrRange
@@ -73,13 +73,13 @@ haddock
 				+ [x] with monad
 					- [x] unfoldrMRange
 					- [x] unfoldrMRangeWithBase
-			* [ ] unfoldrRangeMaybe
+			* [x] unfoldrRangeMaybe
 				+ [x] without monad
 					- [x] unfoldrRangeMaybe
 					- [x] unfoldrRangeMaybeWithBase
-				+ [ ] with monad
+				+ [x] with monad
 					- [x] unfoldrMRangeMaybe
-					- [ ] unfoldrMRangeMaybeWithBase
+					- [x] unfoldrMRangeMaybeWithBase
 		- [x] ZipL
 		- [ ] Repeat and Unfoldr Min and Max
 			* [ ] repeat
