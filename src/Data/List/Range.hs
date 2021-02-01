@@ -62,6 +62,16 @@ import Data.List.Range.RangeR
 repeatLMin :: (LoosenLMax n n m, Unfoldr 0 n n) => a -> RangeL n m a
 repeatLMin = unfoldrMin \x -> (x, x)
 
+{-^
+
+To repeat a value minimum number of times.
+
+>>> :set -XDataKinds
+>>> repeatLMin 123 :: RangeL 3 5 Integer
+123 :. (123 :. (123 :. NilL))
+
+-}
+
 unfoldrMin ::
 	(LoosenLMax n n m, Unfoldr 0 n n) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f = loosenLMax . unfoldr f

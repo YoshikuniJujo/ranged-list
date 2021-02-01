@@ -83,8 +83,14 @@ haddock
 		- [x] ZipL
 		- [ ] Repeat and Unfoldr Min and Max
 			* [ ] repeat
+				+ [x] repeatLMin
+				+ [ ] repeatLMax
 			* [ ] unfoldr
+				+ [ ] unfoldrMin
+				+ [ ] unfoldrMax
 			* [ ] unfoldrM
+				+ [ ] unfoldrMMin
+				+ [ ] unfoldrMMax
 	+ [ ] RANGED LIST RIGHT
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
