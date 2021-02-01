@@ -96,7 +96,7 @@ haddock
 		- [x] PushR
 		- [x] AddR
 		- [ ] LoosenRMin and LoosenRMax
-			* [ ] loosenR
+			* [x] loosenR
 			* [ ] loosenRMin
 			* [ ] loosenRMax
 		- [ ] Unfoldl

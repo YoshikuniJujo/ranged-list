@@ -190,6 +190,17 @@ instance {-# OVERLAPPABLE #-}
 loosenR :: (LoosenRMin n m v, LoosenRMax v m w) => RangeR n m a -> RangeR v w a
 loosenR = loosenRMax . loosenRMin
 
+{-^
+
+To loosen range of element number.
+
+>>> :set -XDataKinds
+>>> sampleLoosenR = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
+>>> loosenR sampleLoosenR :: RangeR 2 8 Char
+((((NilR :++ 'h') :++ 'e') :++ 'l') :+ 'l') :+ 'o'
+
+-}
+
 -- LOOSEN RIGHT MIN
 
 class LoosenRMin n m v where loosenRMin :: RangeR n m a -> RangeR v m a
