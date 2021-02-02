@@ -102,14 +102,20 @@ haddock
 		- [ ] Unfoldl
 			* [ ] class
 			* [ ] unfoldlRange
-				+ [ ] without monad
+				+ [x] without monad
 					- [x] unfoldlRange
-					- [ ] unfoldlRangeWithBase
-					- [ ] unfoldlRangeWithBaseWithS
+					- [x] unfoldlRangeWithBase
+					- [x] unfoldlRangeWithBaseWithS
 				+ [ ] with monad
+					- [ ] unfoldlMRange
+					- [ ] unfoldlMRangeWithBase
 			* [ ] unfoldlRangeMaybe
 				+ [ ] without monad
+					- [ ] unfoldlRangeMaybe
+					- [ ] unfoldlRangeMaybeWithBase
 				+ [ ] with monad
+					- [ ] unfoldlMRangeMaybe
+					- [ ] unfoldlMRangeMaybeWithBase
 		- [x] ZipR
 		- [ ] Repeat and Unfoldl Min and Max
 			* [ ] repeat

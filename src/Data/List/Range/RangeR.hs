@@ -330,10 +330,33 @@ unfoldlRangeWithBase :: Unfoldl n v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
 unfoldlRangeWithBase p f = (snd .) . unfoldlRangeWithBaseWithS p f
 
+{-^
+
+It is like @unfoldlRange@. But it has already prepared values.
+
+>>> :set -XDataKinds
+>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
+>>> unfoldlRangeWithBase (< 3) (\n -> (n + 1, n * 3)) 1 xs :: RangeR 3 5 Integer
+(((NilR :++ 6) :+ 3) :+ 123) :+ 456
+
+-}
+
 unfoldlRangeWithBaseWithS :: Unfoldl n v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> (s, RangeR v w a)
 unfoldlRangeWithBaseWithS p f =
 	flip $ runStateR . unfoldlMRangeWithBase (StateR $ id &&& p) (StateR f)
+
+{-^
+
+It is like @unfoldlRangeWithBase@.
+But it return not only a list but also a state value.
+
+>>> :set -XDataKinds
+>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
+>>> unfoldlRangeWithBaseWithS (< 3) (\n -> (n + 1, n * 3)) 1 xs :: (Integer, RangeR 3 5 Integer)
+(3,(((NilR :++ 6) :+ 3) :+ 123) :+ 456)
+
+-}
 
 unfoldlMRange :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (RangeR v w a)
 unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
