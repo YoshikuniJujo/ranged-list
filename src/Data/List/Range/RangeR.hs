@@ -203,7 +203,19 @@ To loosen range of element number.
 
 -- LOOSEN RIGHT MIN
 
-class LoosenRMin n m v where loosenRMin :: RangeR n m a -> RangeR v m a
+class LoosenRMin n m v where
+	loosenRMin :: RangeR n m a -> RangeR v m a
+
+	{-^
+
+	To loosen lower bound of element number.
+
+	>>> :set -XDataKinds
+	>>> sampleLoosenRMin = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
+	>>> loosenRMin sampleLoosenRMin :: RangeR 2 6 Char
+	((((NilR :++ 'h') :++ 'e') :++ 'l') :+ 'l') :+ 'o'
+
+	-}
 
 instance LoosenRMin 0 m 0 where
 	loosenRMin = \case NilR -> NilR; xs@(_ :++ _) -> xs
@@ -218,7 +230,19 @@ instance {-# OVERLAPPABLE #-}
 
 -- LOOSEN RIGHT MAX
 
-class LoosenRMax n m w where loosenRMax :: RangeR n m a -> RangeR n w a
+class LoosenRMax n m w where
+	loosenRMax :: RangeR n m a -> RangeR n w a
+
+	{-^
+
+	To loosen upper bound of element number.
+
+	>>> :set -XDataKinds
+	>>> sampleLoosenRMax = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
+	>>> loosenRMax sampleLoosenRMax :: RangeR 4 8 Char
+	((((NilR :++ 'h') :+ 'e') :+ 'l') :+ 'l') :+ 'o'
+
+	-}
 
 instance LoosenRMax 0 0 m where loosenRMax NilR = NilR
 
