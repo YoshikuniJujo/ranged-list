@@ -307,6 +307,25 @@ unfoldlRange :: Unfoldl 0 v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR v w a
 unfoldlRange p f s = unfoldlRangeWithBase p f s NilR
 
+{-^
+
+To eveluate function to construct a list.
+The function recieve state and return an element and new state.
+First argument is predication which are evaluated when element number is
+greater than minimum and not greater than maximum.
+
+>>> :set -XDataKinds
+>>> unfoldlRange (< 2) (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Int
+((NilR :+ 9) :+ 6) :+ 3
+
+>>> unfoldlRange (< 5) (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Int
+(((NilR :++ 12) :+ 9) :+ 6) :+ 3
+
+>>> unfoldlRange (< 10) (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Int
+((((NilR :++ 15) :++ 12) :+ 9) :+ 6) :+ 3
+
+-}
+
 unfoldlRangeWithBase :: Unfoldl n v w =>
 	(s -> Bool) -> (s -> (s, a)) -> s -> RangeR n w a -> RangeR v w a
 unfoldlRangeWithBase p f = (snd .) . unfoldlRangeWithBaseWithS p f

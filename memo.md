@@ -103,6 +103,9 @@ haddock
 			* [ ] class
 			* [ ] unfoldlRange
 				+ [ ] without monad
+					- [x] unfoldlRange
+					- [ ] unfoldlRangeWithBase
+					- [ ] unfoldlRangeWithBaseWithS
 				+ [ ] with monad
 			* [ ] unfoldlRangeMaybe
 				+ [ ] without monad
