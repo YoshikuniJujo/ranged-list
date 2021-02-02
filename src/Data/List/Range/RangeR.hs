@@ -263,6 +263,21 @@ instance {-# OVERLAPPABLE #-}
 class Unfoldl n v w where
 	unfoldlMRangeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (RangeR v w a)
+
+	{-^
+
+	It is like @unfoldlMRange@. But it has already prepared values.
+
+	>>> :set -XDataKinds
+	>>> :module + Data.IORef
+	>>> r <- newIORef 1
+	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+	>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
+	>>> unfoldlMRangeWithBase ((< 3) <$> readIORef r) count xs :: IO (RangeR 3 5 Integer)
+	(((NilR :++ 6) :+ 3) :+ 123) :+ 456
+
+	-}
+
 	unfoldlMRangeMaybeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
 
@@ -360,6 +375,19 @@ But it return not only a list but also a state value.
 
 unfoldlMRange :: (Unfoldl 0 v w, Monad m) => m Bool -> m a -> m (RangeR v w a)
 unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
+
+{-^
+
+It is like @unfoldlRange@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldlMRange ((< 5) <$> readIORef r) count :: IO (RangeR 3 5 Integer)
+(((NilR :++ 12) :+ 9) :+ 6) :+ 3
+
+-}
 
 -- UNFOLDL RANGE MAYBE
 

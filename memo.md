@@ -100,15 +100,15 @@ haddock
 			* [x] loosenRMin
 			* [x] loosenRMax
 		- [ ] Unfoldl
-			* [ ] class
-			* [ ] unfoldlRange
+			* [x] class
+			* [x] unfoldlRange
 				+ [x] without monad
 					- [x] unfoldlRange
 					- [x] unfoldlRangeWithBase
 					- [x] unfoldlRangeWithBaseWithS
-				+ [ ] with monad
-					- [ ] unfoldlMRange
-					- [ ] unfoldlMRangeWithBase
+				+ [x] with monad
+					- [x] unfoldlMRange
+					- [x] unfoldlMRangeWithBase
 			* [ ] unfoldlRangeMaybe
 				+ [ ] without monad
 					- [ ] unfoldlRangeMaybe
