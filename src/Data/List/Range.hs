@@ -174,9 +174,33 @@ unfoldlMin ::
 	(LoosenRMax n n m, Unfoldl 0 n n) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMin f = loosenRMax . unfoldl f
 
+{-^
+
+To evaluate a function to construct values minimum number of times.
+The function recieve state and return a value and new state.
+
+>>> :set -XDataKinds
+>>> unfoldlMin (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Integer
+((NilR :+ 9) :+ 6) :+ 3
+
+-}
+
 unfoldlMinM ::
 	(Monad m, LoosenRMax n n w, Unfoldl 0 n n) => m a -> m (RangeR n w a)
 unfoldlMinM f = loosenRMax <$> unfoldlM f
+
+{-^
+
+It is like @unfoldlMax@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldlMinM count :: IO (RangeR 3 5 Integer)
+((NilR :+ 9) :+ 6) :+ 3
+
+-}
 
 -- MAX
 
@@ -197,9 +221,33 @@ unfoldlMax ::
 	(LoosenRMin m m n, Unfoldl 0 m m) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMax f = loosenRMin . unfoldl f
 
+{-^
+
+To eveluate a function to construct values maximum number of times.
+The function recieve state and return a value and new state.
+
+>>> :set -XDataKinds
+>>> unfoldlMax (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Integer
+((((NilR :++ 15) :++ 12) :+ 9) :+ 6) :+ 3
+
+-}
+
 unfoldlMaxM ::
 	(Monad m, LoosenRMin w w n, Unfoldl 0 w w) => m a -> m (RangeR n w a)
 unfoldlMaxM f = loosenRMin <$> unfoldlM f
+
+{-^
+
+It is like @unfoldlMax@. But it use monad instead of function.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldlMaxM count :: IO (RangeR 3 5 Integer)
+((((NilR :++ 15) :++ 12) :+ 9) :+ 6) :+ 3
+
+-}
 
 ---------------------------------------------------------------------------
 -- LEFT TO RIGHT

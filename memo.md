@@ -55,7 +55,7 @@ haddock
 	+ [x] RIGHT TO LEFT
 		- [x] (++..)
 		- [x] rightToLeft
-* [ ] Data.List.Range
+* [x] Data.List.Range
 	+ [x] RANGED LIST LEFT
 		- [x] Type
 		- [x] PushL
@@ -91,7 +91,7 @@ haddock
 			* [x] unfoldrM
 				+ [x] unfoldrMMin
 				+ [x] unfoldrMMax
-	+ [ ] RANGED LIST RIGHT
+	+ [x] RANGED LIST RIGHT
 		- [x] Type
 		- [x] PushR
 		- [x] AddR
@@ -117,14 +117,14 @@ haddock
 					- [x] unfoldlMRangeMaybe
 					- [x] unfoldlMRangeMaybeWithBase
 		- [x] ZipR
-		- [ ] Repeat and Unfoldl Min and Max
+		- [x] Repeat and Unfoldl Min and Max
 			* [x] repeat
-			* [ ] unfoldl
-				+ [ ] unfoldlMin
-				+ [ ] unfoldlMax
-			* [ ] unfoldlM
-				+ [ ] unfoldlMinM
-				+ [ ] unfoldlMaxM
+			* [x] unfoldl
+				+ [x] unfoldlMin
+				+ [x] unfoldlMax
+			* [x] unfoldlM
+				+ [x] unfoldlMinM
+				+ [x] unfoldlMaxM
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
@@ -364,6 +364,9 @@ refactor
 	+ [x] body
 		- [x] STATE LEFT
 		- [x] STATE RIGHT
+* [ ] unify order of 'Min'/'Max' and 'M'
+	+ unfoldrMMin, unfoldrMMax
+	+ unfoldlMinM, unfoldlMaxM
 
 todo
 ----
