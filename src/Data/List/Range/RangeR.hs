@@ -281,6 +281,20 @@ class Unfoldl n v w where
 	unfoldlMRangeMaybeWithBase :: Monad m =>
 		m Bool -> m a -> RangeR n w a -> m (Maybe (RangeR v w a))
 
+	{-^
+
+	It is like @unfoldrMRangeMaybe@. But it has already prepared values.
+
+	>>> :set -XDataKinds
+	>>> :module + Data.IORef
+	>>> r <- newIORef 1
+	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+	>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
+	>>> unfoldlMRangeMaybeWithBase ((< 3) <$> readIORef r) count xs :: IO (Maybe (RangeR 3 5 Integer))
+	Just ((((NilR :++ 6) :+ 3) :+ 123) :+ 456)
+
+	-}
+
 -- INSTANCE
 
 instance Unfoldl 0 0 0 where
@@ -442,6 +456,31 @@ unfoldlRangeMaybeWithBaseGen p f =
 unfoldlMRangeMaybe :: (Unfoldl 0 v w, Monad m) =>
 	m Bool -> m a -> m (Maybe (RangeR v w a))
 unfoldlMRangeMaybe p f = unfoldlMRangeMaybeWithBase p f NilR
+
+{-^
+
+It is like @unfoldlRangeMaybe@. But it use monad instead of function.
+First argument monad return boolean value.
+It create values while this boolean value is True.
+If this boolean value is False before to create enough values or
+True after to create full values, then @unfoldlMRangeMaybe@ return Nothing.
+
+>>> :set -XDataKinds
+>>> :module + Data.IORef
+>>> r <- newIORef 1
+>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
+>>> unfoldlMRangeMaybe ((< 2) <$> readIORef r) count :: IO (Maybe (RangeR 3 5 Integer))
+Nothing
+
+>>> writeIORef r 1
+>>> unfoldlMRangeMaybe ((< 5) <$> readIORef r) count :: IO (Maybe (RangeR 3 5 Integer))
+Just ((((NilR :++ 12) :+ 9) :+ 6) :+ 3)
+
+>>> writeIORef r 1
+>>> unfoldlMRangeMaybe ((< 10) <$> readIORef r) count :: IO (Maybe (RangeR 3 5 Integer))
+Nothing
+
+-}
 
 ---------------------------------------------------------------------------
 -- ZIP
