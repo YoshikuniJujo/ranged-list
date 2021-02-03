@@ -118,9 +118,13 @@ haddock
 					- [x] unfoldlMRangeMaybeWithBase
 		- [x] ZipR
 		- [ ] Repeat and Unfoldl Min and Max
-			* [ ] repeat
+			* [x] repeat
 			* [ ] unfoldl
+				+ [ ] unfoldlMin
+				+ [ ] unfoldlMax
 			* [ ] unfoldlM
+				+ [ ] unfoldlMinM
+				+ [ ] unfoldlMaxM
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat

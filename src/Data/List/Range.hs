@@ -160,6 +160,16 @@ It is like @unfoldrMax@. But it use monad instead of function.
 repeatRMin :: (LoosenRMax n n m, Unfoldl 0 n n) => a -> RangeR n m a
 repeatRMin = unfoldlMin \x -> (x, x)
 
+{-^
+
+To repeat a value minimum number of times.
+
+>>> :set -XDataKinds
+>>> repeatRMin 123 :: RangeR 3 5 Integer
+((NilR :+ 123) :+ 123) :+ 123
+
+-}
+
 unfoldlMin ::
 	(LoosenRMax n n m, Unfoldl 0 n n) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMin f = loosenRMax . unfoldl f
@@ -172,6 +182,16 @@ unfoldlMinM f = loosenRMax <$> unfoldlM f
 
 repeatRMax :: (LoosenRMin m m n, Unfoldl 0 m m) => a -> RangeR n m a
 repeatRMax = unfoldlMax \x -> (x, x)
+
+{-^
+
+To repeat a value maximum number of times.
+
+>>> :set -XDataKinds
+>>> repeatRMax 123 :: RangeR 3 5 Integer
+((((NilR :++ 123) :++ 123) :+ 123) :+ 123) :+ 123
+
+-}
 
 unfoldlMax ::
 	(LoosenRMin m m n, Unfoldl 0 m m) => (s -> (s, a)) -> s -> RangeR n m a
