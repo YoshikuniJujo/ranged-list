@@ -110,9 +110,9 @@ haddock
 					- [x] unfoldlMRange
 					- [x] unfoldlMRangeWithBase
 			* [ ] unfoldlRangeMaybe
-				+ [ ] without monad
+				+ [x] without monad
 					- [x] unfoldlRangeMaybe
-					- [ ] unfoldlRangeMaybeWithBase
+					- [x] unfoldlRangeMaybeWithBase
 				+ [ ] with monad
 					- [ ] unfoldlMRangeMaybe
 					- [ ] unfoldlMRangeMaybeWithBase

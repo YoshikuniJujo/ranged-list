@@ -421,6 +421,17 @@ unfoldlRangeMaybeWithBase f s xs =
 	snd $ unfoldlRangeMaybeWithBaseGen (id &&& isJust)
 		(maybe (error "never occur") (f `first`)) xs (f s)
 
+{-^
+
+It is like @unfoldlRangeMaybe@. But it has already prepared values.
+
+>>> :set -XDataKinds
+>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Int
+>>> unfoldlRangeMaybeWithBase (\n -> if n < 3 then Just (n + 1, n * 3) else Nothing) 1 xs :: Maybe (RangeR 3 5 Int)
+Just ((((NilR :++ 6) :+ 3) :+ 123) :+ 456)
+
+-}
+
 type St s a r = Maybe (s, a) -> (Maybe (s, a), r)
 
 unfoldlRangeMaybeWithBaseGen :: Unfoldl n v w =>
