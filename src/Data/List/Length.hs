@@ -74,8 +74,7 @@ repeatL = fillL NilL
 To repeat a value of type @a@ to construct a list of type @LengthL n a@.
 
 >>> :set -XDataKinds
->>> sampleRepeatL = repeatL 'c' :: LengthL 5 Char
->>> sampleRepeatL
+>>> repeatL 'c' :: LengthL 5 Char
 'c' :. ('c' :. ('c' :. ('c' :. ('c' :. NilL))))
 
 -}
