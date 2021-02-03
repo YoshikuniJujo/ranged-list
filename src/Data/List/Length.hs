@@ -87,8 +87,7 @@ fillL = (`unfoldrWithBase` \x -> (x, x))
 To fill a list of type @LengthL n a@ with a value of type @a@.
 
 >>> :set -XDataKinds
->>> sampleFillL = fillL ('a' :. 'b' :.. NilL) 'c' :: LengthL 5 Char
->>> sampleFillL
+>>> fillL ('a' :. 'b' :.. NilL) 'c' :: LengthL 5 Char
 'a' :. ('b' :. ('c' :. ('c' :. ('c' :. NilL))))
 
 -}

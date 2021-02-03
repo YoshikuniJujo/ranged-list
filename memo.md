@@ -18,7 +18,7 @@ Refactor documents
 			* [x] class
 			* [ ] without monad
 				+ [x] repeatL
-				+ [ ] fillL
+				+ [x] fillL
 				+ [ ] unfoldr
 				+ [ ] unfoldrWithBase
 			* [ ] with monad
