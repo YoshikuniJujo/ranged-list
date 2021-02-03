@@ -48,8 +48,7 @@ To evaluate function repeatedly to construct a list of type @LengthL n a@.
 The function recieve a state and return an element value and a new state.
 
 >>> :set -XDataKinds
->>> sampleUnfoldr = unfoldr (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
->>> sampleUnfoldr
+>>> unfoldr (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
 0 :. (2 :. (4 :. (6 :. (8 :. NilL))))
 
 -}

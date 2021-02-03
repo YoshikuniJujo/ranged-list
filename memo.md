@@ -19,7 +19,7 @@ Refactor documents
 			* [ ] without monad
 				+ [x] repeatL
 				+ [x] fillL
-				+ [ ] unfoldr
+				+ [x] unfoldr
 				+ [ ] unfoldrWithBase
 			* [ ] with monad
 		- [ ] ZipL
