@@ -96,12 +96,59 @@ type RangedNatR n m = RangeR n m ()
 natR :: Unfoldl 0 n n => RangedNatR n n
 natR = repeatR ()
 
+{-^
+
+To make @RangedNatR@
+
+>>> :set -XDataKinds
+>>> :module + Data.List.Range
+>>> n5 = natR :: RangedNatR 5 5
+>>> loosenR n5 :: RangedNatR 3 8
+((((NilR :++ ()) :++ ()) :+ ()) :+ ()) :+ ()
+
+-}
+
 toIntR :: Foldable (RangeR n m) => RangedNatR n m -> Int
 toIntR = length
+
+{-^
+
+To convert from @RangedNatR@ to @Int@.
+
+>>> :set -XTypeApplications -XDataKinds
+>>> :module + Data.List.Range
+>>> toIntR (loosenR (natR @5) :: RangedNatR 3 8)
+5
+
+-}
 
 fromIntR :: Unfoldl 0 n m => Int -> Maybe (RangedNatR n m)
 fromIntR = unfoldlRangeMaybe \s -> bool Nothing (Just (s - 1, ())) (s > 0)
 
+{-^
+
+To convert @Int@ to @RangedNatR@.
+
+>>> :set -XDataKinds
+>>> fromIntR 5 :: Maybe (RangedNatR 3 8)
+Just (((((NilR :++ ()) :++ ()) :+ ()) :+ ()) :+ ())
+
+-}
+
 splitAtR :: ZipR n m v w => RangeR n m a ->
 	RangedNatR v w -> (RangeR (n - w) (m - v) a, RangeR v w a)
 splitAtR = zipWithR const
+
+{-^
+
+To split at position which is specified by number.
+
+>>> :set -XTypeApplications -XDataKinds
+>>> :module + Data.List.Range
+>>> xs = NilR :++ 'h' :++ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 3 8 Char
+>>> splitAtR xs (natR @2)
+(((NilR :++ 'h') :++ 'e') :+ 'l',(NilR :+ 'l') :+ 'o')
+>>> :type splitAtR xs (natR @2)
+splitAtR xs (natR @2) :: (RangeR 1 6 Char, RangeR 2 2 Char)
+
+-}
