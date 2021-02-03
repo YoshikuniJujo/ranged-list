@@ -128,6 +128,18 @@ haddock
 	+ [x] LEFT TO RIGHT
 	+ [x] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
+	+ [x] RangedNatL
+		- [x] type
+		- [x] natL
+		- [x] toIntL
+		- [x] fromIntL
+		- [x] splitAtL
+	+ [ ] RangedNatR
+		- [ ] type
+		- [ ] natR
+		- [ ] toIntR
+		- [ ] fromIntR
+		- [ ] splitAtR
 * [ ] refactor documents
 
 ### README.md
