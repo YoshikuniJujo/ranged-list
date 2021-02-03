@@ -6,141 +6,141 @@ haddock
 
 ### each modules
 
-* [x] move document from classes to class functions
-* [x] Data.List.Length
-	+ [x] LENGTHED LIST LEFT
+Refactor documents
+
+* [ ] Data.List.Length
+	+ [ ] LENGTHED LIST LEFT
 		- [x] Type
 			* [x] type LengthL
 			* [x] data RangeL
-		- [x] AddL
-		- [x] Unfoldr
-			* [x] class
-			* [x] without monad
-			* [x] with monad
-		- [x] ZipL
-			* [x] zipL
-			* [x] zipWithL
-			* [x] zipWithML
-		- [x] ListToLengthL
-			* [x] listToLengthL
-			* [x] chunksL
-			* [x] chunksL'
-	+ [x] LENGTHED LIST RIGHT
-		- [x] Type
-			* [x] type LengthR
-			* [x] data RangeR
-		- [x] AddR
-		- [x] Unfoldl
-			* [x] class
-			* [x] without monad
-				+ [x] repeatR
-				+ [x] fillR
-				+ [x] unfoldl
-				+ [x] unfoldlWithBase
-			* [x] with monad
-				+ [x] unfoldlM
-				+ [x] unfoldlMWithBase
-		- [x] ZipR
-			* [x] class
-			* [x] zipR
-			* [x] zipWithR
-			* [x] zipWithMR
-		- [x] ListToLengthR
-			* [x] listToLengthR
-			* [x] chunksR
-			* [x] chunksR'
-	+ [x] LEFT TO RIGHT
-		- [x] (++.+)
-		- [x] leftToRight
-	+ [x] RIGHT TO LEFT
-		- [x] (++..)
-		- [x] rightToLeft
-* [x] Data.List.Range
-	+ [x] RANGED LIST LEFT
-		- [x] Type
-		- [x] PushL
-		- [x] AddL
-		- [x] LoosenLMin and LoosenLMax
-			* [x] loosenL
-			* [x] loosenLMin
-			* [x] loosenLMax
-		- [x] Unfoldr
-			* [x] unfoldrRange
-				+ [x] without monad
-					- [x] unfoldrRange
-					- [x] unfoldrRangeWithBase
-					- [x] unfoldrRangeWithBaseWithS
-				+ [x] with monad
-					- [x] unfoldrMRange
-					- [x] unfoldrMRangeWithBase
-			* [x] unfoldrRangeMaybe
-				+ [x] without monad
-					- [x] unfoldrRangeMaybe
-					- [x] unfoldrRangeMaybeWithBase
-				+ [x] with monad
-					- [x] unfoldrMRangeMaybe
-					- [x] unfoldrMRangeMaybeWithBase
-		- [x] ZipL
-		- [x] Repeat and Unfoldr Min and Max
-			* [x] repeat
-				+ [x] repeatLMin
-				+ [x] repeatLMax
-			* [x] unfoldr
-				+ [x] unfoldrMin
-				+ [x] unfoldrMax
-			* [x] unfoldrM
-				+ [x] unfoldrMMin
-				+ [x] unfoldrMMax
-	+ [x] RANGED LIST RIGHT
-		- [x] Type
-		- [x] PushR
-		- [x] AddR
-		- [x] LoosenRMin and LoosenRMax
-			* [x] loosenR
-			* [x] loosenRMin
-			* [x] loosenRMax
-		- [x] Unfoldl
-			* [x] class
-			* [x] unfoldlRange
-				+ [x] without monad
-					- [x] unfoldlRange
-					- [x] unfoldlRangeWithBase
-					- [x] unfoldlRangeWithBaseWithS
-				+ [x] with monad
-					- [x] unfoldlMRange
-					- [x] unfoldlMRangeWithBase
-			* [x] unfoldlRangeMaybe
-				+ [x] without monad
-					- [x] unfoldlRangeMaybe
-					- [x] unfoldlRangeMaybeWithBase
-				+ [x] with monad
-					- [x] unfoldlMRangeMaybe
-					- [x] unfoldlMRangeMaybeWithBase
-		- [x] ZipR
-		- [x] Repeat and Unfoldl Min and Max
-			* [x] repeat
-			* [x] unfoldl
-				+ [x] unfoldlMin
-				+ [x] unfoldlMax
-			* [x] unfoldlM
-				+ [x] unfoldlMinM
-				+ [x] unfoldlMaxM
-	+ [x] LEFT TO RIGHT
-	+ [x] RIGHT TO LEFT
-* [x] Data.List.Range.Nat
-	+ [x] RangedNatL
-		- [x] type
-		- [x] natL
-		- [x] toIntL
-		- [x] fromIntL
-		- [x] splitAtL
-	+ [x] RangedNatR
-		- [x] type
-		- [x] natR
-		- [x] toIntR
-		- [x] fromIntR
-		- [x] splitAtR
-* [ ] refactor documents
+		- [ ] AddL
+		- [ ] Unfoldr
+			* [ ] class
+			* [ ] without monad
+			* [ ] with monad
+		- [ ] ZipL
+			* [ ] zipL
+			* [ ] zipWithL
+			* [ ] zipWithML
+		- [ ] ListToLengthL
+			* [ ] listToLengthL
+			* [ ] chunksL
+			* [ ] chunksL'
+	+ [ ] LENGTHED LIST RIGHT
+		- [ ] Type
+			* [ ] type LengthR
+			* [ ] data RangeR
+		- [ ] AddR
+		- [ ] Unfoldl
+			* [ ] class
+			* [ ] without monad
+				+ [ ] repeatR
+				+ [ ] fillR
+				+ [ ] unfoldl
+				+ [ ] unfoldlWithBase
+			* [ ] with monad
+				+ [ ] unfoldlM
+				+ [ ] unfoldlMWithBase
+		- [ ] ZipR
+			* [ ] class
+			* [ ] zipR
+			* [ ] zipWithR
+			* [ ] zipWithMR
+		- [ ] ListToLengthR
+			* [ ] listToLengthR
+			* [ ] chunksR
+			* [ ] chunksR'
+	+ [ ] LEFT TO RIGHT
+		- [ ] (++.+)
+		- [ ] leftToRight
+	+ [ ] RIGHT TO LEFT
+		- [ ] (++..)
+		- [ ] rightToLeft
+* [ ] Data.List.Range
+	+ [ ] RANGED LIST LEFT
+		- [ ] Type
+		- [ ] PushL
+		- [ ] AddL
+		- [ ] LoosenLMin and LoosenLMax
+			* [ ] loosenL
+			* [ ] loosenLMin
+			* [ ] loosenLMax
+		- [ ] Unfoldr
+			* [ ] unfoldrRange
+				+ [ ] without monad
+					- [ ] unfoldrRange
+					- [ ] unfoldrRangeWithBase
+					- [ ] unfoldrRangeWithBaseWithS
+				+ [ ] with monad
+					- [ ] unfoldrMRange
+					- [ ] unfoldrMRangeWithBase
+			* [ ] unfoldrRangeMaybe
+				+ [ ] without monad
+					- [ ] unfoldrRangeMaybe
+					- [ ] unfoldrRangeMaybeWithBase
+				+ [ ] with monad
+					- [ ] unfoldrMRangeMaybe
+					- [ ] unfoldrMRangeMaybeWithBase
+		- [ ] ZipL
+		- [ ] Repeat and Unfoldr Min and Max
+			* [ ] repeat
+				+ [ ] repeatLMin
+				+ [ ] repeatLMax
+			* [ ] unfoldr
+				+ [ ] unfoldrMin
+				+ [ ] unfoldrMax
+			* [ ] unfoldrM
+				+ [ ] unfoldrMMin
+				+ [ ] unfoldrMMax
+	+ [ ] RANGED LIST RIGHT
+		- [ ] Type
+		- [ ] PushR
+		- [ ] AddR
+		- [ ] LoosenRMin and LoosenRMax
+			* [ ] loosenR
+			* [ ] loosenRMin
+			* [ ] loosenRMax
+		- [ ] Unfoldl
+			* [ ] class
+			* [ ] unfoldlRange
+				+ [ ] without monad
+					- [ ] unfoldlRange
+					- [ ] unfoldlRangeWithBase
+					- [ ] unfoldlRangeWithBaseWithS
+				+ [ ] with monad
+					- [ ] unfoldlMRange
+					- [ ] unfoldlMRangeWithBase
+			* [ ] unfoldlRangeMaybe
+				+ [ ] without monad
+					- [ ] unfoldlRangeMaybe
+					- [ ] unfoldlRangeMaybeWithBase
+				+ [ ] with monad
+					- [ ] unfoldlMRangeMaybe
+					- [ ] unfoldlMRangeMaybeWithBase
+		- [ ] ZipR
+		- [ ] Repeat and Unfoldl Min and Max
+			* [ ] repeat
+			* [ ] unfoldl
+				+ [ ] unfoldlMin
+				+ [ ] unfoldlMax
+			* [ ] unfoldlM
+				+ [ ] unfoldlMinM
+				+ [ ] unfoldlMaxM
+	+ [ ] LEFT TO RIGHT
+	+ [ ] RIGHT TO LEFT
+* [ ] Data.List.Range.Nat
+	+ [ ] RangedNatL
+		- [ ] type
+		- [ ] natL
+		- [ ] toIntL
+		- [ ] fromIntL
+		- [ ] splitAtL
+	+ [ ] RangedNatR
+		- [ ] type
+		- [ ] natR
+		- [ ] toIntR
+		- [ ] fromIntR
+		- [ ] splitAtR
 
 ### README.md
 
@@ -499,6 +499,7 @@ todo
 * [x] add (<=) to RangeL and RangeR definitions
 	+ [x] RangeL
 	+ [x] RangeR
+* [ ] refactoring
 
 module name hierarchy
 ---------------------

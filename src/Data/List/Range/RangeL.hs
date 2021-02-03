@@ -79,7 +79,7 @@ data RangeL :: Nat -> Nat -> * -> * where
 
 {-^
 
-@RangeL n m a@ is a list of type @a@ values whose element number is
+The value of @RangeL n m a@ is a list of type @a@ values whose element number is
 at minimum @n@, and at maximum @m@.
 You can push and pop an element from left.
 
