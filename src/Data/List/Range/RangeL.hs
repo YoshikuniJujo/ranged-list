@@ -155,15 +155,16 @@ class AddL n m v w where
 
 	{-^
 
-	Concatenation of two lists whose types are @RangeL n m a@ and @RangeL v w a@.
+	To concatenate two lists
+	whose types are @RangeL n m a@ and @RangeL v w a@.
 
 	>>> :set -XDataKinds
-	>>> sampleRangeL1 = 'f' :. 'o' :. 'o' :.. NilL :: RangeL 2 5 Char
-	>>> sampleRangeL2 = 'b' :. 'a' :.. 'r' :.. NilL :: RangeL 1 6 Char
-	>>> sampleRangeL1 ++. sampleRangeL2
+	>>> sampleAddL1 = 'f' :. 'o' :. 'o' :.. NilL :: RangeL 2 5 Char
+	>>> sampleAddL2 = 'b' :. 'a' :.. 'r' :.. NilL :: RangeL 1 6 Char
+	>>> sampleAddL1 ++. sampleAddL2
 	'f' :. ('o' :. ('o' :. ('b' :.. ('a' :.. ('r' :.. NilL)))))
-	>>> :type sampleRangeL1 ++. sampleRangeL2
-	sampleRangeL1 ++. sampleRangeL2 :: RangeL 3 11 Char
+	>>> :type sampleAddL1 ++. sampleAddL2
+	sampleAddL1 ++. sampleAddL2 :: RangeL 3 11 Char
 
 	-}
 

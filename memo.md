@@ -13,7 +13,7 @@ Refactor documents
 		- [x] Type
 			* [x] type LengthL
 			* [x] data RangeL
-		- [ ] AddL
+		- [x] AddL
 		- [ ] Unfoldr
 			* [ ] class
 			* [ ] without monad
