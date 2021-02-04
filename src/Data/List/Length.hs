@@ -136,8 +136,7 @@ repeatR = (`fillR` NilR)
 To repeat a value of type @a@ to construct a list of type @LengthR n a@.
 
 >>> :set -XDataKinds
->>> sampleRepeatR = repeatR 'c' :: LengthR 5 Char
->>> sampleRepeatR
+>>> repeatR 'c' :: LengthR 5 Char
 ((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'c') :+ 'c'
 
 -}

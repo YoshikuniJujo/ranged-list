@@ -38,9 +38,9 @@ Refactor documents
 			* [x] data RangeR
 		- [x] AddR
 		- [ ] Unfoldl
-			* [ ] class
+			* [x] class
 			* [ ] without monad
-				+ [ ] repeatR
+				+ [x] repeatR
 				+ [ ] fillR
 				+ [ ] unfoldl
 				+ [ ] unfoldlWithBase
