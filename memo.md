@@ -32,7 +32,7 @@ Refactor documents
 			* [x] listToLengthL
 			* [x] chunksL
 			* [x] chunksL'
-	+ [ ] LENGTHED LIST RIGHT
+	+ [x] LENGTHED LIST RIGHT
 		- [x] Type
 			* [x] type LengthR
 			* [x] data RangeR
@@ -52,10 +52,10 @@ Refactor documents
 			* [x] zipR
 			* [x] zipWithR
 			* [x] zipWithMR
-		- [ ] ListToLengthR
-			* [ ] listToLengthR
-			* [ ] chunksR
-			* [ ] chunksR'
+		- [x] ListToLengthR
+			* [x] listToLengthR
+			* [x] chunksR
+			* [x] chunksR'
 	+ [ ] LEFT TO RIGHT
 		- [ ] (++.+)
 		- [ ] leftToRight
