@@ -79,8 +79,8 @@ It is like @unfoldr@. But it use a monad as an argument instead of a function.
 >>> :module + Data.IORef
 >>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n <$ writeIORef r (n +1)
->>> unfoldrM count :: IO (LengthL 3 Integer)
-1 :. (2 :. (3 :. NilL))
+>>> unfoldrM count :: IO (LengthL 5 Integer)
+1 :. (2 :. (3 :. (4 :. (5 :. NilL))))
 
 -}
 
@@ -90,15 +90,14 @@ unfoldrMWithBase = (`unfoldrMRangeWithBase` undefined)
 
 {-^
 
-It is like unfoldrM. But it has already prepared values.
+It is like @unfoldrM@. But it has already prepared values.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
->>> r <- newIORef 0
+>>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
->>> sampleUnfoldrMWithBase = unfoldrMWithBase (123 :. 456 :.. NilL) count :: IO (LengthL 5 Integer)
->>> sampleUnfoldrMWithBase
-123 :. (456 :. (0 :. (1 :. (2 :. NilL))))
+>>> unfoldrMWithBase (123 :. 456 :.. NilL) count :: IO (LengthL 5 Integer)
+123 :. (456 :. (1 :. (2 :. (3 :. NilL))))
 
 -}
 

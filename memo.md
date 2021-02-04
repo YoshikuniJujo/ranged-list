@@ -14,16 +14,16 @@ Refactor documents
 			* [x] type LengthL
 			* [x] data RangeL
 		- [x] AddL
-		- [ ] Unfoldr
+		- [x] Unfoldr
 			* [x] class
 			* [x] without monad
 				+ [x] repeatL
 				+ [x] fillL
 				+ [x] unfoldr
 				+ [x] unfoldrWithBase
-			* [ ] with monad
+			* [x] with monad
 				+ [x] unfoldrM
-				+ [ ] unfoldrMWithBase
+				+ [x] unfoldrMWithBase
 		- [ ] ZipL
 			* [ ] zipL
 			* [ ] zipWithL
