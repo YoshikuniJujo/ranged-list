@@ -25,7 +25,7 @@ Refactor documents
 				+ [x] unfoldrM
 				+ [x] unfoldrMWithBase
 		- [ ] ZipL
-			* [ ] zipL
+			* [x] zipL
 			* [ ] zipWithL
 			* [ ] zipWithML
 		- [ ] ListToLengthL

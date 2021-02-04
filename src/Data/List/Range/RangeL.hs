@@ -541,8 +541,8 @@ zipL = zipWithL (,)
 
 {-^
 
-To recieve two lists and return a tuple list and rest of second list.
-First list must be shorter or equal than second list.
+To recieve two lists and return a tuple list and rest of the second list.
+The first list must be shorter or equal than the second list.
 
 >>> :set -XDataKinds
 >>> sampleZipL1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Integer
