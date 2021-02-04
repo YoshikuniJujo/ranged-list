@@ -495,13 +495,13 @@ class ZipR n m v w where
 
 	{-^
 
-	@zipWithMR@ is like zipWithR.
-	But it use function which return monad instead of a simple value.
+	It is like @zipWithR@.
+	But it use function which return a monad instead of a simple value.
 
 	>>> :set -XDataKinds
-	>>> sampleZipWithMR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
-	>>> sampleZipWithMR2 = NilR :++ 'a' :+ 'b' :+ 'c' :: RangeR 2 4 Char
-	>>> zipWithMR (\n -> putStrLn . replicate n) sampleZipWithMR1 sampleZipWithMR2
+	>>> ns = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
+	>>> cs = NilR :++ 'a' :+ 'b' :+ 'c' :: RangeR 2 4 Char
+	>>> zipWithMR (\n -> putStrLn . replicate n) ns cs
 	cccccc
 	bbbbb
 	aaaa
@@ -532,8 +532,8 @@ zipR = zipWithR (,)
 
 {-^
 
-To recieve two lists and return a tuple list and rest of first list.
-Second list must be shorter or equal than first list.
+To recieve two lists and return a tuple list and rest of the first list.
+The second list must be shorter or equal than the first list.
 
 >>> :set -XDataKinds
 >>> sampleZipR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Integer

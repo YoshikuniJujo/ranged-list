@@ -47,11 +47,11 @@ Refactor documents
 			* [x] with monad
 				+ [x] unfoldlM
 				+ [x] unfoldlMWithBase
-		- [ ] ZipR
-			* [ ] class
-			* [ ] zipR
-			* [ ] zipWithR
-			* [ ] zipWithMR
+		- [x] ZipR
+			* [x] class
+			* [x] zipR
+			* [x] zipWithR
+			* [x] zipWithMR
 		- [ ] ListToLengthR
 			* [ ] listToLengthR
 			* [ ] chunksR
