@@ -29,7 +29,7 @@ Refactor documents
 			* [x] zipWithL
 			* [x] zipWithML
 		- [ ] ListToLengthL
-			* [ ] listToLengthL
+			* [x] listToLengthL
 			* [ ] chunksL
 			* [ ] chunksL'
 	+ [ ] LENGTHED LIST RIGHT

@@ -110,7 +110,7 @@ class ListToLengthL n where
 
 	{-^
 
-	@listToLengthL@: To take a lengthed list from a list.
+	To take a lengthed list from a list.
 	If an original list has not enough elements, then it return
 	a left value.
 
