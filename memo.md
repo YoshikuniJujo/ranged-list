@@ -16,11 +16,11 @@ Refactor documents
 		- [x] AddL
 		- [ ] Unfoldr
 			* [x] class
-			* [ ] without monad
+			* [x] without monad
 				+ [x] repeatL
 				+ [x] fillL
 				+ [x] unfoldr
-				+ [ ] unfoldrWithBase
+				+ [x] unfoldrWithBase
 			* [ ] with monad
 		- [ ] ZipL
 			* [ ] zipL

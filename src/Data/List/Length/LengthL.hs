@@ -62,8 +62,8 @@ unfoldrWithBase xs = (fst .) . runStateL . unfoldrMWithBase xs . StateL
 It is like @unfoldr@. But it has already prepared values.
 
 >>> :set -XDataKinds
->>> sampleUnfoldrWithBase = unfoldrWithBase (123 :. 456 :.. NilL) (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
->>> sampleUnfoldrWithBase
+>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
+>>> unfoldrWithBase xs (\n -> (2 * n, n + 1)) 0 :: LengthL 5 Integer
 123 :. (456 :. (0 :. (2 :. (4 :. NilL))))
 
 -}
