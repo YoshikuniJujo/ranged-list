@@ -39,11 +39,11 @@ Refactor documents
 		- [x] AddR
 		- [ ] Unfoldl
 			* [x] class
-			* [ ] without monad
+			* [x] without monad
 				+ [x] repeatR
-				+ [ ] fillR
-				+ [ ] unfoldl
-				+ [ ] unfoldlWithBase
+				+ [x] fillR
+				+ [x] unfoldl
+				+ [x] unfoldlWithBase
 			* [ ] with monad
 				+ [ ] unfoldlM
 				+ [ ] unfoldlMWithBase

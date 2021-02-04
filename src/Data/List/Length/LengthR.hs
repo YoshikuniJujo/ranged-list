@@ -48,8 +48,7 @@ To eveluate function repeatedly to construct a list of type @LengthR n a@.
 The function recieve a state and return a new state and an element value.
 
 >>> :set -XDataKinds
->>> sampleUnfoldl = unfoldl (\n -> (n + 1, 2 * n)) 0 :: LengthR 5 Integer
->>> sampleUnfoldl
+>>> unfoldl (\n -> (n + 1, 2 * n)) 0 :: LengthR 5 Integer
 ((((NilR :+ 8) :+ 6) :+ 4) :+ 2) :+ 0
 
 -}
@@ -63,8 +62,8 @@ unfoldlWithBase f = (snd .) . flip (runStateR . unfoldlMWithBase (StateR f))
 It is like @unfoldl@. But it has already prepared values.
 
 >>> :set -XDataKinds
->>> sampleUnfoldlWithBase = unfoldlWithBase (\n -> (n + 1, 2 * n)) 0 (NilR :++ 123 :+ 456) :: LengthR 5 Integer
->>> sampleUnfoldlWithBase
+>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
+>>> unfoldlWithBase (\n -> (n + 1, 2 * n)) 0 xs :: LengthR 5 Integer
 ((((NilR :+ 4) :+ 2) :+ 0) :+ 123) :+ 456
 
 -}

@@ -146,11 +146,10 @@ fillR = unfoldlWithBase \x -> (x, x)
 
 {-^
 
-To fill a list of type @LengthR n a@ with a value of type @a@.
+To fill a list of type @LengthR n a@ with a default value.
 
 >>> :set -XDataKinds
->>> sampleFillR = fillR 'c' (NilR :++ 'a' :+ 'b') :: LengthR 5 Char
->>> sampleFillR
+>>> fillR 'c' (NilR :++ 'a' :+ 'b') :: LengthR 5 Char
 ((((NilR :+ 'c') :+ 'c') :+ 'c') :+ 'a') :+ 'b'
 
 -}
