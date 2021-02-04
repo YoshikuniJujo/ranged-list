@@ -24,10 +24,10 @@ Refactor documents
 			* [x] with monad
 				+ [x] unfoldrM
 				+ [x] unfoldrMWithBase
-		- [ ] ZipL
+		- [x] ZipL
 			* [x] zipL
-			* [ ] zipWithL
-			* [ ] zipWithML
+			* [x] zipWithL
+			* [x] zipWithML
 		- [ ] ListToLengthL
 			* [ ] listToLengthL
 			* [ ] chunksL

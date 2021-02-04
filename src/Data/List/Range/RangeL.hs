@@ -504,13 +504,17 @@ class ZipL n m v w where
 
 	{-^
 
-	@zipWithML@ is like zipWithL.
-	But it use function which return monad instead of a simple value.
+	It is like @zipWithL@.
+	But it use a function which return monad instead of a simple value.
 
-	>>> :set -XDataKinds
-	>>> sampleZipWithML1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
-	>>> sampleZipWithML2 = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL :: RangeL 5 7 Char
-	>>> zipWithML (\n -> putStrLn . replicate n) sampleZipWithML1 sampleZipWithML2
+	>>> :set -XDataKinds -fno-warn-tabs
+	>>> ns = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
+	>>> :{
+		cs :: RangeL 5 7 Char
+		cs = 'a' :. 'b' :. 'c' :. 'd' :. 'e' :. 'f' :.. NilL
+	:}
+
+	>>> zipWithML (\n -> putStrLn . replicate n) ns cs
 	a
 	bb
 	ccc
@@ -562,7 +566,7 @@ zipWithL op = (runIdentity .) . zipWithML ((Identity .) . op)
 {-^
 
 It is like @zipL@.
-But it evaluate function to make values instead of put together in tuples.
+But it evaluate a function to make values instead of put together in tuples.
 
 >>> :set -XDataKinds
 >>> sampleZipWithL1 = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Integer
