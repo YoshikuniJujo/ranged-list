@@ -155,7 +155,7 @@ class AddR n m v w where
 
 	{-^
 
-	Concatenation of two lists whose types are @RangeR n m a@ and @RangeR v w a@.
+	To concatenate two lists whose types are @RangeR n m a@ and @RangeR v w a@.
 
 	>>> :set -XDataKinds
 	>>> sampleRangeR1 = NilR :++ 'f' :+ 'o' :+ 'o' :: RangeR 2 5 Char

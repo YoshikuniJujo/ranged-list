@@ -9,7 +9,7 @@ haddock
 Refactor documents
 
 * [ ] Data.List.Length
-	+ [ ] LENGTHED LIST LEFT
+	+ [x] LENGTHED LIST LEFT
 		- [x] Type
 			* [x] type LengthL
 			* [x] data RangeL
@@ -28,15 +28,15 @@ Refactor documents
 			* [x] zipL
 			* [x] zipWithL
 			* [x] zipWithML
-		- [ ] ListToLengthL
+		- [x] ListToLengthL
 			* [x] listToLengthL
-			* [ ] chunksL
-			* [ ] chunksL'
+			* [x] chunksL
+			* [x] chunksL'
 	+ [ ] LENGTHED LIST RIGHT
-		- [ ] Type
-			* [ ] type LengthR
-			* [ ] data RangeR
-		- [ ] AddR
+		- [x] Type
+			* [x] type LengthR
+			* [x] data RangeR
+		- [x] AddR
 		- [ ] Unfoldl
 			* [ ] class
 			* [ ] without monad
