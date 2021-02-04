@@ -22,6 +22,8 @@ Refactor documents
 				+ [x] unfoldr
 				+ [x] unfoldrWithBase
 			* [ ] with monad
+				+ [x] unfoldrM
+				+ [ ] unfoldrMWithBase
 		- [ ] ZipL
 			* [ ] zipL
 			* [ ] zipWithL

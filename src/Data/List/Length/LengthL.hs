@@ -73,15 +73,14 @@ unfoldrM = unfoldrMWithBase NilL
 
 {-^
 
-It is like unfoldr. But it use monad as an argument instead of function.
+It is like @unfoldr@. But it use a monad as an argument instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
->>> r <- newIORef 0
+>>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n <$ writeIORef r (n +1)
->>> sampleUnfoldrM = unfoldrM count :: IO (LengthL 3 Integer)
->>> sampleUnfoldrM
-0 :. (1 :. (2 :. NilL))
+>>> unfoldrM count :: IO (LengthL 3 Integer)
+1 :. (2 :. (3 :. NilL))
 
 -}
 
