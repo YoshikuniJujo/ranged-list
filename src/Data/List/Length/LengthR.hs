@@ -73,15 +73,14 @@ unfoldlM = (`unfoldlMWithBase` NilR)
 
 {-^
 
-It is like unfoldl. But it use monad as an argument instead of function.
+It is like @unfoldl@. But it use monad as an argument instead of function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
->>> r <- newIORef 0
+>>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
->>> sampleUnfoldlM = unfoldlM count :: IO (LengthR 3 Integer)
->>> sampleUnfoldlM
-((NilR :+ 2) :+ 1) :+ 0
+>>> unfoldlM count :: IO (LengthR 5 Integer)
+((((NilR :+ 5) :+ 4) :+ 3) :+ 2) :+ 1
 
 -}
 
@@ -91,15 +90,14 @@ unfoldlMWithBase = unfoldlMRangeWithBase undefined
 
 {-^
 
-It is like unfoldlM. But it has already prepared values.
+It is like @unfoldlM@. But it has already prepared values.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
->>> r <- newIORef 0
+>>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n <$ writeIORef r (n + 1)
->>> sampleUnfoldlMWithBase = unfoldlMWithBase count (NilR :++ 123 :+ 456) :: IO (LengthR 5 Integer)
->>> sampleUnfoldlMWithBase
-((((NilR :+ 2) :+ 1) :+ 0) :+ 123) :+ 456
+>>> unfoldlMWithBase count (NilR :++ 123 :+ 456) :: IO (LengthR 5 Integer)
+((((NilR :+ 3) :+ 2) :+ 1) :+ 123) :+ 456
 
 -}
 
