@@ -521,7 +521,7 @@ class ZipL n m v w where
 	{-^
 
 	It is like @zipWithL@.
-	But it use a function which return monad instead of a simple value.
+	But it use a function which return a monad instead of a simple value.
 
 	>>> :set -XDataKinds -fno-warn-tabs
 	>>> ns = 1 :. 2 :. 3 :.. NilL :: RangeL 2 4 Int
