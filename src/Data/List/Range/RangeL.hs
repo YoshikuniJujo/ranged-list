@@ -127,7 +127,7 @@ class PushL n m where
 
 	{-^
 
-	@(.:..)@: To push an optional element.
+	To push an optional element.
 
 	>>> :set -XDataKinds
 	>>> samplePushL = 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 3 7 Char

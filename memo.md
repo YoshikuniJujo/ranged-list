@@ -64,8 +64,8 @@ Refactor documents
 		- [x] rightToLeft
 * [ ] Data.List.Range
 	+ [ ] RANGED LIST LEFT
-		- [ ] Type
-		- [ ] PushL
+		- [x] Type
+		- [x] PushL
 		- [ ] AddL
 		- [ ] LoosenLMin and LoosenLMax
 			* [ ] loosenL
