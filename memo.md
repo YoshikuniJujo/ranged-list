@@ -8,7 +8,7 @@ haddock
 
 Refactor documents
 
-* [ ] Data.List.Length
+* [x] Data.List.Length
 	+ [x] LENGTHED LIST LEFT
 		- [x] Type
 			* [x] type LengthL
@@ -56,12 +56,12 @@ Refactor documents
 			* [x] listToLengthR
 			* [x] chunksR
 			* [x] chunksR'
-	+ [ ] LEFT TO RIGHT
-		- [ ] (++.+)
-		- [ ] leftToRight
-	+ [ ] RIGHT TO LEFT
-		- [ ] (++..)
-		- [ ] rightToLeft
+	+ [x] LEFT TO RIGHT
+		- [x] (++.+)
+		- [x] leftToRight
+	+ [x] RIGHT TO LEFT
+		- [x] (++..)
+		- [x] rightToLeft
 * [ ] Data.List.Range
 	+ [ ] RANGED LIST LEFT
 		- [ ] Type

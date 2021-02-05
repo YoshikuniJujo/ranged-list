@@ -262,7 +262,7 @@ class LeftToRight n m v w where
 
 	{-^
 
-	@(++.+)@: To concatenate a right-list and a left-list and return a right-list.
+	To concatenate a right-list and a left-list and return a right-list.
 
 	>>> :set -XDataKinds
 	>>> sampleLeftToRight1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
@@ -300,8 +300,12 @@ leftToRight = ((NilR :: RangeR 0 0 a) ++.+)
 
 To convert a left-list to a right-list.
 
->>> :set -XDataKinds
->>> sampleLeftToRight = 'h' :. 'e' :. 'l' :. 'l' :.. 'o' :.. NilL :: RangeL 3 8 Char
+>>> :set -XDataKinds -fno-warn-tabs
+>>> :{
+	sampleLeftToRight :: RangeL 3 8 Char
+	sampleLeftToRight = 'h' :. 'e' :. 'l' :. 'l' :.. 'o' :.. NilL
+:}
+
 >>> leftToRight sampleLeftToRight
 ((((NilR :++ 'h') :++ 'e') :+ 'l') :+ 'l') :+ 'o'
 
@@ -320,7 +324,7 @@ class RightToLeft n m v w where
 
 	{-^
 
-	@(++..)@: To concatenate a right-list and a left-list and return a left-list.
+	To concatenate a right-list and a left-list and return a left-list.
 
 	>>> :set -XDataKinds
 	>>> sampleRightToLeft1 = NilR :++ 'f' :++ 'o' :+ 'o' :: RangeR 1 4 Char
@@ -357,7 +361,11 @@ rightToLeft = (++.. (NilL :: RangeL 0 0 a))
 To convert a right-list to a left-list.
 
 >>> :set -XDataKinds
->>> sampleRightToLeft = NilR :++ 'h' :++ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 3 8 Char
+>>> :{
+	sampleRightToLeft :: RangeR 3 8 Char
+	sampleRightToLeft = NilR :++ 'h' :++ 'e' :+ 'l' :+ 'l' :+ 'o'
+:}
+
 >>> rightToLeft sampleRightToLeft
 'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
 
