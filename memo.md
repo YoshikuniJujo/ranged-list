@@ -102,13 +102,13 @@ Refactor documents
 				+ [x] unfoldrMMin
 				+ [x] unfoldrMMax
 	+ [ ] RANGED LIST RIGHT
-		- [ ] Type
-		- [ ] PushR
-		- [ ] AddR
-		- [ ] LoosenRMin and LoosenRMax
-			* [ ] loosenR
-			* [ ] loosenRMin
-			* [ ] loosenRMax
+		- [x] Type
+		- [x] PushR
+		- [x] AddR
+		- [x] LoosenRMin and LoosenRMax
+			* [x] loosenR
+			* [x] loosenRMin
+			* [x] loosenRMax
 		- [ ] Unfoldl
 			* [ ] class
 			* [ ] unfoldlRange

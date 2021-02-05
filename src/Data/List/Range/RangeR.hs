@@ -192,7 +192,7 @@ loosenR = loosenRMax . loosenRMin
 
 {-^
 
-To loosen range of element number.
+To loosen a range of element number.
 
 >>> :set -XDataKinds
 >>> sampleLoosenR = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
@@ -208,10 +208,14 @@ class LoosenRMin n m v where
 
 	{-^
 
-	To loosen lower bound of element number.
+	To loosen a lower bound of element number.
 
-	>>> :set -XDataKinds
-	>>> sampleLoosenRMin = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
+	>>> :set -XDataKinds -fno-warn-tabs
+	>>> :{
+		sampleLoosenRMin :: RangeR 4 6 Char
+		sampleLoosenRMin = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o'
+	:}
+
 	>>> loosenRMin sampleLoosenRMin :: RangeR 2 6 Char
 	((((NilR :++ 'h') :++ 'e') :++ 'l') :+ 'l') :+ 'o'
 
@@ -235,10 +239,14 @@ class LoosenRMax n m w where
 
 	{-^
 
-	To loosen upper bound of element number.
+	To loosen an upper bound of element number.
 
-	>>> :set -XDataKinds
-	>>> sampleLoosenRMax = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o' :: RangeR 4 6 Char
+	>>> :set -XDataKinds -fno-warn-tabs
+	>>> :{
+		sampleLoosenRMax :: RangeR 4 6 Char
+		sampleLoosenRMax = NilR :++ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o'
+	:}
+
 	>>> loosenRMax sampleLoosenRMax :: RangeR 4 8 Char
 	((((NilR :++ 'h') :+ 'e') :+ 'l') :+ 'l') :+ 'o'
 
