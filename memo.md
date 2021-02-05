@@ -71,7 +71,7 @@ Refactor documents
 			* [x] loosenL
 			* [x] loosenLMin
 			* [x] loosenLMax
-		- [ ] Unfoldr
+		- [x] Unfoldr
 			* [x] unfoldrRange
 				+ [x] without monad
 					- [x] unfoldrRange
@@ -80,13 +80,13 @@ Refactor documents
 				+ [x] with monad
 					- [x] unfoldrMRange
 					- [x] unfoldrMRangeWithBase
-			* [ ] unfoldrRangeMaybe
+			* [x] unfoldrRangeMaybe
 				+ [x] without monad
 					- [x] unfoldrRangeMaybe
 					- [x] unfoldrRangeMaybeWithBase
-				+ [ ] with monad
-					- [ ] unfoldrMRangeMaybe
-					- [ ] unfoldrMRangeMaybeWithBase
+				+ [x] with monad
+					- [x] unfoldrMRangeMaybe
+					- [x] unfoldrMRangeMaybeWithBase
 		- [ ] ZipL
 		- [ ] Repeat and Unfoldr Min and Max
 			* [ ] repeat

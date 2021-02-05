@@ -295,12 +295,16 @@ class Unfoldr n v w where
 	It is like @unfoldrMRangeMaybe@.
 	But it has already prepared values.
 
-	>>> :set -XDataKinds
+	>>> :set -XDataKinds -fno-warn-tabs
 	>>> :module + Data.IORef
 	>>> r <- newIORef 1
+	>>> check = (< 3) <$> readIORef r
 	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
 	>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
-	>>> unfoldrMRangeMaybeWithBase xs ((< 3) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+	>>> :{
+		unfoldrMRangeMaybeWithBase xs check count
+			:: IO (Maybe (RangeL 3 5 Integer))
+	:}
 	Just (123 :. (456 :. (3 :. (6 :.. NilL))))
 	
 	-}
@@ -479,26 +483,26 @@ unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
 {-^
 
 It is like @unfoldrRangeMaybe@.
-But it use monad instead of function.
-First argument monad return boolean value.
+But it use a monad instead of a function.
+The first argument monad return boolean value.
 It create values while this boolean value is True.
 If this boolean value is False before to create enough values or
-True after to create full values, then @unfoldrMRangeMaybe@
-return Nothing.
+True after to create full values, then @unfoldrMRangeMaybe@ return Nothing.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
 >>> r <- newIORef 1
+>>> check n0 = (< n0) <$> readIORef r
 >>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
->>> unfoldrMRangeMaybe ((< 2) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+>>> unfoldrMRangeMaybe (check 2) count :: IO (Maybe (RangeL 3 5 Integer))
 Nothing
 
 >>> writeIORef r 1
->>> unfoldrMRangeMaybe ((< 5) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+>>> unfoldrMRangeMaybe (check 5) count :: IO (Maybe (RangeL 3 5 Integer))
 Just (3 :. (6 :. (9 :. (12 :.. NilL))))
 
 >>> writeIORef r 1
->>> unfoldrMRangeMaybe ((< 10) <$> readIORef r) count :: IO (Maybe (RangeL 3 5 Integer))
+>>> unfoldrMRangeMaybe (check 10) count :: IO (Maybe (RangeL 3 5 Integer))
 Nothing
 
 -}
