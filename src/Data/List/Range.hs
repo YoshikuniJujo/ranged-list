@@ -79,7 +79,7 @@ unfoldrMin f = loosenLMax . unfoldr f
 {-^
 
 To evaluate a function to construct values minimum number of times.
-The function recieve state and return a value and new state.
+The function recieve a state and return a value and a new state.
 
 >>> :set -XDataKinds
 >>> unfoldrMin (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Integer
@@ -93,7 +93,7 @@ unfoldrMMin f = loosenLMax <$> unfoldrM f
 
 {-^
 
-It is like @unfoldrMin@. But it use monad instead of function.
+It is like @unfoldrMin@. But it use a monad instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
@@ -126,7 +126,7 @@ unfoldrMax f = loosenLMin . unfoldr f
 {-^
 
 To evaluate a function to construct values maximum number of times.
-The function recieve state and return a value and new state.
+The function recieve a state and return a value and a new state.
 
 >>> :set -XDataKinds
 >>> unfoldrMax (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Integer
@@ -140,7 +140,7 @@ unfoldrMMax f = loosenLMin <$> unfoldrM f
 
 {-^
 
-It is like @unfoldrMax@. But it use monad instead of function.
+It is like @unfoldrMax@. But it use a monad instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef

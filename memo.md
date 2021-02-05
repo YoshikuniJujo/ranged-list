@@ -63,7 +63,7 @@ Refactor documents
 		- [x] (++..)
 		- [x] rightToLeft
 * [ ] Data.List.Range
-	+ [ ] RANGED LIST LEFT
+	+ [x] RANGED LIST LEFT
 		- [x] Type
 		- [x] PushL
 		- [x] AddL
@@ -91,16 +91,16 @@ Refactor documents
 			* [x] zipL
 			* [x] zipWithL
 			* [x] zipWithML
-		- [ ] Repeat and Unfoldr Min and Max
-			* [ ] repeat
-				+ [ ] repeatLMin
-				+ [ ] repeatLMax
-			* [ ] unfoldr
-				+ [ ] unfoldrMin
-				+ [ ] unfoldrMax
-			* [ ] unfoldrM
-				+ [ ] unfoldrMMin
-				+ [ ] unfoldrMMax
+		- [x] Repeat and Unfoldr Min and Max
+			* [x] repeat
+				+ [x] repeatLMin
+				+ [x] repeatLMax
+			* [x] unfoldr
+				+ [x] unfoldrMin
+				+ [x] unfoldrMax
+			* [x] unfoldrM
+				+ [x] unfoldrMMin
+				+ [x] unfoldrMMax
 	+ [ ] RANGED LIST RIGHT
 		- [ ] Type
 		- [ ] PushR
