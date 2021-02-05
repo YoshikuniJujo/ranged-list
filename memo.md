@@ -66,11 +66,11 @@ Refactor documents
 	+ [ ] RANGED LIST LEFT
 		- [x] Type
 		- [x] PushL
-		- [ ] AddL
-		- [ ] LoosenLMin and LoosenLMax
-			* [ ] loosenL
-			* [ ] loosenLMin
-			* [ ] loosenLMax
+		- [x] AddL
+		- [x] LoosenLMin and LoosenLMax
+			* [x] loosenL
+			* [x] loosenLMin
+			* [x] loosenLMax
 		- [ ] Unfoldr
 			* [ ] unfoldrRange
 				+ [ ] without monad

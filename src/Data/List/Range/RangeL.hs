@@ -192,7 +192,7 @@ loosenL = loosenLMax . loosenLMin
 
 {-^
 
-To loosen range of element number.
+To loosen a range of an element number.
 
 >>> :set -XDataKinds
 >>> sampleLoosenL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
@@ -208,10 +208,14 @@ class LoosenLMin n m v where
 
 	{-^
 
-	To loosen lower bound of element number.
+	To loosen a lower bound of an element number.
 
-	>>> :set -XDataKinds
-	>>> sampleLoosenLMin = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
+	>>> :set -XDataKinds -fno-warn-tabs
+	>>> :{
+		sampleLoosenLMin :: RangeL 4 6 Char
+		sampleLoosenLMin = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL
+	:}
+
 	>>> loosenLMin sampleLoosenLMin :: RangeL 2 6 Char
 	'h' :. ('e' :. ('l' :.. ('l' :.. ('o' :.. NilL))))
 
@@ -235,10 +239,14 @@ class LoosenLMax n m w where
 
 	{-^
 
-	To loosen upper bound of element number.
+	To loosen an upper bound of an element number.
 
-	>>> :set -XDataKinds
-	>>> sampleLoosenLMax = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL :: RangeL 4 6 Char
+	>>> :set -XDataKinds -fno-warn-tabs
+	>>> :{
+		sampleLoosenLMax :: RangeL 4 6 Char
+		sampleLoosenLMax = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :.. NilL
+	:}
+
 	>>> loosenLMax sampleLoosenLMax :: RangeL 4 8 Char
 	'h' :. ('e' :. ('l' :. ('l' :. ('o' :.. NilL))))
 
