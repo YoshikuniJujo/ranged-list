@@ -81,9 +81,9 @@ Refactor documents
 					- [x] unfoldrMRange
 					- [x] unfoldrMRangeWithBase
 			* [ ] unfoldrRangeMaybe
-				+ [ ] without monad
-					- [ ] unfoldrRangeMaybe
-					- [ ] unfoldrRangeMaybeWithBase
+				+ [x] without monad
+					- [x] unfoldrRangeMaybe
+					- [x] unfoldrRangeMaybeWithBase
 				+ [ ] with monad
 					- [ ] unfoldrMRangeMaybe
 					- [ ] unfoldrMRangeMaybeWithBase

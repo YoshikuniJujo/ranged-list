@@ -428,19 +428,21 @@ unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
 
 {-^
 
-To eveluate function to construct a list.
-The function recieve state and return a nothing value or an element and new state.
-If number of created elements is less than minimum number of list elements or
-greater than maximum number, then return Nothing.
+To eveluate a function to construct a list.
+The function recieve a state and
+return a nothing value or an element and a new state.
+If number of created elements is less than a minimum number of list elements or
+greater than a maximum number, then return Nothing.
 
 >>> :set -XDataKinds
->>> unfoldrRangeMaybe (\n -> if n < 2 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+>>> next n0 n = if n < n0 then Just (n * 3, n + 1) else Nothing
+>>> unfoldrRangeMaybe (next 2) 1 :: Maybe (RangeL 3 5 Int)
 Nothing
 
->>> unfoldrRangeMaybe (\n -> if n < 5 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+>>> unfoldrRangeMaybe (next 5) 1 :: Maybe (RangeL 3 5 Int)
 Just (3 :. (6 :. (9 :. (12 :.. NilL))))
 
->>> unfoldrRangeMaybe (\n -> if n < 10 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+>>> unfoldrRangeMaybe (next 10) 1 :: Maybe (RangeL 3 5 Int)
 Nothing
 
 -}
@@ -457,7 +459,8 @@ It is like @unfoldrRangeMaybe@. But it has already prepared values.
 
 >>> :set -XDataKinds
 >>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Int
->>> unfoldrRangeMaybeWithBase xs (\n -> if n < 3 then Just (n * 3, n + 1) else Nothing) 1 :: Maybe (RangeL 3 5 Int)
+>>> next n = if n < 3 then Just (n * 3, n + 1) else Nothing
+>>> unfoldrRangeMaybeWithBase xs next 1 :: Maybe (RangeL 3 5 Int)
 Just (123 :. (456 :. (3 :. (6 :.. NilL))))
 
 -}
