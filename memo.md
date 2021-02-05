@@ -73,10 +73,10 @@ Refactor documents
 			* [x] loosenLMax
 		- [ ] Unfoldr
 			* [ ] unfoldrRange
-				+ [ ] without monad
-					- [ ] unfoldrRange
-					- [ ] unfoldrRangeWithBase
-					- [ ] unfoldrRangeWithBaseWithS
+				+ [x] without monad
+					- [x] unfoldrRange
+					- [x] unfoldrRangeWithBase
+					- [x] unfoldrRangeWithBaseWithS
 				+ [ ] with monad
 					- [ ] unfoldrMRange
 					- [ ] unfoldrMRangeWithBase

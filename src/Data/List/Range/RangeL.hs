@@ -352,22 +352,20 @@ unfoldrRange = unfoldrRangeWithBase NilL
 
 {-^
 
-To evaluate function to construct a list.
-The function recieve state and return an element and new state.
-First argument is predication which are evaluated
-when element number is greater than minimum and not greater than maximum.
+To evaluate a function to construct a list.
+The function recieve a state and return an element and a new state.
+First argument is a predication which is evaluated
+when an element number is greater than a minimum and not greater than a maximum.
 
 >>> :set -XDataKinds
->>> sampleUnfoldrRange1 = unfoldrRange (< 2) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
->>> sampleUnfoldrRange1
+>>> next n = (n * 3, n + 1)
+>>> unfoldrRange (< 2) next 1 :: RangeL 3 5 Int
 3 :. (6 :. (9 :. NilL))
 
->>> sampleUnfoldrRange2 = unfoldrRange (< 5) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
->>> sampleUnfoldrRange2
+>>> unfoldrRange (< 5) next 1 :: RangeL 3 5 Int
 3 :. (6 :. (9 :. (12 :.. NilL)))
 
->>> sampleUnfoldrRange3 = unfoldrRange (< 10) (\n -> (n * 3, n + 1)) 1 :: RangeL 3 5 Int
->>> sampleUnfoldrRange3
+>>> unfoldrRange (< 10) next 1 :: RangeL 3 5 Int
 3 :. (6 :. (9 :. (12 :.. (15 :.. NilL))))
 
 -}
@@ -394,11 +392,13 @@ unfoldrRangeWithBaseWithS xs p f =
 
 {-^
 
-It is like @unfoldrRangeWithBase@. But it return not only a list but also a state value.
+It is like @unfoldrRangeWithBase@.
+But it return not only a list but also a state value.
 
 >>> :set -XDataKinds
+>>> next n = (n * 3, n + 1)
 >>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
->>> unfoldrRangeWithBaseWithS xs (< 3) (\n -> (n * 3, n + 1)) 1 :: (RangeL 3 5 Integer, Integer)
+>>> unfoldrRangeWithBaseWithS xs (< 3) next 1 :: (RangeL 3 5 Integer, Integer)
 (123 :. (456 :. (3 :. (6 :.. NilL))),3)
 
 -}
