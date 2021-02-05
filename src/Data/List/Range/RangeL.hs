@@ -279,9 +279,10 @@ class Unfoldr n v w where
 	>>> :set -XDataKinds
 	>>> :module + Data.IORef
 	>>> r <- newIORef 1
+	>>> check = (< 3) <$> readIORef r
 	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
 	>>> xs = 123 :. 456 :.. NilL :: RangeL 1 5 Integer
-	>>> unfoldrMRangeWithBase xs ((< 3) <$> readIORef r) count :: IO (RangeL 3 5 Integer)
+	>>> unfoldrMRangeWithBase xs check count :: IO (RangeL 3 5 Integer)
 	123 :. (456 :. (3 :. (6 :.. NilL)))
 	
 	-}
@@ -408,7 +409,7 @@ unfoldrMRange = unfoldrMRangeWithBase NilL
 
 {-^
 
-It is like @unfoldrRange@. But it use monad instead of function.
+It is like @unfoldrRange@. But it use a monad instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
