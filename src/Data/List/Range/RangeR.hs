@@ -388,9 +388,12 @@ unfoldlRangeWithBaseWithS p f =
 It is like @unfoldlRangeWithBase@.
 But it return not only a list but also a state value.
 
->>> :set -XDataKinds
+>>> :set -XDataKinds -fno-warn-tabs
 >>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
->>> unfoldlRangeWithBaseWithS (< 3) (\n -> (n + 1, n * 3)) 1 xs :: (Integer, RangeR 3 5 Integer)
+>>> :{
+	unfoldlRangeWithBaseWithS (< 3) (\n -> (n + 1, n * 3)) 1 xs
+		:: (Integer, RangeR 3 5 Integer)
+:}
 (3,(((NilR :++ 6) :+ 3) :+ 123) :+ 456)
 
 -}

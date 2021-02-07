@@ -112,10 +112,10 @@ Refactor documents
 		- [ ] Unfoldl
 			* [x] class
 			* [ ] unfoldlRange
-				+ [ ] without monad
+				+ [x] without monad
 					- [x] unfoldlRange
-					- [ ] unfoldlRangeWithBase
-					- [ ] unfoldlRangeWithBaseWithS
+					- [x] unfoldlRangeWithBase
+					- [x] unfoldlRangeWithBaseWithS
 				+ [ ] with monad
 					- [ ] unfoldlMRange
 					- [ ] unfoldlMRangeWithBase
