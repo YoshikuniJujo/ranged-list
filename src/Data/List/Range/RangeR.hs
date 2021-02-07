@@ -346,10 +346,10 @@ unfoldlRange p f s = unfoldlRangeWithBase p f s NilR
 
 {-^
 
-To eveluate function to construct a list.
-The function recieve state and return an element and new state.
-First argument is predication which are evaluated when element number is
-greater than minimum and not greater than maximum.
+To eveluate a function to construct a list.
+The function recieve a state and return an element and a new state.
+The first argument is a predication which is evaluated when an element number is
+greater than a minimum and not greater than a maximum.
 
 >>> :set -XDataKinds
 >>> unfoldlRange (< 2) (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Int

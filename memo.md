@@ -110,10 +110,10 @@ Refactor documents
 			* [x] loosenRMin
 			* [x] loosenRMax
 		- [ ] Unfoldl
-			* [ ] class
+			* [x] class
 			* [ ] unfoldlRange
 				+ [ ] without monad
-					- [ ] unfoldlRange
+					- [x] unfoldlRange
 					- [ ] unfoldlRangeWithBase
 					- [ ] unfoldlRangeWithBaseWithS
 				+ [ ] with monad
