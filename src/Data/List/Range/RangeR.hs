@@ -403,7 +403,7 @@ unfoldlMRange p f = unfoldlMRangeWithBase p f NilR
 
 {-^
 
-It is like @unfoldlRange@. But it use monad instead of function.
+It is like @unfoldlRange@. But it use a monad instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
