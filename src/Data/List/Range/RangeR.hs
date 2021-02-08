@@ -425,20 +425,22 @@ unfoldlRangeMaybe f s = unfoldlRangeMaybeWithBase f s NilR
 
 {-^
 
-To evaluate function to construct a list.
-The function recieve state and
-return a nothing value or an element and new state.
-If number of created elements is less than minimum unmber of list elements or
-greater than maximum number, then return Nothing.
+To evaluate a function to construct a list.
+The function recieves a state and
+return a nothing value or an element and a new state.
+If the number of created elements is
+less than a minimum number of list elements or
+greater than a maximum number, then return @Nothing@.
 
 >>> :set -XDataKinds
->>> unfoldlRangeMaybe (\n -> if n < 2 then Just (n + 1, n * 3) else Nothing) 1 :: Maybe (RangeR 3 5 Int)
+>>> count n0 n = if n < n0 then Just (n + 1, n * 3) else Nothing
+>>> unfoldlRangeMaybe (count 2) 1 :: Maybe (RangeR 3 5 Int)
 Nothing
 
->>> unfoldlRangeMaybe (\n -> if n < 5 then Just (n + 1, n * 3) else Nothing) 1 :: Maybe (RangeR 3 5 Int)
+>>> unfoldlRangeMaybe (count 5) 1 :: Maybe (RangeR 3 5 Int)
 Just ((((NilR :++ 12) :+ 9) :+ 6) :+ 3)
 
->>> unfoldlRangeMaybe (\n -> if n < 10 then Just (n + 1, n * 3) else Nothing) 1 :: Maybe (RangeR 3 5 Int)
+>>> unfoldlRangeMaybe (count 10) 1 :: Maybe (RangeR 3 5 Int)
 Nothing
 
 -}

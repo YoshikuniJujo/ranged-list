@@ -121,7 +121,7 @@ Refactor documents
 					- [x] unfoldlMRangeWithBase
 			* [ ] unfoldlRangeMaybe
 				+ [ ] without monad
-					- [ ] unfoldlRangeMaybe
+					- [x] unfoldlRangeMaybe
 					- [ ] unfoldlRangeMaybeWithBase
 				+ [ ] with monad
 					- [ ] unfoldlMRangeMaybe
