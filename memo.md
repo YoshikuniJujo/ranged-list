@@ -126,7 +126,10 @@ Refactor documents
 				+ [x] with monad
 					- [x] unfoldlMRangeMaybe
 					- [x] unfoldlMRangeMaybeWithBase
-		- [ ] ZipR
+		- [x] ZipR
+			* [x] zipR
+			* [x] zipWithR
+			* [x] zipWithMR
 		- [ ] Repeat and Unfoldl Min and Max
 			* [ ] repeat
 			* [ ] unfoldl

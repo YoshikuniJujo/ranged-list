@@ -518,7 +518,7 @@ class ZipR n m v w where
 	{-^
 
 	It is like @zipWithR@.
-	But it use function which return a monad instead of a simple value.
+	But it uses a function which returns a monad instead of a simple value.
 
 	>>> :set -XDataKinds
 	>>> ns = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Int
@@ -575,7 +575,7 @@ zipWithR op = (runIdentity .) . zipWithMR ((Identity .) . op)
 {-^
 
 It is like @zipR@.
-But it evaluate function to make values instead of put together in tuples.
+But it evaluates a function to make values instead of puts together in tuples.
 
 >>> :set -XDataKinds
 >>> sampleZipWithR1 = NilR :++ 1 :+ 2 :+ 3 :+ 4 :+ 5 :+ 6 :: RangeR 5 7 Integer
