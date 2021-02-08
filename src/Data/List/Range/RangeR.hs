@@ -456,8 +456,9 @@ unfoldlRangeMaybeWithBase f s xs =
 It is like @unfoldlRangeMaybe@. But it has already prepared values.
 
 >>> :set -XDataKinds
+>>> count n = if n < 3 then Just (n + 1, n * 3) else Nothing
 >>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Int
->>> unfoldlRangeMaybeWithBase (\n -> if n < 3 then Just (n + 1, n * 3) else Nothing) 1 xs :: Maybe (RangeR 3 5 Int)
+>>> unfoldlRangeMaybeWithBase count 1 xs :: Maybe (RangeR 3 5 Int)
 Just ((((NilR :++ 6) :+ 3) :+ 123) :+ 456)
 
 -}
