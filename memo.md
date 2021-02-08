@@ -101,7 +101,7 @@ Refactor documents
 			* [x] unfoldrM
 				+ [x] unfoldrMMin
 				+ [x] unfoldrMMax
-	+ [ ] RANGED LIST RIGHT
+	+ [x] RANGED LIST RIGHT
 		- [x] Type
 		- [x] PushR
 		- [x] AddR
@@ -130,14 +130,16 @@ Refactor documents
 			* [x] zipR
 			* [x] zipWithR
 			* [x] zipWithMR
-		- [ ] Repeat and Unfoldl Min and Max
-			* [ ] repeat
-			* [ ] unfoldl
-				+ [ ] unfoldlMin
-				+ [ ] unfoldlMax
-			* [ ] unfoldlM
-				+ [ ] unfoldlMinM
-				+ [ ] unfoldlMaxM
+		- [x] Repeat and Unfoldl Min and Max
+			* [x] repeat
+				+ [x] repeatRMin
+				+ [x] repeatRMax
+			* [x] unfoldl
+				+ [x] unfoldlMin
+				+ [x] unfoldlMax
+			* [x] unfoldlM
+				+ [x] unfoldlMMin
+				+ [x] unfoldlMMakx
 	+ [ ] LEFT TO RIGHT
 	+ [ ] RIGHT TO LEFT
 * [ ] Data.List.Range.Nat
@@ -388,7 +390,7 @@ refactor
 	+ [x] body
 		- [x] STATE LEFT
 		- [x] STATE RIGHT
-* [ ] unify order of 'Min'/'Max' and 'M'
+* [x] unify order of 'Min'/'Max' and 'M'
 	+ unfoldrMMin, unfoldrMMax
 	+ unfoldlMinM, unfoldlMaxM
 

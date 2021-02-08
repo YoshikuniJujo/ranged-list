@@ -24,7 +24,7 @@ module Data.List.Range (
 	-- *** unfoldl
 	unfoldlMin, unfoldlMax,
 	-- *** unfoldlM
-	unfoldlMinM, unfoldlMaxM,
+	unfoldlMMin, unfoldlMMax,
 	-- * LEFT TO RIGHT
 	LeftToRight, (++.+), leftToRight,
 	-- * RIGHT TO LEFT
@@ -177,7 +177,7 @@ unfoldlMin f = loosenRMax . unfoldl f
 {-^
 
 To evaluate a function to construct values minimum number of times.
-The function recieve state and return a value and new state.
+The function recieves a state and return a value and a new state.
 
 >>> :set -XDataKinds
 >>> unfoldlMin (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Integer
@@ -185,19 +185,19 @@ The function recieve state and return a value and new state.
 
 -}
 
-unfoldlMinM ::
+unfoldlMMin ::
 	(Monad m, LoosenRMax n n w, Unfoldl 0 n n) => m a -> m (RangeR n w a)
-unfoldlMinM f = loosenRMax <$> unfoldlM f
+unfoldlMMin f = loosenRMax <$> unfoldlM f
 
 {-^
 
-It is like @unfoldlMax@. But it use monad instead of function.
+It is like @unfoldlMax@. But it uses a monad instead of a function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
 >>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
->>> unfoldlMinM count :: IO (RangeR 3 5 Integer)
+>>> unfoldlMMin count :: IO (RangeR 3 5 Integer)
 ((NilR :+ 9) :+ 6) :+ 3
 
 -}
@@ -224,7 +224,7 @@ unfoldlMax f = loosenRMin . unfoldl f
 {-^
 
 To eveluate a function to construct values maximum number of times.
-The function recieve state and return a value and new state.
+The function recieves a state and return a value and a new state.
 
 >>> :set -XDataKinds
 >>> unfoldlMax (\n -> (n + 1, n * 3)) 1 :: RangeR 3 5 Integer
@@ -232,19 +232,19 @@ The function recieve state and return a value and new state.
 
 -}
 
-unfoldlMaxM ::
+unfoldlMMax ::
 	(Monad m, LoosenRMin w w n, Unfoldl 0 w w) => m a -> m (RangeR n w a)
-unfoldlMaxM f = loosenRMin <$> unfoldlM f
+unfoldlMMax f = loosenRMin <$> unfoldlM f
 
 {-^
 
-It is like @unfoldlMax@. But it use monad instead of function.
+It is like @unfoldlMax@. But it uses a monad instead of function.
 
 >>> :set -XDataKinds
 >>> :module + Data.IORef
 >>> r <- newIORef 1
 >>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
->>> unfoldlMaxM count :: IO (RangeR 3 5 Integer)
+>>> unfoldlMMax count :: IO (RangeR 3 5 Integer)
 ((((NilR :++ 15) :++ 12) :+ 9) :+ 6) :+ 3
 
 -}
