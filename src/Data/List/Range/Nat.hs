@@ -34,10 +34,9 @@ natL = repeatL ()
 
 To make @RangedNatL@.
 
->>> :set -XDataKinds
+>>> :set -XTypeApplications -XDataKinds
 >>> :module + Data.List.Range
->>> n5 = natL :: RangedNatL 5 5
->>> loosenL n5 :: RangedNatL 3 8
+>>> loosenL (natL @5) :: RangedNatL 3 8
 () :. (() :. (() :. (() :.. (() :.. NilL))))
 
 -}
@@ -75,7 +74,7 @@ splitAtL = zipWithL $ flip const
 
 {-^
 
-To split list at position which is specified by number.
+To split a list at position which is specified by number.
 
 >>> :set -XTypeApplications -XDataKinds
 >>> :module + Data.List.Range

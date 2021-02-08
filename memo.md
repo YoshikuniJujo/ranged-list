@@ -62,7 +62,7 @@ Refactor documents
 	+ [x] RIGHT TO LEFT
 		- [x] (++..)
 		- [x] rightToLeft
-* [ ] Data.List.Range
+* [x] Data.List.Range
 	+ [x] RANGED LIST LEFT
 		- [x] Type
 		- [x] PushL
@@ -140,17 +140,19 @@ Refactor documents
 			* [x] unfoldlM
 				+ [x] unfoldlMMin
 				+ [x] unfoldlMMakx
-	+ [ ] LEFT TO RIGHT
-	+ [ ] RIGHT TO LEFT
+	+ [x] LEFT TO RIGHT
+		- [x] (++.+)
+		- [x] leftToRight
+	+ [x] RIGHT TO LEFT
+		- [x] (++..)
+		- [x] rightToLeft
 * [ ] Data.List.Range.Nat
-	+ [ ] RangedNatL
-		- [ ] type
-		- [ ] natL
-		- [ ] toIntL
-		- [ ] fromIntL
-		- [ ] splitAtL
+	+ [x] RangedNatL
+		- [x] natL
+		- [x] toIntL
+		- [x] fromIntL
+		- [x] splitAtL
 	+ [ ] RangedNatR
-		- [ ] type
 		- [ ] natR
 		- [ ] toIntR
 		- [ ] fromIntR
