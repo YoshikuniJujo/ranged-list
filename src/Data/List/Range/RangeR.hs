@@ -299,9 +299,13 @@ class Unfoldl n v w where
 	>>> :set -XDataKinds
 	>>> :module + Data.IORef
 	>>> r <- newIORef 1
+	>>> check = (< 3) <$> readIORef r
 	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
 	>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
-	>>> unfoldlMRangeMaybeWithBase ((< 3) <$> readIORef r) count xs :: IO (Maybe (RangeR 3 5 Integer))
+	>>> :{
+		unfoldlMRangeMaybeWithBase check count xs
+			:: IO (Maybe (RangeR 3 5 Integer))
+	:}
 	Just ((((NilR :++ 6) :+ 3) :+ 123) :+ 456)
 
 	-}

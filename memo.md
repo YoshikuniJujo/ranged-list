@@ -109,7 +109,7 @@ Refactor documents
 			* [x] loosenR
 			* [x] loosenRMin
 			* [x] loosenRMax
-		- [ ] Unfoldl
+		- [x] Unfoldl
 			* [x] class
 			* [x] unfoldlRange
 				+ [x] without monad
@@ -119,13 +119,13 @@ Refactor documents
 				+ [x] with monad
 					- [x] unfoldlMRange
 					- [x] unfoldlMRangeWithBase
-			* [ ] unfoldlRangeMaybe
+			* [x] unfoldlRangeMaybe
 				+ [x] without monad
 					- [x] unfoldlRangeMaybe
 					- [x] unfoldlRangeMaybeWithBase
-				+ [ ] with monad
+				+ [x] with monad
 					- [x] unfoldlMRangeMaybe
-					- [ ] unfoldlMRangeMaybeWithBase
+					- [x] unfoldlMRangeMaybeWithBase
 		- [ ] ZipR
 		- [ ] Repeat and Unfoldl Min and Max
 			* [ ] repeat
