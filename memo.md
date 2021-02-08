@@ -111,14 +111,14 @@ Refactor documents
 			* [x] loosenRMax
 		- [ ] Unfoldl
 			* [x] class
-			* [ ] unfoldlRange
+			* [x] unfoldlRange
 				+ [x] without monad
 					- [x] unfoldlRange
 					- [x] unfoldlRangeWithBase
 					- [x] unfoldlRangeWithBaseWithS
-				+ [ ] with monad
+				+ [x] with monad
 					- [x] unfoldlMRange
-					- [ ] unfoldlMRangeWithBase
+					- [x] unfoldlMRangeWithBase
 			* [ ] unfoldlRangeMaybe
 				+ [ ] without monad
 					- [ ] unfoldlRangeMaybe

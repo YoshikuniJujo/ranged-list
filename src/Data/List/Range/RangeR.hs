@@ -281,7 +281,10 @@ class Unfoldl n v w where
 	>>> r <- newIORef 1
 	>>> count = readIORef r >>= \n -> n * 3 <$ writeIORef r (n + 1)
 	>>> xs = NilR :++ 123 :+ 456 :: RangeR 1 5 Integer
-	>>> unfoldlMRangeWithBase ((< 3) <$> readIORef r) count xs :: IO (RangeR 3 5 Integer)
+	>>> :{
+		unfoldlMRangeWithBase ((< 3) <$> readIORef r) count xs
+			:: IO (RangeR 3 5 Integer)
+	:}
 	(((NilR :++ 6) :+ 3) :+ 123) :+ 456
 
 	-}
