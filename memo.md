@@ -163,7 +163,7 @@ Refactor documents
 refactor
 --------
 
-* [ ] consider move declaration of `type LengthL` to `Data.List.Range.RangeL`
+* [x] consider move declaration of `type LengthL` to `Data.List.Range.RangeL`
 * [ ] consider move declaration of `type LengthR` to `Data.List.Range.RangeR`
 * [ ] refactor all
 * [x] check module name hierarchy
@@ -518,9 +518,9 @@ todo
 * [x] add (<=) to RangeL and RangeR definitions
 	+ [x] RangeL
 	+ [x] RangeR
-* [ ] `instance Monad (LengthL n)`
+* [x] `instance Monad (LengthL n)`
 	+ [x] `instance Monad (RangeL n n)`
-	+ [ ] `instance Monad (LengthL n)`
+	+ [x] `instance Monad (LengthL n)`
 * [ ] `instance Monad (LengthR n)`
 	+ [x] `instance Monad (RangeR n n)`
 	+ [ ] `instance Monad (LengthR n)`

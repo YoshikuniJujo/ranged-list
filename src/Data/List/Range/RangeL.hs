@@ -8,6 +8,7 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 module Data.List.Range.RangeL (
+	LengthL,
 	-- ** Type
 	RangeL(..),
 	-- ** PushL
@@ -43,6 +44,18 @@ import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateL(..))
 import Data.Bool (bool)
 import Data.Maybe (isJust)
+
+type LengthL n = RangeL n n
+
+{-^
+
+The value of @LengthL n a@ is a list which have just @n@ members of type @a@.
+You can push and pop an element from left.
+
+>>> :set -XDataKinds
+>>> sampleLengthL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :. NilL :: LengthL 5 Char
+
+-}
 
 ---------------------------------------------------------------------------
 
@@ -116,20 +129,19 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeL (n - 1) (m - 1))) =>
 	Foldable (RangeL n m) where
 	foldr (-<) z (x :. xs) = x -< foldr (-<) z xs
 
-instance Applicative (RangeL 0 0) where pure _ = NilL; _ <*> _ = NilL
+instance Applicative (LengthL 0) where pure _ = NilL; _ <*> _ = NilL
 
-instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeL n n), Applicative (RangeL (n - 1) (n - 1)), Unfoldr 0 n n) => Applicative (RangeL n n) where
+instance {-# OVERLAPPABLE #-} (1 <= n, Functor (LengthL n), Applicative (LengthL (n - 1)), Unfoldr 0 n n) => Applicative (LengthL n) where
 	pure = unfoldrRange (const True) (\x -> (x, x))
 	f :. fs <*> mx@(_ :. mx') = y :. (fs <*> mx')
 		where y :. _ = f <$> mx
 
-instance Applicative (RangeL 0 0) => Monad (RangeL 0 0) where
+instance Applicative (LengthL 0) => Monad (LengthL 0) where
 	NilL >>= _ = NilL
 
-instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (RangeL n n), Monad (RangeL (n - 1) (n - 1))) => Monad (RangeL n n) where
+instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (LengthL n), Monad (LengthL (n - 1))) => Monad (LengthL n) where
 	x :. xs >>= f = y :. (xs >>= \z -> case f z of _ :. zs -> zs)
 		where y :. _ = f x
-	
 
 ---------------------------------------------------------------------------
 -- PUSH

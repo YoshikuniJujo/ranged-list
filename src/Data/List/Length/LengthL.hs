@@ -11,7 +11,7 @@ module Data.List.Length.LengthL (
 import GHC.TypeNats (type (-), type (<=))
 import Control.Arrow (first, (+++))
 import Control.Monad.State (StateL(..))
-import Data.List.Range.RangeL (RangeL(..), Unfoldr, unfoldrMRangeWithBase)
+import Data.List.Range.RangeL (LengthL, RangeL(..), Unfoldr, unfoldrMRangeWithBase)
 
 ---------------------------------------------------------------------------
 
@@ -22,18 +22,6 @@ import Data.List.Range.RangeL (RangeL(..), Unfoldr, unfoldrMRangeWithBase)
 ---------------------------------------------------------------------------
 -- TYPE
 ---------------------------------------------------------------------------
-
-type LengthL n = RangeL n n
-
-{-^
-
-The value of @LengthL n a@ is a list which have just @n@ members of type @a@.
-You can push and pop an element from left.
-
->>> :set -XDataKinds
->>> sampleLengthL = 'h' :. 'e' :. 'l' :. 'l' :. 'o' :. NilL :: LengthL 5 Char
-
--}
 
 ---------------------------------------------------------------------------
 -- UNFOLDR
