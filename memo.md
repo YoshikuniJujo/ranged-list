@@ -160,6 +160,16 @@ Refactor documents
 
 ### README.md
 
+* [ ] make sample codes
+	+ [ ] LengthL
+		- [ ] Word64 converter
+	+ [ ] LengthR
+		- [ ] Word64 converter
+	+ [ ] RangeL
+	+ [ ] RangeR
+	+ [ ] Finger Tree
+* [ ] make `README.md`
+
 refactor
 --------
 

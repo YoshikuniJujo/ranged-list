@@ -50,3 +50,8 @@ tests:
     dependencies:
     - ranged-list
     - doctest
+
+data-dir: sample
+
+data-files:
+- word64l.hs

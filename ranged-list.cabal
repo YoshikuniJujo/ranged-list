@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b09b2a388640db21c424ffcc9b1b5623eddc27422087592ab8cbb4f1ee4cc951
+-- hash: a7d1de42c8e500aebd9cd3470dee0fbf46943d3d7fd2974788369e6d42fa567d
 
 name:           ranged-list
 version:        0.1.0.0
@@ -20,6 +20,9 @@ build-type:     Simple
 extra-source-files:
     README.md
     ChangeLog.md
+data-files:
+    word64l.hs
+data-dir:       sample
 
 source-repository head
   type: git
