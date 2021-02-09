@@ -97,12 +97,11 @@ natR = repeatR ()
 
 {-^
 
-To make @RangedNatR@
+To make @RangedNatR@.
 
->>> :set -XDataKinds
+>>> :set -XTypeApplications -XDataKinds
 >>> :module + Data.List.Range
->>> n5 = natR :: RangedNatR 5 5
->>> loosenR n5 :: RangedNatR 3 8
+>>> loosenR (natR @5) :: RangedNatR 3 8
 ((((NilR :++ ()) :++ ()) :+ ()) :+ ()) :+ ()
 
 -}
@@ -140,7 +139,7 @@ splitAtR = zipWithR const
 
 {-^
 
-To split at position which is specified by number.
+To split a list at position which is specified by number.
 
 >>> :set -XTypeApplications -XDataKinds
 >>> :module + Data.List.Range

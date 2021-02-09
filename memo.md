@@ -146,17 +146,17 @@ Refactor documents
 	+ [x] RIGHT TO LEFT
 		- [x] (++..)
 		- [x] rightToLeft
-* [ ] Data.List.Range.Nat
+* [x] Data.List.Range.Nat
 	+ [x] RangedNatL
 		- [x] natL
 		- [x] toIntL
 		- [x] fromIntL
 		- [x] splitAtL
-	+ [ ] RangedNatR
-		- [ ] natR
-		- [ ] toIntR
-		- [ ] fromIntR
-		- [ ] splitAtR
+	+ [x] RangedNatR
+		- [x] natR
+		- [x] toIntR
+		- [x] fromIntR
+		- [x] splitAtR
 
 ### README.md
 
