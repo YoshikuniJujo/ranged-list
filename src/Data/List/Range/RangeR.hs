@@ -122,6 +122,16 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeR n n), Applicative (RangeR
 	pure = unfoldlRange (const True) (\x -> (x, x))
 	fs :+ f <*> xs :+ x = (fs <*> xs) :+ f x
 
+instance {-# OVERLAPPABLE #-} (Functor (RangeR 0 m), Applicative (RangeR 0 (m - 1)), Unfoldl 0 0 m) => Applicative (RangeR 0 m) where
+	pure = unfoldlRange (const True) (\x -> (x, x))
+	NilR <*> _ = NilR
+	_ <*> NilR = NilR
+	fs :++ f <*> xs :++ x = (fs <*> xs) :++ f x
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeR n m), Applicative (RangeR (n - 1) (m - 1)), Unfoldl 0 n m) => Applicative (RangeR n m) where
+	pure = unfoldlRange (const True) (\x -> (x, x))
+	fs :+ f <*> xs :+ x = (fs <*> xs) :+ f x
+
 instance Applicative (RangeR 0 0) => Monad (RangeR 0 0) where NilR >>= _ = NilR
 
 

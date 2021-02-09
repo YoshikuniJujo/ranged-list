@@ -525,7 +525,7 @@ todo
 	+ [x] `instance Monad (RangeR n n)`
 	+ [ ] `instance Monad (LengthR n)`
 * [x] `instance Applicative (RangeL n m)`
-* [ ] `instance Applicative (RangeR n m)`
+* [x] `instance Applicative (RangeR n m)`
 * [ ] refactoring
 
 module name hierarchy
