@@ -519,7 +519,11 @@ todo
 	+ [x] RangeL
 	+ [x] RangeR
 * [ ] `instance Monad (LengthL n)`
+	+ [x] `instance Monad (RangeL n n)`
+	+ [ ] `instance Monad (LengthL n)`
 * [ ] `instance Monad (LengthR n)`
+	+ [x] `instance Monad (RangeR n n)`
+	+ [ ] `instance Monad (LengthR n)`
 * [ ] refactoring
 
 module name hierarchy

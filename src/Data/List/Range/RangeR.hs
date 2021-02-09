@@ -116,6 +116,19 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeR (n - 1) (m - 1))) =>
 	Foldable (RangeR n m) where
 	foldr (-<) z (xs :+ x) = foldr (-<) (x -< z) xs
 
+instance Applicative (RangeR 0 0) where pure _ = NilR; _ <*> _ = NilR
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeR n n), Applicative (RangeR (n - 1) (n - 1)), Unfoldl 0 n n) => Applicative (RangeR n n) where
+	pure = unfoldlRange (const True) (\x -> (x, x))
+	fs :+ f <*> xs :+ x = (fs <*> xs) :+ f x
+
+instance Applicative (RangeR 0 0) => Monad (RangeR 0 0) where NilR >>= _ = NilR
+
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (RangeR n n), Monad (RangeR (n - 1) (n - 1))) => Monad (RangeR n n) where
+	xs :+ x >>= f = (xs >>= \z -> case f z of zs :+ _ -> zs) :+ y
+		where _ :+ y = f x
+
 ---------------------------------------------------------------------------
 -- PUSH
 ---------------------------------------------------------------------------
