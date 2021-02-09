@@ -1,14 +1,15 @@
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DataKinds, TypeOperators #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
+import GHC.TypeNats
+import Control.Arrow
 import Data.Foldable
 import Data.List.Length
+import Data.List.Range
 import Data.Bits
 import Data.Word
-
-import qualified Data.List as L
 
 data Bit = O | I deriving Show
 
@@ -18,37 +19,20 @@ bitToNum = \case O -> 0; I -> 1
 boolToBit :: Bool -> Bit
 boolToBit = \case False -> O; True -> I
 
+main :: IO ()
 main = putStrLn "foo"
-
-wordToBits :: Word64 -> LengthL 64 Bit
-wordToBits w = unfoldr (\x -> (boolToBit $ x `testBit` 63, x `shiftL` 1)) w
 
 bitsToWord :: LengthL 64 Bit -> Word64
 bitsToWord = foldl' (\w b -> w `shiftL` 1 .|. bitToNum b) 0
 
-bitListToBitsList :: [Bit] -> [LengthL 64 Bit]
-bitListToBitsList = chunksL' O
+sample :: String
+sample = "...*..*..*...........*...**********...*************............******"
 
-sample :: [String]
-sample = [
-	"...........................................",
-	"...........................................",
-	"...........................................",
-	".....********...........*******............",
-	"...........................................",
-	"........***..............***...............",
-	"......*...***..........**....*.............",
-	"......*...***..........**....*.............",
-	"........***..............***...............",
-	"...........................................",
-	"...........................................",
-	"...........***************.................",
-	"...........*.............*.................",
-	"............*...........*..................",
-	".............***********...................",
-	"...........................................",
-	"..........................................." ]
+takeL :: ListToLengthL n => [a] -> Either (RangeL 0 (n - 1) a) (LengthL n a)
+takeL = right fst . splitL
 
-pack s = (bitsToWord <$>) . bitListToBitsList $ boolToBit . (== '*') <$> concat s
+takeL' :: (LoosenLMax 0 (n - 1) n, Unfoldr 0 n n, ListToLengthL n) => a -> [a] -> LengthL n a
+takeL' d = either ((`fillL` d) . loosenLMax) fst . splitL
 
-unpack s = unlines . (toList <$>) . fst $ chunksL @43 $ ((\case O -> '.'; I -> '*') <$>) . concat $ toList . wordToBits <$> s
+takeWord64 :: String -> Word64
+takeWord64 = bitsToWord . takeL' O . (boolToBit . (== '*') <$>)

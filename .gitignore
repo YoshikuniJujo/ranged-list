@@ -3,5 +3,6 @@
 .html/
 .*.swp
 /sample/word64l
+/sample/word64l_picture
 /sample/*.hi
 /sample/*.o
