@@ -536,6 +536,8 @@ todo
 	+ [ ] `instance Monad (LengthR n)`
 * [x] `instance Applicative (RangeL n m)`
 * [x] `instance Applicative (RangeR n m)`
+* [x] rename listToLengthL to splitL
+* [ ] rename listToLengthR to splitR
 * [ ] refactoring
 
 module name hierarchy

@@ -20,7 +20,7 @@ module Data.List.Length (
 	-- ** ZipL
 	ZipL, zipL, zipWithL, zipWithML,
 	-- ** ListToLengthL
-	ListToLengthL, listToLengthL, chunksL, chunksL',
+	ListToLengthL, splitL, chunksL, chunksL',
 	-- * LENGTHED LIST RIGHT
 	-- ** Type
 	LengthR, RangeR(NilR, (:+)),
@@ -52,7 +52,7 @@ import Data.List.Range (
 	LeftToRight, (++.+), leftToRight, RightToLeft, (++..), rightToLeft )
 import Data.List.Length.LengthL (
 	LengthL, unfoldr, unfoldrWithBase, unfoldrM, unfoldrMWithBase,
-	ListToLengthL, listToLengthL)
+	ListToLengthL, splitL )
 import Data.List.Length.LengthR (
 	LengthR, unfoldl, unfoldlWithBase, unfoldlM, unfoldlMWithBase,
 	ListToLengthR, listToLengthR )
@@ -93,7 +93,7 @@ To fill a list of type @LengthL n a@ with a value of type @a@.
 -}
 
 chunksL :: ListToLengthL n => [a] -> ([LengthL n a], RangeL 0 (n - 1) a)
-chunksL = either ([] ,) (uncurry first . ((:) *** chunksL)) . listToLengthL
+chunksL = either ([] ,) (uncurry first . ((:) *** chunksL)) . splitL
 
 {-^
 
