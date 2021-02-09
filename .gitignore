@@ -4,5 +4,6 @@
 .*.swp
 /sample/word64l
 /sample/word64l_picture
+/sample/word64r
 /sample/*.hi
 /sample/*.o

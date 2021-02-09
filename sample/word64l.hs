@@ -13,21 +13,16 @@ import Data.Bits
 import Data.Word
 import Numeric
 
-data Bit = O | I deriving Show
-
-bitToNum :: Num n => Bit -> n
-bitToNum = \case O -> 0; I -> 1
-
-boolToBit :: Bool -> Bit
-boolToBit = \case False -> O; True -> I
+import Bit
 
 main :: IO ()
 main = do
 	putStrLn $ takeWord64 sample1 `showHex` ""
 	putStrLn $ takeWord64 sample2 `showHex` ""
 
-bitsToWord :: LengthL 64 Bit -> Word64
+bitsToWord, bitsToWordLE :: LengthL 64 Bit -> Word64
 bitsToWord = foldl' (\w b -> w `shiftL` 1 .|. bitToNum b) 0
+bitsToWordLE = foldl' (\w b -> w `shiftR` 1 .|. bitToNum b `shiftL` 63) 0
 
 sample1, sample2 :: String
 sample1 = "...*..*..*...........*...**********...*************............******"
@@ -39,5 +34,6 @@ takeL = right fst . splitL
 takeL' :: (LoosenLMax 0 (n - 1) n, Unfoldr 0 n n, ListToLengthL n) => a -> [a] -> LengthL n a
 takeL' d = either ((`fillL` d) . loosenLMax) fst . splitL
 
-takeWord64 :: String -> Word64
+takeWord64, takeWord64LE :: String -> Word64
 takeWord64 = bitsToWord . takeL' O . (boolToBit . (== '*') <$>)
+takeWord64LE = bitsToWordLE . takeL' O . (boolToBit . (== '*') <$>)
