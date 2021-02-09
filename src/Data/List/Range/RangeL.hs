@@ -131,10 +131,15 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeL (n - 1) (m - 1))) =>
 
 instance Applicative (LengthL 0) where pure _ = NilL; _ <*> _ = NilL
 
-instance {-# OVERLAPPABLE #-} (1 <= n, Functor (LengthL n), Applicative (LengthL (n - 1)), Unfoldr 0 n n) => Applicative (LengthL n) where
+instance {-# OVERLAPPABLE #-} (Functor (RangeL 0 m), Applicative (RangeL 0 (m - 1)), Unfoldr 0 0 m) => Applicative (RangeL 0 m) where
 	pure = unfoldrRange (const True) (\x -> (x, x))
-	f :. fs <*> mx@(_ :. mx') = y :. (fs <*> mx')
-		where y :. _ = f <$> mx
+	NilL <*> _ = NilL
+	_ <*> NilL = NilL
+	f :.. fs <*> x :.. xs = f x :.. (fs <*> xs)
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeL n m), Applicative (RangeL (n - 1) (m - 1)), Unfoldr 0 n m) => Applicative (RangeL n m) where
+	pure = unfoldrRange (const True) (\x -> (x, x))
+	f :. fs <*> x :. xs = f x :. (fs <*> xs)
 
 instance Applicative (LengthL 0) => Monad (LengthL 0) where
 	NilL >>= _ = NilL
