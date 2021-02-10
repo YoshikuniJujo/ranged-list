@@ -59,14 +59,29 @@ fun (x :. y :. z :. NilL) = ...
 
 ### To make rectangles from a number list
 
-Suppose you want to make a value which represent rectangle.
+Suppose you want to make a value which represent a rectangle.
 You have a number list.
-The numbers are a left border, a top border, width and height of
-rectangle in order.
-The numbers of first rectangle are followed by the numbers of second rectangle,
+The numbers are a left border, a top border, a width and a height of
+a rectangle in order.
+The numbers of the first rectangle are followed by
+the numbers of a second rectangle,
+and the numbers of the second rectangle are followed by
+the numbers of a third rectangle,
 and so on.
 
-```haskell
+```
+[left1, top1, width1, height1, left2, top2, width2, height2, left3, ...]
+```
+
+The list of numbers defined above are covert to a following list.
+
+```
+[Rect left1 top1 width1 height1, Rect left2 top2 width2 height2, Rect left3 ...]
+```
+
+The code is following. (View `sample/rectangle.hs`)
+
+```haskell:sample/rectangle.hs
 import Data.Length.Length
 
 data Rect = Rect {
@@ -78,6 +93,20 @@ makeRect (l :. t :. w :. h :. NilL) = Rect l t w h
 
 main :: IO ()
 main = print $ map makeRect . fst $ chunksL [3, 5, 15, 2, 8, 4, 1, 9, 3, 5]
+```
+
+The function `chunksL` return a value of type `([LengthL n a], RangeL 0 (n - 1) a)`.
+The first value of this tuple is a list of `n` elements of type `a`.
+And the second value of this tuple is rest elements.
+The number of the rest elements is `0` at minimum and `n - 1` at maximum.
+
+Try running.
+
+```
+% stack ghc sample/rectangle.hs
+% ./sample/rectangle
+[Rect {left = 3.0, top = 5.0, width = 15.0, height = 2.0},
+Rect {left = 8.0, top = 4.0, width = 1.0, height = 9.0)}
 ```
 
 ### To take Word64 from bit list
