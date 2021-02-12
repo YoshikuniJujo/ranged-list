@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3cf4ef4052368a76817b79c4725d3b245f46184c4a9886a9e4f2d9bbce717b6f
+-- hash: b75636ca84770e9f889e030344f33f9348fb655736059088ee2c418b73b618d3
 
 name:           ranged-list
 version:        0.1.0.0
@@ -24,6 +24,7 @@ data-files:
     rectangle.hs
     Bit.hs
     word64l.hs
+    fourPointsOfRect.hs
     word64r.hs
 data-dir:       sample
 

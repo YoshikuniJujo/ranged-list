@@ -165,10 +165,19 @@ Refactor documents
 	+ [ ] LengthL
 		- [ ] Word64 converter
 	+ [ ] LengthR
+		- [ ] 4 points of rectangle
+			* [x] class and instance of GetElems
+			* [ ] others
 	+ [ ] RangeL
+		- [ ] some example
 	+ [ ] RangeR
 	+ [ ] Finger Tree
 * [ ] make `README.md`
+	+ [x] rectangle
+	+ [ ] Word64 converter
+	+ [ ] 4 points of rectangle
+	+ [ ] some examples of RangeL or RangeR
+	+ [ ] Finger Tree
 
 refactor
 --------
