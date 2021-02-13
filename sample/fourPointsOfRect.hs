@@ -6,6 +6,7 @@
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 import GHC.TypeNats
+import Control.Monad.Fix
 import Control.Monad.Catch
 import Data.List.Length
 import Text.Read
@@ -13,18 +14,8 @@ import Text.Read
 main :: IO ()
 main = do
 	r <- tryGetting
-	putStrLn ""
-	putStrLn `mapM_` ((\t v -> t ++ replicate (6 - length t) ' ' ++ ": " ++ show v) <$> NilR :+ "left" :+ "top" :+ "width" :+ "htight" <*> r)
-	putStrLn ""
-	putStrLn `mapM_`
-		((\t v -> t ++ replicate (12 - length t) ' ' ++ ": " ++ show v)
-			<$> NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
-			<*> fourPoints r)
-	putStrLn ""
-	loop r
-	where
-	loop :: LengthR 4 Double -> IO ()
-	loop xa@(xs :+ _) = getLine >>= \case
+	printResult r
+	flip fix r \go xa@(xs :+ _) -> getLine >>= \case
 		"q" -> pure ()
 		"d" -> do
 			r <- (getElems @3 @1 xs $ getLine >>= \case
@@ -32,22 +23,9 @@ main = do
 				l -> pure (Value <$> readMaybe l)) `catch` \(_ :: NothingToDeleteException) -> do
 					putStrLn "*** Nothing to delete."
 					tryGetting
-			putStrLn ""
-			putStrLn `mapM_`
-				((\t v -> t ++ replicate (6 - length t) ' ' ++ ": " ++ show v)
-					<$> NilR :+ "left" :+ "top" :+ "width" :+ "htight" <*> r)
-			putStrLn ""
-			putStrLn `mapM_`
-				((\t v -> t ++ replicate (12 - length t) ' ' ++ ": " ++ show v)
-					<$> NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
-					<*> fourPoints r)
-			putStrLn ""
-			loop r
-		_ -> putStrLn "q or d" >> loop xa
-
-fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
-fourPoints (NilR :+ l :+ t :+ w :+ h) =
-	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
+			printResult r
+			go r
+		_ -> putStrLn "q or d" >> go xa
 
 tryGetting :: IO (LengthR 4 Double)
 tryGetting = getElems NilR
@@ -57,6 +35,21 @@ tryGetting = getElems NilR
 	\(_ :: NothingToDeleteException) -> do
 		putStrLn "*** Nothing to delete."
 		tryGetting
+
+withTitles :: (Show a, Applicative (LengthR n)) => Int -> LengthR n String -> LengthR n a -> LengthR n String
+withTitles n ts xs = (\t v -> t ++ replicate (n - length t) ' ' ++ ": " ++ show v) <$> ts <*> xs
+
+printResult :: LengthR 4 Double -> IO ()
+printResult r = do
+	putStrLn ""
+	putStrLn `mapM_` withTitles 6 (NilR :+ "left" :+ "top" :+ "width" :+ "height") r
+	putStrLn ""
+	putStrLn `mapM_` withTitles 12 (NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom") (fourPoints r)
+	putStrLn ""
+
+fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
+fourPoints (NilR :+ l :+ t :+ w :+ h) =
+	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
 
 data DeleteOr a = Delete | Value a deriving Show
 data NothingToDeleteException = NothingToDeleteException deriving Show
