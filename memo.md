@@ -167,6 +167,8 @@ Refactor documents
 	+ [ ] LengthR
 		- [ ] 4 points of rectangle
 			* [x] class and instance of GetElems
+			* [x] calculate 4 points
+			* [ ] refactoring
 			* [ ] others
 	+ [ ] RangeL
 		- [ ] some example

@@ -8,30 +8,51 @@
 import GHC.TypeNats
 import Control.Monad.Catch
 import Data.List.Length
+import Text.Read
 
 main :: IO ()
 main = do
 	r <- tryGetting
-	print r
+	putStrLn ""
+	putStrLn `mapM_` ((\t v -> t ++ replicate (6 - length t) ' ' ++ ": " ++ show v) <$> NilR :+ "left" :+ "top" :+ "width" :+ "htight" <*> r)
+	putStrLn ""
+	putStrLn `mapM_`
+		((\t v -> t ++ replicate (12 - length t) ' ' ++ ": " ++ show v)
+			<$> NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
+			<*> fourPoints r)
+	putStrLn ""
 	loop r
 	where
-	loop :: LengthR 4 String -> IO ()
+	loop :: LengthR 4 Double -> IO ()
 	loop xa@(xs :+ _) = getLine >>= \case
 		"q" -> pure ()
 		"d" -> do
 			r <- (getElems @3 @1 xs $ getLine >>= \case
 				"d" -> pure $ Just Delete
-				l -> pure . Just $ Value l) `catch` \(_ :: NothingToDeleteException) -> do
+				l -> pure (Value <$> readMaybe l)) `catch` \(_ :: NothingToDeleteException) -> do
 					putStrLn "*** Nothing to delete."
 					tryGetting
-			print r
+			putStrLn ""
+			putStrLn `mapM_`
+				((\t v -> t ++ replicate (6 - length t) ' ' ++ ": " ++ show v)
+					<$> NilR :+ "left" :+ "top" :+ "width" :+ "htight" <*> r)
+			putStrLn ""
+			putStrLn `mapM_`
+				((\t v -> t ++ replicate (12 - length t) ' ' ++ ": " ++ show v)
+					<$> NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
+					<*> fourPoints r)
+			putStrLn ""
 			loop r
 		_ -> putStrLn "q or d" >> loop xa
 
-tryGetting :: IO (LengthR 4 String)
+fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
+fourPoints (NilR :+ l :+ t :+ w :+ h) =
+	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
+
+tryGetting :: IO (LengthR 4 Double)
 tryGetting = getElems NilR
 	(getLine >>=
-		\case "d" -> pure $ Just Delete; l -> pure . Just $ Value l)
+		\case "d" -> pure $ Just Delete; l -> pure (Value <$> readMaybe l))
 	`catch`
 	\(_ :: NothingToDeleteException) -> do
 		putStrLn "*** Nothing to delete."
