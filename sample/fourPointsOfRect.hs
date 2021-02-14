@@ -2,7 +2,8 @@
 {-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
 {-# LANGUAGE DataKinds, TypeOperators #-}
 {-# LANGUAGE GADTs #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances, UndecidableInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
+	UndecidableInstances #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
 
 import GHC.TypeNats
@@ -12,32 +13,19 @@ import Data.List.Length
 import Text.Read
 
 main :: IO ()
-main = do
-	r <- tryGetting
-	printResult r
-	flip fix r \go xa@(xs :+ _) -> getLine >>= \case
-		"q" -> pure ()
-		"d" -> do
-			r <- (getElems @3 @1 xs $ getLine >>= \case
-				"d" -> pure $ Just Delete
-				l -> pure (Value <$> readMaybe l)) `catch` \(_ :: NothingToDeleteException) -> do
-					putStrLn "*** Nothing to delete."
-					tryGetting
-			printResult r
-			go r
-		_ -> putStrLn "q or d" >> go xa
+main = tryGetting NilR >>= fix \go xa@(xs :+ _) -> getLine >>= \case
+	"q" -> pure ();
+	"d" -> go =<< tryGetting xs
+	_ -> putStrLn "q or d" >> go xa
 
-tryGetting :: IO (LengthR 4 Double)
-tryGetting = getElems NilR
+tryGetting :: forall n . (GetElems n (4 - n), GetElems 0 4) => LengthR n Double -> IO (LengthR (0 + 4) Double)
+tryGetting xs = (<$) <$> id <*> printResult =<< getElems @n @(4 - n) xs
 	(getLine >>=
 		\case "d" -> pure $ Just Delete; l -> pure (Value <$> readMaybe l))
 	`catch`
 	\(_ :: NothingToDeleteException) -> do
 		putStrLn "*** Nothing to delete."
-		tryGetting
-
-withTitles :: (Show a, Applicative (LengthR n)) => Int -> LengthR n String -> LengthR n a -> LengthR n String
-withTitles n ts xs = (\t v -> t ++ replicate (n - length t) ' ' ++ ": " ++ show v) <$> ts <*> xs
+		tryGetting @0 (NilR :: LengthR 0 Double)
 
 printResult :: LengthR 4 Double -> IO ()
 printResult r = do
@@ -46,6 +34,9 @@ printResult r = do
 	putStrLn ""
 	putStrLn `mapM_` withTitles 12 (NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom") (fourPoints r)
 	putStrLn ""
+
+withTitles :: (Show a, Applicative (LengthR n)) => Int -> LengthR n String -> LengthR n a -> LengthR n String
+withTitles n ts xs = (\t v -> t ++ replicate (n - length t) ' ' ++ ": " ++ show v) <$> ts <*> xs
 
 fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
 fourPoints (NilR :+ l :+ t :+ w :+ h) =
@@ -61,9 +52,9 @@ class GetElems n v where
 
 instance GetElems 0 0 where getElems NilR _ = pure NilR
 
-instance 1 <= n => GetElems n 0 where getElems xs@(_ :+ _) _ = pure xs
+instance {-# OVERLAPPABLE #-} 1 <= n => GetElems n 0 where getElems xs@(_ :+ _) _ = pure xs
 
-instance GetElems 1 (v - 1) => GetElems 0 v where
+instance {-# OVERLAPPABLE #-} GetElems 1 (v - 1) => GetElems 0 v where
 	getElems NilR gt = gt >>= \case
 		Nothing -> getElems NilR gt
 		Just Delete -> throwM NothingToDeleteException
