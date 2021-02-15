@@ -169,6 +169,9 @@ Refactor documents
 			* [x] class and instance of GetElems
 			* [x] calculate 4 points
 			* [ ] refactoring
+				+ [ ] rename `tryGetting`
+				+ [ ] rename `withTitles`
+				+ [ ] others
 			* [ ] others
 	+ [ ] RangeL
 		- [ ] some example

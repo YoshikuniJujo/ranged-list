@@ -22,7 +22,8 @@ class GetElems n v where
 
 instance GetElems 0 0 where getElems NilR _ = pure NilR
 
-instance {-# OVERLAPPABLE #-} 1 <= n => GetElems n 0 where getElems xs@(_ :+ _) _ = pure xs
+instance {-# OVERLAPPABLE #-} 1 <= n => GetElems n 0 where
+	getElems xs@(_ :+ _) _ = pure xs
 
 instance {-# OVERLAPPABLE #-} GetElems 1 (v - 1) => GetElems 0 v where
 	getElems NilR gt = gt >>= \case
@@ -31,7 +32,8 @@ instance {-# OVERLAPPABLE #-} GetElems 1 (v - 1) => GetElems 0 v where
 		Just (Value x) -> getElems @1 @(v - 1) (NilR :+ x) gt
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, GetElems (n - 1) (v + 1), GetElems (n + 1) (v - 1)) => GetElems n v where
+	(1 <= n, GetElems (n - 1) (v + 1), GetElems (n + 1) (v - 1)) =>
+	GetElems n v where
 	getElems xa@(xs :+ _) gt = gt >>= \case
 		Nothing -> getElems xa gt
 		Just Delete -> getElems @(n - 1) @(v + 1) xs gt
