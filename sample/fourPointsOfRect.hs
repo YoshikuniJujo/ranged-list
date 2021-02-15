@@ -39,17 +39,19 @@ instance {-# OVERLAPPABLE #-}
 		Just Delete -> getElems @(n - 1) @(v + 1) xs gt
 		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
 
-tryGetting :: forall n . (GetElems n (4 - n), GetElems 0 4) => LengthR n Double -> IO (LengthR (0 + 4) Double)
-tryGetting xs = (<$) <$> id <*> printResult =<< getElems @n @(4 - n) xs
-	(getLine >>=
-		\case "d" -> pure $ Just Delete; l -> pure (Value <$> readMaybe l))
+getRect :: forall n . (GetElems n (4 - n), GetElems 0 4) =>
+	LengthR n Double -> IO (LengthR (0 + 4) Double)
+getRect xs = (<$) <$> id <*> printResult =<<
+	getElems @n @(4 - n) xs ((<$> getLine) \case
+		"d" -> Just Delete; l -> Value <$> readMaybe l)
 	`catch`
-	\(_ :: NothingToDeleteException) -> do
-		putStrLn "*** Nothing to delete."
-		tryGetting @0 (NilR :: LengthR 0 Double)
+	\(_ :: NothingToDeleteException) ->
+		putStrLn "*** Nothing to delete." >> getRect @0 NilR
 
-withTitles :: (Show a, Applicative (LengthR n)) => Int -> LengthR n String -> LengthR n a -> LengthR n String
-withTitles n ts xs = (\t v -> t ++ replicate (n - length t) ' ' ++ ": " ++ show v) <$> ts <*> xs
+titles :: (Show a, Applicative (LengthR n)) =>
+	Int -> LengthR n String -> LengthR n a -> LengthR n String
+titles n ts xs = (\t x -> t ++ replicate (n - length t) ' ' ++ ": " ++ show x)
+	<$> ts <*> xs
 
 fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
 fourPoints (NilR :+ l :+ t :+ w :+ h) =
@@ -58,13 +60,14 @@ fourPoints (NilR :+ l :+ t :+ w :+ h) =
 printResult :: LengthR 4 Double -> IO ()
 printResult r = do
 	putStrLn ""
-	putStrLn `mapM_` withTitles 6 (NilR :+ "left" :+ "top" :+ "width" :+ "height") r
-	putStrLn ""
-	putStrLn `mapM_` withTitles 12 (NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom") (fourPoints r)
-	putStrLn ""
+	putStrLn `mapM_` titles 6 t r; putStrLn ""
+	putStrLn `mapM_` titles 12 u (fourPoints r); putStrLn ""
+	where
+	t = NilR :+ "left" :+ "top" :+ "width" :+ "height"
+	u = NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
 
 main :: IO ()
-main = tryGetting NilR >>= fix \go xa@(xs :+ _) -> getLine >>= \case
+main = getRect NilR >>= fix \go xa@(xs :+ _) -> getLine >>= \case
 	"q" -> pure ();
-	"d" -> go =<< tryGetting xs
+	"d" -> go =<< getRect xs
 	_ -> putStrLn "q or d" >> go xa

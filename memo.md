@@ -164,15 +164,22 @@ Refactor documents
 	+ [x] rectangle
 	+ [ ] LengthL
 		- [ ] Word64 converter
-	+ [ ] LengthR
-		- [ ] 4 points of rectangle
+	+ [x] LengthR
+		- [x] 4 points of rectangle
 			* [x] class and instance of GetElems
 			* [x] calculate 4 points
-			* [ ] refactoring
-				+ [ ] rename `tryGetting`
-				+ [ ] rename `withTitles`
-				+ [ ] others
-			* [ ] others
+			* [x] refactoring
+				+ [x] consider to rename `getElems`
+				+ [x] consider to rename `GetElems`
+				+ [x] rename `tryGetting` to `getRect`
+				+ [x] refactor function `getRect`
+				+ [x] rename `withTitles` to `titles`
+				+ [x] refactor funrciotn `titles`
+				+ [x] refactor function `fourPoints`
+				+ [x] refactor function `printResult`
+				+ [x] refactor `main`
+				+ [x] others
+			* [x] others
 	+ [ ] RangeL
 		- [ ] some example
 	+ [ ] RangeR
