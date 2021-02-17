@@ -192,6 +192,13 @@ Refactor documents
 	+ [ ] Word64 converter
 		- [x] header
 		- [ ] body
+			* [ ] function takeL
+			* [x] data Bit
+			* [x] function boolToBit
+			* [x] function bitToNum63
+			* [ ] bitsToWord64
+			* [ ] takeWord64
+			* [ ] main and samples
 	+ [ ] 4 points of rectangle
 	+ [ ] to get password
 	+ [ ] Finger Tree

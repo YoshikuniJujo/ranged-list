@@ -130,6 +130,23 @@ import Data.Word
 import Numeric
 ```
 
+You define data type which represent a bit as follow.
+
+```haskell:sample/word64.hs
+data Bit = O | I deriving Show
+
+boolToBit :: Bool -> Bit
+boolToBit = \case False -> O; True -> I
+
+bitToNum63 :: (Num n, Bits n) => Bit -> n
+bitToNum63 = \case O -> 0; I -> 1 `shiftL` 63
+```
+
+`O` is 0 and `I` is 1.
+Function `boolToBit` converts a value of `Bool` into a value of `Bit`.
+Function `bitToNum63` converts a value of `Bit` into a number.
+It converte the bit as a 63rd bit.
+
 ### To show 4 points of rectangles
 
 ### To get passwords
