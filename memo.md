@@ -162,13 +162,12 @@ Refactor documents
 
 * [ ] make sample codes
 	+ [x] rectangle
-	+ [ ] LengthL
-		- [ ] Word64 converter
+	+ [x] LengthL
+		- [x] Word64 converter
 			* [x] remove word64r.hs
 			* [x] unify word64.hs and Bit.hs
 			* [x] select little endian or big endian
-			* [ ] refactoring
-			* [ ] others
+			* [x] refactoring
 	+ [x] LengthR
 		- [x] 4 points of rectangle
 			* [x] class and instance of GetElems
