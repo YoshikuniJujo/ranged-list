@@ -3,8 +3,9 @@
 .html/
 .*.swp
 /sample/rectangle
-/sample/word64l
+/sample/word64
 /sample/fourPointsOfRect
+/sample/password
 /sample/word64l_picture
 /sample/word64r
 /sample/*.hi
