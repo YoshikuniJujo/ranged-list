@@ -166,7 +166,8 @@ Refactor documents
 		- [ ] Word64 converter
 			* [x] remove word64r.hs
 			* [x] unify word64.hs and Bit.hs
-			* [ ] select little endian or big endian
+			* [x] select little endian or big endian
+			* [ ] refactoring
 			* [ ] others
 	+ [x] LengthR
 		- [x] 4 points of rectangle
