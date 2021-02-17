@@ -164,6 +164,10 @@ Refactor documents
 	+ [x] rectangle
 	+ [ ] LengthL
 		- [ ] Word64 converter
+			* [x] remove word64r.hs
+			* [x] unify word64.hs and Bit.hs
+			* [ ] select little endian or big endian
+			* [ ] others
 	+ [x] LengthR
 		- [x] 4 points of rectangle
 			* [x] class and instance of GetElems
@@ -187,7 +191,7 @@ Refactor documents
 	+ [x] rectangle
 	+ [ ] Word64 converter
 	+ [ ] 4 points of rectangle
-	+ [ ] some examples of RangeL or RangeR
+	+ [ ] to get password
 	+ [ ] Finger Tree
 
 refactor

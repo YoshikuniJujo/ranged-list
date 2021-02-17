@@ -13,8 +13,6 @@ import Data.Bits
 import Data.Word
 import Numeric
 
-import Bit
-
 main :: IO ()
 main = do
 	putStrLn $ takeWord64 sample1 `showHex` ""
@@ -37,3 +35,11 @@ takeL' d = either ((`fillL` d) . loosenLMax) fst . splitL
 takeWord64, takeWord64LE :: String -> Word64
 takeWord64 = bitsToWord . takeL' O . (boolToBit . (== '*') <$>)
 takeWord64LE = bitsToWordLE . takeL' O . (boolToBit . (== '*') <$>)
+
+data Bit = O | I deriving Show
+
+bitToNum :: Num n => Bit -> n
+bitToNum = \case O -> 0; I -> 1
+
+boolToBit :: Bool -> Bit
+boolToBit = \case False -> O; True -> I

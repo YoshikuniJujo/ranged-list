@@ -111,4 +111,8 @@ Rect {left = 8.0, top = 4.0, width = 1.0, height = 9.0)}
 
 ### To take Word64 from bit list
 
+### To show 4 points of rectangles
+
+### To get passwords
+
 ### Finger Tree
