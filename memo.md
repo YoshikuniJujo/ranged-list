@@ -181,8 +181,7 @@ Refactor documents
 				+ [x] others
 			* [x] others
 	+ [ ] RangeL
-		- [ ] some example
-	+ [ ] RangeR
+		- [x] example to get a password
 	+ [ ] Finger Tree
 * [ ] make `README.md`
 	+ [x] rectangle
@@ -560,6 +559,7 @@ todo
 * [x] rename listToLengthL to splitL
 * [ ] rename listToLengthR to splitR
 * [ ] refactoring
+* [ ] consider to correct type of unfoldrMRangeMaybe
 
 module name hierarchy
 ---------------------
