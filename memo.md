@@ -192,7 +192,7 @@ Refactor documents
 	+ [ ] Word64 converter
 		- [x] header
 		- [ ] body
-			* [ ] function takeL
+			* [x] function takeL
 			* [x] data Bit
 			* [x] function boolToBit
 			* [x] function bitToNum63

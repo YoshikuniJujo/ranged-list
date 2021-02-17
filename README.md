@@ -130,6 +130,29 @@ import Data.Word
 import Numeric
 ```
 
+You define function `takeL` to take `n` elements from list.
+
+```haskell:sample/word64.hs
+takeL :: (LoosenLMax 0 (n - 1) n, Unfoldr 0 n n, ListToLengthL n) =>
+	a -> [a] -> LengthL n a
+takeL d = either ((`fillL` d) . loosenLMax) fst . splitL
+```
+
+The function `splitL` split a list and get n element lengthed list (`LengthL n a`) and a rest of the list.
+If the list does not contain enough elements, then it returns a left value. It is a list of type `RangeL 0 (n - 1) a`.
+The function `loosenLMax` convert the type `RangeL 0 (n - 1)` into `RangeL 0 n`.
+And the function `fillL` fill the list with default value `d` to get a list `LengthL n a`.
+Try it.
+
+```
+% stack ghci sample/word64.hs
+> :set -XDataKinds
+> takeL '@' "Hello, world!" :: LengthL 5 Char
+'H' :. ('e' :. ('l' :. ('l' :. ('o' :. NilL))))
+> takeL 'W' "Hi!" :: LengthL 5 Char
+'H' :. ('i' :. ('!' :. ('@' :. ('@' :. NilL))))
+```
+
 You define data type which represent a bit as follow.
 
 ```haskell:sample/word64.hs
