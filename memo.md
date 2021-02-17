@@ -190,6 +190,8 @@ Refactor documents
 * [ ] make `README.md`
 	+ [x] rectangle
 	+ [ ] Word64 converter
+		- [x] header
+		- [ ] body
 	+ [ ] 4 points of rectangle
 	+ [ ] to get password
 	+ [ ] Finger Tree

@@ -111,6 +111,25 @@ Rect {left = 8.0, top = 4.0, width = 1.0, height = 9.0)}
 
 ### To take Word64 from bit list
 
+Let's define function to take a 64 bit word from bit list. (View `sample/word64.hs`)
+The language extensions and the import list are following.
+
+```haskell:sample/word64.hs
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MonoLocalBinds #-}
+{-# LANGUAGE DAtaKinds, TypeOperators #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
+
+import GHC.TypeNats
+import Data.Foldable
+import Data.List.Length
+import Data.List.Range
+import Data.Bits
+import Data.Word
+import Numeric
+```
+
 ### To show 4 points of rectangles
 
 ### To get passwords
