@@ -189,16 +189,16 @@ Refactor documents
 	+ [ ] Finger Tree
 * [ ] make `README.md`
 	+ [x] rectangle
-	+ [ ] Word64 converter
+	+ [x] Word64 converter
 		- [x] header
-		- [ ] body
+		- [x] body
 			* [x] function takeL
 			* [x] data Bit
 			* [x] function boolToBit
 			* [x] function bitToNum63
 			* [x] bitsToWord64
-			* [ ] takeWord64
-			* [ ] main and samples
+			* [x] takeWord64
+			* [x] main and samples
 	+ [ ] 4 points of rectangle
 	+ [ ] to get password
 	+ [ ] Finger Tree

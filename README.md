@@ -184,6 +184,40 @@ It shifts 64 bit word to the right.
 And it put the bit on a 63rd position of a 64 bit word.
 It continue in the same way.
 
+You define the function which take 64 bit word from a bit list expressed
+as string.
+
+```haskell:sample/word64.hs
+takeWord64 :: String -> Word64
+takeWord64 = bitsToWord64 . takeL O . (boolToBit . (== '*') <$>)
+```
+
+The argument of this function is a string.
+The string represent a bit sequence.
+Character \'*\' is 1 and character \'.\' is 0.
+
+You define sample string and try it in function `main`.
+
+```haskell:sample/word64.hs
+sample1, sample2 :: String
+sample1 = "...*..*..*...........*...**********...*************............******"
+sample2 = "...*..*..*...........*.."
+
+main :: IO ()
+main = do
+	putStrLn $ takeWord64 sample1 `showHex` ""
+	putStrLn $ takeWord64 sample2 `showHex` ""
+```
+
+Try it.
+
+```
+% stack ghc sample/word64.hs
+% ./sample/word64
+8007ffc7fe200248
+200248
+```
+
 ### To show 4 points of rectangles
 
 ### To get passwords
