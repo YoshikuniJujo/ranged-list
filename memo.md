@@ -196,7 +196,7 @@ Refactor documents
 			* [x] data Bit
 			* [x] function boolToBit
 			* [x] function bitToNum63
-			* [ ] bitsToWord64
+			* [x] bitsToWord64
 			* [ ] takeWord64
 			* [ ] main and samples
 	+ [ ] 4 points of rectangle

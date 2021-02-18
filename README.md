@@ -170,6 +170,20 @@ Function `boolToBit` converts a value of `Bool` into a value of `Bit`.
 Function `bitToNum63` converts a value of `Bit` into a number.
 It converte the bit as a 63rd bit.
 
+You define the function which convert a bit list into 64 bit word.
+
+```haskell:sample/word64.hs
+bitsToWord :: LengthL 64 Bit -> Word64
+bitsToWord = foldl' (\w b -> w `shiftR` 1 .|. bitToNum63 b) 0
+```
+
+It gets a bit from the left end.
+It put the bit on a 63rd position of a 64 bit word.
+Then it gets a next bit.
+It shifts 64 bit word to the right.
+And it put the bit on a 63rd position of a 64 bit word.
+It continue in the same way.
+
 ### To show 4 points of rectangles
 
 ### To get passwords
