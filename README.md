@@ -173,8 +173,8 @@ It converte the bit as a 63rd bit.
 You define the function which convert a bit list into 64 bit word.
 
 ```haskell:sample/word64.hs
-bitsToWord :: LengthL 64 Bit -> Word64
-bitsToWord = foldl' (\w b -> w `shiftR` 1 .|. bitToNum63 b) 0
+bitsToWord64 :: LengthL 64 Bit -> Word64
+bitsToWord64 = foldl' (\w b -> w `shiftR` 1 .|. bitToNum63 b) 0
 ```
 
 It gets a bit from the left end.

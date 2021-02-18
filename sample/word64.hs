@@ -24,11 +24,11 @@ boolToBit = \case False -> O; True -> I
 bitToNum63 :: (Num n, Bits n) => Bit -> n
 bitToNum63 = \case O -> 0; I -> 1 `shiftL` 63
 
-bitsToWord :: LengthL 64 Bit -> Word64
-bitsToWord = foldl' (\w b -> w `shiftR` 1 .|. bitToNum63 b) 0
+bitsToWord64 :: LengthL 64 Bit -> Word64
+bitsToWord64 = foldl' (\w b -> w `shiftR` 1 .|. bitToNum63 b) 0
 
 takeWord64 :: String -> Word64
-takeWord64 = bitsToWord . takeL O . (boolToBit . (== '*') <$>)
+takeWord64 = bitsToWord64 . takeL O . (boolToBit . (== '*') <$>)
 
 main :: IO ()
 main = do
