@@ -56,5 +56,6 @@ data-dir: sample
 data-files:
 - rectangle.hs
 - word64.hs
+- LengthR.hs
 - fourPointsOfRect.hs
 - password.hs

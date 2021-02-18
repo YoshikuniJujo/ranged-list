@@ -55,7 +55,7 @@ fun :: LengthL 3 Char -> ...
 fun (x :. y :. z :. NilL) = ...
 ```
 
-## Example
+## LengthL
 
 ### To make rectangles from a number list
 
@@ -194,7 +194,7 @@ takeWord64 = bitsToWord64 . takeL O . (boolToBit . (== '*') <$>)
 
 The argument of this function is a string.
 The string represent a bit sequence.
-Character \'*\' is 1 and character \'.\' is 0.
+Character \'\*\' is 1 and character \'.\' is 0.
 
 You define sample string and try it in function `main`.
 
@@ -218,7 +218,43 @@ Try it.
 200248
 ```
 
+## LengthR
+
+### To push and pop from right
+
+A value of the type `LengthR n a` is a list of values of the type `a`.
+The length of the list is `n`.
+And you can push and pop an element from right.
+Try it. (view `sample/LengthR.hs`)
+
+```haskell:sample/LengthR.hs
+{-# LANGUAGE DataKinds #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
+
+module LengthR where
+
+import Data.List.Length
+
+hello :: LengthR 5 Char
+hello = NilR :+ 'h' :+ 'e' :+ 'l' :+ 'l' :+ 'o'
+```
+
+The value `hello` is a list of characters which length is `5`.
+Let\'s push the character `'!'` from right.
+
+```
+% stack ghci sample/LengthR.hs
+> hello
+((((NilR :+ 'h') :+ 'e') :+ 'l') :+ 'l') :+ 'o'
+> hello :+ '!'
+(((((NilR :+ 'h') :+ 'e') :+ 'l') :+ 'l') :+ 'o') :+ '!'
+```
+
 ### To show 4 points of rectangles
+
+## RangeL and RangeR
+
+### To specify the range of a list
 
 ### To get passwords
 

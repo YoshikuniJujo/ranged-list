@@ -199,6 +199,7 @@ Refactor documents
 			* [x] bitsToWord64
 			* [x] takeWord64
 			* [x] main and samples
+	+ [x] LengthR
 	+ [ ] 4 points of rectangle
 	+ [ ] to get password
 	+ [ ] Finger Tree
