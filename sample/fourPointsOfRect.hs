@@ -43,7 +43,7 @@ instance {-# OVERLAPPABLE #-}
 		Just Delete -> getElems @(n - 1) @(v + 1) xs gt
 		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
 
-getRect :: forall n . (GetElems n (4 - n), GetElems 0 4) =>
+getRect :: forall n . GetElems n (4 - n) =>
 	LengthR n Double -> IO (LengthR (0 + 4) Double)
 getRect xs = (<$) <$> id <*> printResult =<<
 	getElems @n @(4 - n) xs ((<$> getLine) \case
