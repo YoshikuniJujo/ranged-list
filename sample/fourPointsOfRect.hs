@@ -43,15 +43,6 @@ instance {-# OVERLAPPABLE #-}
 		Just Delete -> getElems @(n - 1) @(v + 1) xs gt
 		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
 
-getRect :: forall n . GetElems n (4 - n) =>
-	LengthR n Double -> IO (LengthR (0 + 4) Double)
-getRect xs = (<$) <$> id <*> printResult =<<
-	getElems @n @(4 - n) xs ((<$> getLine) \case
-		"d" -> Just Delete; l -> Value <$> readMaybe l)
-	`catch`
-	\(_ :: NothingToDeleteException) ->
-		putStrLn "*** Nothing to delete." >> getRect @0 NilR
-
 titles :: (Show a, Applicative (LengthR n)) =>
 	Int -> LengthR n String -> LengthR n a -> LengthR n String
 titles n ts xs = (\t x -> t ++ replicate (n - length t) ' ' ++ ": " ++ show x)
@@ -65,6 +56,15 @@ printResult r = do
 	where
 	t = NilR :+ "left" :+ "top" :+ "width" :+ "height"
 	u = NilR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
+
+getRect :: forall n . GetElems n (4 - n) =>
+	LengthR n Double -> IO (LengthR 4 Double)
+getRect xs = (<$) <$> id <*> printResult =<<
+	getElems @n @(4 - n) xs ((<$> getLine) \case
+		"d" -> Just Delete; l -> Value <$> readMaybe l)
+	`catch`
+	\(_ :: NothingToDeleteException) ->
+		putStrLn "*** Nothing to delete." >> getRect @0 NilR
 
 main :: IO ()
 main = getRect NilR >>= fix \go xa@(xs :+ _) -> getLine >>= \case

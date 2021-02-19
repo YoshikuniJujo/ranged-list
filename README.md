@@ -407,6 +407,33 @@ d
 *** Exception: NothingToDeleteException
 ```
 
+### function `titles`
+
+You define the function `titles` which show values as string with title.
+
+```haskell:sample/fourPointsOfRect.hs
+titles :: (Show a, Applicative (LengthR n)) =>
+	Int -> LengthR n String -> LengthR n a -> LengthR n String
+titles n ts xs = (\t x -> t ++ replicate (n - length t) ' ' ++ ": " ++ show x)
+	<$> ts <*> xs
+```
+
+Try it.
+
+```
+% stack ghci sample/fourPointsOfRect.hs
+> titles 5 (NilR :+ "foo" :+ "bar" :+ "baz") (NilR :+ 123 :+ 456 :+ 789)
+((NilR :+ "foo  : 123") :+ "bar  : 456") :+ "baz  : 789"
+```
+
+### function `printResult`
+
+### function `getRect`
+
+You define the function `getRect` which gets user input to make rectangle.
+
+### function `main`
+
 ## RangeL and RangeR
 
 ### To specify the range of a list

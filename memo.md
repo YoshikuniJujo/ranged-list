@@ -210,9 +210,9 @@ Refactor documents
 		- [x] explanation of `instance GetElems 0 v`
 		- [x] explanation of `instance GetElems n v`
 		- [x] try `getElems`
-		- [ ] function `getRect`
-		- [ ] function `titles`
+		- [x] function `titles`
 		- [ ] function `printResult`
+		- [ ] function `getRect`
 		- [ ] function `main`
 		- [ ] others
 	+ [ ] to get password
