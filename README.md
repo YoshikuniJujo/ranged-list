@@ -252,6 +252,8 @@ Let\'s push the character `'!'` from right.
 
 ### To show 4 points of rectangles
 
+#### function `fourPoints` and headers
+
 You want to calculate four points of rectangle
 from the left-top point, width and height of the rectangle.
 You define function `fourPoints`. (View `sample/fourPointsOfRect.hs`)
@@ -287,6 +289,8 @@ Try it.
 > fourPoints $ NIlR :+ 300 :+ 200 :+ 50 :+ 30
 (((NilR :+ (300.0,200.0)) :+ (350.0,200.0)) :+ (300.0,230.0)) :+ (350.0,230.0)
 ```
+
+#### to input values interactively
 
 You want to input values of a left bound, a top bound, a width and a height
 interactively.
@@ -327,7 +331,7 @@ instance {-# OVERLAPPABLE #-}
 		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
 ```
 
-#### class GetElems n v
+##### class GetElems n v
 
 The class function `getElems` has two arguments.
 The first argument is a list of values which are already inputed.
@@ -335,19 +339,28 @@ The second argument is a monad which returns 3 kinds of values,
 a value which represents to delete, a new value to push to the list
 or a value which represents to do nothing.
 
-#### instance GetElems 0 0
+##### instance GetElems 0 0
 
 `n == 0` and `v == 0` means that the function `getElems` get
  a list of no elements and return a list of no elements.
 
-#### instance GetElems n 0
+##### instance GetElems n 0
 
 `v == 0` means that the function `getElems` get a list and
 return the list as it is.
 
-#### instance GetElems 0 v
+##### instance GetElems 0 v
 
-#### instance GetElems n v
+`n == 0` means that there are no already inputed elements.
+The monad returns 3 kind of values.
+If it returns `Nothing`, then rerun the monad as `getElems NilR gt`.
+If it returns `Just Delete`, then `NothingToDeleteException` occurs.
+If it returns `Just (Value x)`,
+then it set the already-inputed elements to `NilR :+ x` and rerun the monad.
+
+##### instance GetElems n v
+
+##### to try it
 
 ## RangeL and RangeR
 
