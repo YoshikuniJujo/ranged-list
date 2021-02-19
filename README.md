@@ -428,6 +428,37 @@ Try it.
 
 ### function `printResult`
 
+You define the function `printResult` which show values expressing a rectangle
+and 4 points of rectangle.
+
+```haskell:sample/fourPointsOfRect.hs
+printResult :: LengthR 4 Double -> IO ()
+printResult r = do
+	putStrLn ""
+	putStrLn `mapM_` titles 6 t r; putStrLn ""
+	putStrLn `mapM_` titles 12 u (fourPoints r); putStrLn ""
+	where
+	t = NilR :+ "left :+ "top" :+ "width" :+ "height"
+	u = NIlR :+ "left-top" :+ "right-top" :+ "left-bottom" :+ "right-bottom"
+```
+
+Try it.
+
+```
+% stack ghci sample/fourPointsOfRect.hs
+> printResult $ NilR :+ 300 :+ 200 :+ 70 :+ 50
+
+left  : 300.0
+top   : 200.0
+width : 70.0
+height: 50.0
+
+left-top    : (300.0,200.0)
+right-top   : (370.0,200.0)
+left-bottom : (300.0,250.0)
+right-bottom: (370.0,250.0)
+```
+
 ### function `getRect`
 
 You define the function `getRect` which gets user input to make rectangle.

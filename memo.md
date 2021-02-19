@@ -184,6 +184,7 @@ Refactor documents
 				+ [x] refactor `main`
 				+ [x] others
 			* [x] others
+			* [ ] rename function `getRect`
 	+ [ ] RangeL
 		- [x] example to get a password
 	+ [ ] Finger Tree
@@ -211,7 +212,7 @@ Refactor documents
 		- [x] explanation of `instance GetElems n v`
 		- [x] try `getElems`
 		- [x] function `titles`
-		- [ ] function `printResult`
+		- [x] function `printResult`
 		- [ ] function `getRect`
 		- [ ] function `main`
 		- [ ] others
