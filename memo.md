@@ -208,7 +208,8 @@ Refactor documents
 		- [x] explanation of `instance GetElems 0 0`
 		- [x] explanation of `instance GetElems n 0`
 		- [x] explanation of `instance GetElems 0 v`
-		- [ ] explanation of `instance GetElems n v`
+		- [x] explanation of `instance GetElems n v`
+		- [ ] try `getElems`
 		- [ ] function `getRect`
 		- [ ] function `titles`
 		- [ ] function `printResult`

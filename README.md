@@ -353,12 +353,20 @@ return the list as it is.
 
 `n == 0` means that there are no already inputed elements.
 The monad returns 3 kind of values.
-If it returns `Nothing`, then rerun the monad as `getElems NilR gt`.
+If it returns `Nothing`, then it rerun the whole as `getElems NilR gt`.
 If it returns `Just Delete`, then `NothingToDeleteException` occurs.
 If it returns `Just (Value x)`,
-then it set the already-inputed elements to `NilR :+ x` and rerun the monad.
+then it set the already-inputed elements to `NilR :+ x` and rerun the whole.
 
 ##### instance GetElems n v
+
+The monad `gt` returns 3 kind of values.
+If it returns `Nothing`, then rerun the whole as `getElems xa gt`.
+If it returns `Just Delete`,
+then it remove an element from the already-inputed list
+and rerun the whole.
+If it returns `Just (Value x)`,
+then it set the already-inputed elements to `xa :+ x` and rerun the whole.
 
 ##### to try it
 
