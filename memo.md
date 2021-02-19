@@ -205,8 +205,8 @@ Refactor documents
 		- [x] headers
 		- [x] class and instance of `GetElems`
 		- [x] explanation of `class GetElems n v`
-		- [ ] explanation of `instance GetElems 0 0`
-		- [ ] explanation of `instance GetElems n 0`
+		- [x] explanation of `instance GetElems 0 0`
+		- [x] explanation of `instance GetElems n 0`
 		- [ ] explanation of `instance GetElems 0 v`
 		- [ ] explanation of `instance GetElems n v`
 		- [ ] function `getRect`

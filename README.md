@@ -337,7 +337,13 @@ or a value which represents to do nothing.
 
 #### instance GetElems 0 0
 
+`n == 0` and `v == 0` means that the function `getElems` get
+ a list of no elements and return a list of no elements.
+
 #### instance GetElems n 0
+
+`v == 0` means that the function `getElems` get a list and
+return the list as it is.
 
 #### instance GetElems 0 v
 
