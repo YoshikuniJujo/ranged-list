@@ -286,7 +286,7 @@ Try it.
 
 ```
 % stack ghci sample/fourPointsOfRect.hs
-> fourPoints $ NIlR :+ 300 :+ 200 :+ 50 :+ 30
+> fourPoints $ NilR :+ 300 :+ 200 :+ 50 :+ 30
 (((NilR :+ (300.0,200.0)) :+ (350.0,200.0)) :+ (300.0,230.0)) :+ (350.0,230.0)
 ```
 
@@ -369,6 +369,43 @@ If it returns `Just (Value x)`,
 then it set the already-inputed elements to `xa :+ x` and rerun the whole.
 
 ##### to try it
+
+Try it.
+
+```
+% stack ghci sample/fourPointsOfRect.hs
+> :set -XDataKinds -XBlockArguments -XLambdaCase
+> getElems NilR (Just . Value <$> getLine) :: IO (LengthR 3 String)
+foo
+bar
+baz
+((NilR :+ "foo") :+ "bar") :+ "baz"
+> gt = (<$> getLine) \case "" -> Nothing; "d' -> Just Delete; s -> Just (Value s)
+> getElems NilR gt :: IO (LengthR 3 String)
+foo
+bar
+d
+boo
+
+baz
+((NilR :+ "foo") :+ "boo") :+ "baz"
+> getElems NilR gt :: IO (LengthR 3 String)
+foo
+bar
+d
+d
+hoge
+piyo
+baz
+((NilR :+ "hoge") :+ "piyo") :+ "baz"
+> getElems NilR gt :: IO (LengthR 3 String)
+foo
+bar
+d
+d
+d
+*** Exception: NothingToDeleteException
+```
 
 ## RangeL and RangeR
 
