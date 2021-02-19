@@ -12,6 +12,10 @@ import Control.Monad.Catch
 import Data.List.Length
 import Text.Read
 
+fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
+fourPoints (NilR :+ l :+ t :+ w :+ h) =
+	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
+
 data DeleteOr a = Delete | Value a deriving Show
 data NothingToDeleteException = NothingToDeleteException deriving Show
 instance Exception NothingToDeleteException
@@ -52,10 +56,6 @@ titles :: (Show a, Applicative (LengthR n)) =>
 	Int -> LengthR n String -> LengthR n a -> LengthR n String
 titles n ts xs = (\t x -> t ++ replicate (n - length t) ' ' ++ ": " ++ show x)
 	<$> ts <*> xs
-
-fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
-fourPoints (NilR :+ l :+ t :+ w :+ h) =
-	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
 
 printResult :: LengthR 4 Double -> IO ()
 printResult r = do

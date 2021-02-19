@@ -252,6 +252,81 @@ Let\'s push the character `'!'` from right.
 
 ### To show 4 points of rectangles
 
+You want to calculate four points of rectangle
+from the left-top point, width and height of the rectangle.
+You define function `fourPoints`. (View `sample/fourPointsOfRect.hs`)
+
+```haskell:sample/fourPointsOfRect.hs
+fourPoints :: LengthR 4 Double -> LengthR 4 (Double, Double)
+fourPoints (NilR :+ l :+ t :+ w :+ h) =
+	NilR :+ (l, t) :+ (l + w, t) :+ (l, t + h) :+ (l + w, t + h)
+```
+
+You add language extensions and modules to import.
+
+```haskell:sample/fourPointsOfRect.hs
+{-# LANGUAGE BlockArguments, LambdaCase #-}
+{-# LANGUAGE ScopedTypeVariables, TypeApplications #-}
+{-# LANGUAGE DataKinds, TypeOperators #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
+	UndecidableInstances #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+
+import GHC.TypeNats
+import Control.Monad.Fix
+import Control.Monad.Catch
+import Data.List.Length
+import Text.Read
+```
+
+Try it.
+
+```
+% stack ghci sample/fourPointsOfRect.hs
+> fourPoints $ NIlR :+ 300 :+ 200 :+ 50 :+ 30
+(((NilR :+ (300.0,200.0)) :+ (350.0,200.0)) :+ (300.0,230.0)) :+ (350.0,230.0)
+```
+
+You want to input values of a left bound, a top bound, a width and a height
+interactively.
+You want to delete the last value and reinput a new value.
+First of all, you define two data type,
+`DeleteOr a` and `NothingToDeleteException`.
+
+```haskell:sample/fourPointsOfRect.hs
+data DeleteOr a = Delete | Value a deriving Show
+data NothingToDeleteException = NothingToDeleteException deriving Show
+instance Exception NothingToDeleteException
+```
+
+And you define the function `getElems` as a class function.
+
+```haskell:sample/fourPointsOfRect.hs
+class GetElems n v where
+	getElems :: MonadThrow m =>
+		LengthR n a -> m (Maybe (DeleteOr a)) -> m (LengthR (n + v) a)
+
+instance GetElems 0 0 where getElems NilR _ = pure NilR
+
+instance {-# OVERLAPPABLE #-} 1 <= n => GetElems n 0 where
+	getElems xs@(_ :+ _) _ = pure xs
+
+instance {-# OVERLAPPABLE #-} GetElems 1 (v - 1) => GetElems 0 v where
+	getElems NilR gt = gt >>= \case
+		Nothing -> getElems NilR gt
+		Just Delete -> throwM NothingToDeleteException
+		Just (Value x) -> getElem @1 @(v - 1) (NilR :+ x) gt
+
+instance {-# OVERLAPPABLE #-}
+	(1 <= n, GetElems (n - 1) (v + 1), GetElems (n + 1) (v - 1)) =>
+	GetElems n v where
+	getElems xa@(xs :+ _) gt = gt >>= \case
+		Nothing -> getElems xa gt
+		Just Delete -> getElems @(n - 1) @(v + 1) xs gt
+		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
+```
+
 ## RangeL and RangeR
 
 ### To specify the range of a list

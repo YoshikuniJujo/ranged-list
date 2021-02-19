@@ -201,6 +201,19 @@ Refactor documents
 			* [x] main and samples
 	+ [x] LengthR
 	+ [ ] 4 points of rectangle
+		- [x] function `fourPoints`
+		- [x] headers
+		- [x] class and instance of `GetElems`
+		- [ ] explanation of `class GetElems n v`
+		- [ ] explanation of `instance GetElems 0 0`
+		- [ ] explanation of `instance GetElems n 0`
+		- [ ] explanation of `instance GetElems 0 v`
+		- [ ] explanation of `instance GetElems n v`
+		- [ ] function `getRect`
+		- [ ] function `titles`
+		- [ ] function `printResult`
+		- [ ] function `main`
+		- [ ] others
 	+ [ ] to get password
 	+ [ ] Finger Tree
 
