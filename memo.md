@@ -204,7 +204,7 @@ Refactor documents
 		- [x] function `fourPoints`
 		- [x] headers
 		- [x] class and instance of `GetElems`
-		- [ ] explanation of `class GetElems n v`
+		- [x] explanation of `class GetElems n v`
 		- [ ] explanation of `instance GetElems 0 0`
 		- [ ] explanation of `instance GetElems n 0`
 		- [ ] explanation of `instance GetElems 0 v`

@@ -327,6 +327,22 @@ instance {-# OVERLAPPABLE #-}
 		Just (Value x) -> getElems @(n + 1) @(v - 1) (xa :+ x) gt
 ```
 
+#### class GetElems n v
+
+The class function `getElems` has two arguments.
+The first argument is a list of values which are already inputed.
+The second argument is a monad which returns 3 kinds of values,
+a value which represents to delete, a new value to push to the list
+or a value which represents to do nothing.
+
+#### instance GetElems 0 0
+
+#### instance GetElems n 0
+
+#### instance GetElems 0 v
+
+#### instance GetElems n v
+
 ## RangeL and RangeR
 
 ### To specify the range of a list
