@@ -481,6 +481,77 @@ It catches this exception and shows error message and rerun `getRect`.
 
 ### function `main`
 
+You define function `main`.
+
+```haskell:sample/fourPointsOfRect.hs
+main :: IO ()
+main = getRect NilR >>= fix \go xa@(xs :+ _) -> getLine >>= \case
+	"q" -> pure ()
+	"d" -> go =<< getRect xs
+	_ -> putStrLn "q or d" >> go xa
+```
+
+It call function `getRect` with list of `0` elements (`NilR`).
+And it repeats function `getRect` with list of `4 - 1` elements (`xs`)
+if you input `"d"`.
+
+```
+% stack ghc sample/fourPointsOfRect.hs
+% ./sample/fourPointsOfRect
+500
+300
+75
+50
+
+left  : 500.0
+top   : 300.0
+width : 75.0
+height: 50.0
+
+left-top    : (500.0,300.0)
+right-top   : (575.0,300.0)
+left-bottom : (500.0,350.0)
+right-bottom: (575.0,350.0)
+
+d
+d
+125
+100
+
+left  : 500.0
+top   : 300.0
+width : 125.0
+height: 100.0
+
+left-top    : (500.0,300.0)
+right-top   : (625.0,300.0)
+left-bottom : (500.0,400.0)
+right-bottom: (625.0,400.0)
+
+d
+d
+d
+d
+d
+*** Nothing to delete.
+2000
+1500
+90
+50
+
+left  : 2000.0
+top   : 1500.0
+width : 90.0
+height: 50.0
+
+left-top    : (2000.0,1500.0)
+right-top   : (2090.0,1500.0)
+left-bottom : (2000.0,1550.0)
+right-bottom: (2090.0,1550.0)
+
+q
+```
+
 ## RangeL and RangeR
 
 ### To specify the range of a list

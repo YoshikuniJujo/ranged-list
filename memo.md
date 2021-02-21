@@ -201,7 +201,7 @@ Refactor documents
 			* [x] takeWord64
 			* [x] main and samples
 	+ [x] LengthR
-	+ [ ] 4 points of rectangle
+	+ [x] 4 points of rectangle
 		- [x] function `fourPoints`
 		- [x] headers
 		- [x] class and instance of `GetElems`
@@ -214,8 +214,7 @@ Refactor documents
 		- [x] function `titles`
 		- [x] function `printResult`
 		- [x] function `getRect`
-		- [ ] function `main`
-		- [ ] others
+		- [x] function `main`
 	+ [ ] to get password
 	+ [ ] Finger Tree
 
