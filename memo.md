@@ -213,7 +213,7 @@ Refactor documents
 		- [x] try `getElems`
 		- [x] function `titles`
 		- [x] function `printResult`
-		- [ ] function `getRect`
+		- [x] function `getRect`
 		- [ ] function `main`
 		- [ ] others
 	+ [ ] to get password

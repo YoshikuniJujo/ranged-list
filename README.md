@@ -463,6 +463,22 @@ right-bottom: (370.0,250.0)
 
 You define the function `getRect` which gets user input to make rectangle.
 
+```haskell:sample/fourPointsOfRect.hs
+getRect :: forall n . GetElems n (4 - n) =>
+	LengthR n Double -> IO (LengthR 4 Double)
+getRect xs = (<$) <$> id <*> printRect =<<
+	getElems @n @(4 - n) xs ((<$> getLine) \case
+		"d" -> Just Delete; l -> Value <*> readMaybe l)
+	`catch`
+	\(_ :: NothingToDeleteException) ->
+		putStrLn *** Nothing to delete." >> getRect @0 NilR
+```
+
+It gets a user input with `getLine`.
+If it is `"d"`, then it deletes the last input.
+If there are nothing to delete, then `NothingToDeleteException` occur.
+It catches this exception and shows error message and rerun `getRect`.
+
 ### function `main`
 
 ## RangeL and RangeR
