@@ -571,4 +571,20 @@ And its length is `n` at minimum and `m` at maximum.
 
 ### To get passwords
 
+Suppose you want to get a password
+whose length is 8 at minimum and 127 at maximum.
+First of all, you define headers.
+
+```haskell:sample/password.hs
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
+
+import Data.List.Range
+import System.IO
+
+import qualified Data.ByteString.Char8 as BSC
+```
+
 ### Finger Tree

@@ -216,6 +216,11 @@ Refactor documents
 		- [x] function `getRect`
 		- [x] function `main`
 	+ [ ] to get password
+		- [x] headers
+		- [ ] type Password
+		- [ ] getRangedString
+		- [ ] passwordToByteString
+		- [ ] main
 	+ [ ] Finger Tree
 
 refactor
