@@ -629,4 +629,32 @@ Nothing
 > r
 ```
 
+You want to convert a value of type `Password` into a value of `ByteString`.
+You can use other packages if you get password as a value of `ByteString`.
+
+```haskell:sample/password.hs
+passwordToByteString :: Password -> BSC.ByteString
+passwordToByteString = foldr BSC.cons ""
+```
+
+You define function `main` to try it.
+
+```haskell:sample/password.hs
+main :: IO ()
+main = do
+	p <- getRangedPassword
+	print p
+	maybe (eror "bad password length") BSC.putStrLn $ passwordToByteString <$> p
+```
+
+Try it.
+
+```
+% stack ghc sample/password.hs
+% ./sample/password
+(Input "foobarbaz")
+Just ('f' :. ('o' :. ('o' :. ('b' :. ('a' :. ('r' :. ('b' :. ('a' :. ('z' :.. NilL)))))))))
+foobarbaz
+```
+
 ### Finger Tree
