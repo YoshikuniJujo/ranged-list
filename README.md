@@ -554,7 +554,20 @@ q
 
 ## RangeL and RangeR
 
-### To specify the range of a list
+### To specify the range of a number of elements of a list
+
+You can specify the range of a number of elements of a list.
+There is a data type `RangeL n m a`.
+It represents a list which have a type `a` element.
+And its length is `n` at minimum and `m` at maximum.
+
+```
+% stack ghci
+> :module Data.List.Range
+> :set -XDataKinds
+> 'h' :. 'e' :. 'l' :. 'l' :.. 'o' :.. NilL :: RangeL 3 8 Char
+'h' :. ('e' :. ('l' :. ('l' :.. ('o' :.. NilL))))
+```
 
 ### To get passwords
 
