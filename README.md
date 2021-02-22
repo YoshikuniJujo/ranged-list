@@ -587,4 +587,46 @@ import System.IO
 import qualified Data.ByteString.Char8 as BSC
 ```
 
+You define `type Password`.
+
+```haskell:sample/password.hs
+type Password = RangeL 8 127 Char
+```
+
+It is a list of `Char`.
+Its length is 8 at minimum and 127 at maximum.
+
+You define a function `getRangedString`.
+It recieves a user input.
+It return a just value if the length of the input is within range.
+It return a nothing value if the length of the input is out of range.
+
+```haskell:sample/password.hs
+getRangedPassword :: Unfoldr 0 n m => IO (Maybe (RangeL n m Char))
+getRangedPassword = do
+	e <- hGetEcho stdin
+	hSetEcho stdin False
+	unfoldrMRangeMaybe ((/= '\n') <$> hLookAhead stdin) getChar
+		<* hSetEcho stdin e
+```
+
+It makes echo of stdin off.
+It gets characters until you input `'\n'`.
+And it makes echo of stdin on.
+
+```
+% stack ghci sample/password.hs
+> :set -XDataKinds
+> getRangedPassword :: IO (Maybe Password)
+(Input "foobarbaz")
+Just ('f' :. ('o' :. ('o' :. ('b' :. ('a' :. ('r' :. ('b' :. ('a' :. ('z' :..NilL)))))))))
+> getRangedPassword :: IO (Maybe Password)
+(Input "foo")
+Nothing
+> getRangedPassword :: IO (Maybe (RangeL 2 5 Char))
+(Input "foobar")
+Nothing
+> r
+```
+
 ### Finger Tree
