@@ -593,6 +593,8 @@ todo
 * [ ] rename listToLengthR to splitR
 * [ ] refactoring
 * [ ] consider to correct type of unfoldrMRangeMaybe
+* [x] consider to define `instance IsString (RangeL n m Char)`
+* [x] consider to define `instance IsString (RangeR n m Char)`
 
 module name hierarchy
 ---------------------

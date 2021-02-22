@@ -42,7 +42,8 @@ import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateR(..))
 import Data.Bool (bool)
-import Data.Maybe (isJust)
+import Data.Maybe (isJust, fromMaybe)
+import Data.String
 
 ---------------------------------------------------------------------------
 
@@ -138,6 +139,12 @@ instance Applicative (RangeR 0 0) => Monad (RangeR 0 0) where NilR >>= _ = NilR
 instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (RangeR n n), Monad (RangeR (n - 1) (n - 1))) => Monad (RangeR n n) where
 	xs :+ x >>= f = (xs >>= \z -> case f z of zs :+ _ -> zs) :+ y
 		where _ :+ y = f x
+
+-- INSTANCE ISSTRING
+
+instance Unfoldl 0 (n - 1) (m - 1) => IsString (RangeR n m Char) where
+	fromString s = fromMaybe (error $ "The string " ++ show s ++ " is not within range.")
+		. unfoldlRangeMaybe (\case "" -> Nothing; c : cs -> Just (cs, c)) $ reverse s
 
 ---------------------------------------------------------------------------
 -- PUSH

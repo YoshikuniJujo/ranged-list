@@ -43,7 +43,8 @@ import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateL(..))
 import Data.Bool (bool)
-import Data.Maybe (isJust)
+import Data.Maybe (isJust, fromMaybe)
+import Data.String
 
 type LengthL n = RangeL n n
 
@@ -147,6 +148,12 @@ instance Applicative (LengthL 0) => Monad (LengthL 0) where
 instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (LengthL n), Monad (LengthL (n - 1))) => Monad (LengthL n) where
 	x :. xs >>= f = y :. (xs >>= \z -> case f z of _ :. zs -> zs)
 		where y :. _ = f x
+
+-- INSTANCE ISSTRING
+
+instance Unfoldr 0 (n - 1) (m - 1) => IsString (RangeL n m Char) where
+	fromString s = fromMaybe (error $ "The string " ++ show s ++ " is not within range.")
+		$ unfoldrRangeMaybe (\case "" -> Nothing; c : cs -> Just (c, cs)) s
 
 ---------------------------------------------------------------------------
 -- PUSH
