@@ -1,7 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE ScopedTypeVariables, InstanceSigs #-}
 {-# LANGUAGE DataKinds, KindSignatures, TypeOperators #-}
-{-# LANGUAGE GADTs #-}
+{-# LANGUAGE GADTs, TypeFamilies #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
 	UndecidableInstances #-}
 {-# LANGUAGE StandaloneDeriving #-}
@@ -38,12 +38,14 @@ module Data.List.Range.RangeR (
 	ZipR, zipR, zipWithR, zipWithMR ) where
 
 import GHC.TypeNats (Nat, type (+), type (-), type (<=))
+import GHC.Exts
 import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateR(..))
+import Data.Foldable
 import Data.Bool (bool)
 import Data.Maybe (isJust, fromMaybe)
-import Data.String
+-- import Data.String
 
 ---------------------------------------------------------------------------
 
@@ -142,9 +144,15 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (RangeR n n), Monad (RangeR (
 
 -- INSTANCE ISSTRING
 
-instance Unfoldl 0 (n - 1) (m - 1) => IsString (RangeR n m Char) where
+instance Unfoldl 0 n m => IsString (RangeR n m Char) where
 	fromString s = fromMaybe (error $ "The string " ++ show s ++ " is not within range.")
 		. unfoldlRangeMaybe (\case "" -> Nothing; c : cs -> Just (cs, c)) $ reverse s
+
+instance (Foldable (RangeR n m), Unfoldl 0 n m) => IsList (RangeR n m a) where
+	type Item (RangeR n m a) = a
+	fromList lst = fromMaybe (error $ "The list is not within range.")
+		. unfoldlRangeMaybe (\case [] -> Nothing; x : xs -> Just (xs, x)) $ reverse lst
+	toList = Data.Foldable.toList
 
 ---------------------------------------------------------------------------
 -- PUSH
