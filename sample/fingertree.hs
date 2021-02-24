@@ -88,7 +88,7 @@ instance {-# OVERLAPPABLE #-} (2 <= w, Nodes (m - 3) (w - 1)) => Nodes m w where
 		(a :. b :. c :.. NilL) .:..
 			nodes @(m - 3) @(w - 1) (d :. e :. f :. xs)
 
-app3 :: forall a . FingerTree a -> RangeL 1 4 a -> FingerTree a -> FingerTree a
+app3 :: FingerTree a -> RangeL 1 4 a -> FingerTree a -> FingerTree a
 app3 Empty m xs = m <|. xs
 app3 xs m Empty = xs |>. m
 app3 (Single x) m xs = x <| m <|. xs

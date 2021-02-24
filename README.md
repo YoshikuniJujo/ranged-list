@@ -805,3 +805,81 @@ and in the empty case uses a `uncons` of the middle tree to construct a tree of
 the correct shape.
 
 #### Concatenation
+
+First of all you define a function which devide a list into a list of `Node`.
+The original list has 3 elements at minimum and 12 elements at maximum.
+The returned list has 1 node at minimum and 4 nodes at maximum.
+The function has a type like the following.
+
+```haskell
+fun :: RangeL 3 12 a -> RangeL 1 4 (Node a)
+```
+
+You can define a more general function like the following.
+
+```haskell
+fun :: RangeL 3 m a -> RangeL 1 w (Node a)
+```
+
+`m` is 3 times `w`.
+
+You define a class.
+
+```haskell:sample/fingertree.hs
+class Nodes m w where nodes :: RangeL 3 m a -> RangeL 1 w (Node a)
+```
+
+And you define instance when `m` is 3 and `w` is 1.
+
+```haskell:sample/fingertree.hs
+instance Nodes 3 1 where nodes = (:. NilL) . loosenL	
+```
+
+And you define instance of general case.
+
+```haskell:sample/fingertree.hs
+instance {-# OVERLAPPABLE #-} (2 <= w, Nodes (m - 3) (w - 1)) => Nodes m w where
+	nodes :: forall a . RangeL 3 m a -> RangeL 1 w (Node a)
+	nodes (a :. b :. c :. NilL) = (a :. b :. c :.. NilL) :. NilL
+	nodes (a :. b :. c :. d :.. NilL) =
+		(a :. b :. NilL) :. (c :. d :. NilL) :.. NilL
+	nodes (a :. b :. c :. d :.. e :.. NilL) =
+		(a :. b :. c :.. NilL) :. (d :. e :. NilL) :.. NilL
+	nodes (a :. b :. c :. d :.. e :.. f :.. xs) =
+		(a :. b :. c :.. NilL) .:..
+			nodes @(m - 3) @(w - 1) (d :. e :. f :. xs)
+```
+
+Try it.
+
+```
+% stack ghci sample/fingertree.hs
+> :set -XTypeApplications -XDataKinds
+> xs = 1 :. 2 :. 3 :. 4 :.. 5 :.. 6 :.. 7 :.. 8 :.. NilL :: RangeL 3 12 Integer
+> nodes @12 @4 xs
+(1 :. (2 :. (3 :.. NilL))) :. ((4 :. (5 :. (6 :.. NilL))) :.. ((7 :. (8 :. NilL)) :.. NilL))
+> :type it
+it :: Num a => RangeL 1 4 (Node a)
+```
+
+You can combine the two digit argument into a list of Nodes
+with the function `nodes`.
+You can obtain a recursive function by
+generalizing the concatenation function to take an additional list of elements.
+
+```haskell:sample/fingertree.hs
+app3 :: FingerTree a -> RangeL 1 4 a -> FingerTree a -> FingerTree a
+app3 Empty m xs = m <|. xs
+app3 xs m Empty = xs |>. m
+app3 (Single x) m xs = x <| m <|. xs
+app3 xs m (Single x) = xs |>. m |> x
+app3 (Deep pr1 m1 sf1) m (Deep pr2 m2 sf2) =
+	Deep pr1 (app3 m1 (nodes $ sf1 ++.. m ++. pr2) m2) sf2
+```
+
+To concatenate two finger trees, you take a head element from a second sequence.
+
+```haskell:sample/fingertree.hs
+(><) :: FingerTree a -> FingerTree a -> FingerTree a
+l >< r = case uncons r of Nothing -> l; Just (x, r') -> app3 l (x :. NilL) r'
+```

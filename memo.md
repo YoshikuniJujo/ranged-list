@@ -188,7 +188,7 @@ Refactor documents
 	+ [x] RangeL
 		- [x] example to get a password
 	+ [x] Finger Tree
-* [ ] make `README.md`
+* [x] make `README.md`
 	+ [x] rectangle
 	+ [x] Word64 converter
 		- [x] header
@@ -221,13 +221,13 @@ Refactor documents
 		- [x] getRangedString
 		- [x] passwordToByteString
 		- [x] main
-	+ [ ] Finger Tree
+	+ [x] Finger Tree
 		- [x] headers
 		- [x] types
 		- [x] push from left
 		- [x] push from right
 		- [x] pop from left
-		- [ ] concat
+		- [x] concat
 
 refactor
 --------
