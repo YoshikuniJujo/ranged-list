@@ -745,6 +745,14 @@ infixr 5 <|.
 (<|.) = flip $ foldr (<|)
 ```
 
+To make finger tree from a list or other foldable structure,
+you define a function `toTree`.
+
+```haskell:sample/fingertree.hs
+toTree :: Foldable t => t a -> FingerTree a
+toTree = (<|. Empty)
+```
+
 #### To push from right
 
 Adding to the right end of the sequence is the mirror image of the above.
@@ -772,4 +780,28 @@ Deep pr m sf |> a = case sf ||> a of
 
 #### To pop from left
 
-#### To concat
+To deconstruct a sequence, you define a function `uncons`.
+
+```haskell:sample/fingertree.hs
+uncons :: FingerTree a -> Maybe (a, FingerTree a)
+uncons Empty = Nothing
+uncons (Single x) = Just (x, Empty)
+uncons (Deep (a :. pr') m sf) = Just (a, deepL pr' m sf)
+
+deepL :: RangeL 0 3 a -> FingerTree (Node a) -> DigitR a -> FingerTree a
+deepL NilL m sf = case uncons m of
+	Nothing -> toTree sf
+	Just (n, m') -> Deep (loosenL n) m' sf
+deepL (a :.. pr) m sf = Deep (loosenL $ a :. pr) m sf
+```
+
+Since the prefix `pr` of a `Deep` tree contains at least one element,
+you can get its head.
+However, the tail of the prefix may be empty,
+and thus unsuitable as a first argument to the Deep constructor.
+Hence you define a smart constructor that differs from `Deep` by allowing the
+prefix to contain zero to three elements,
+and in the empty case uses a `uncons` of the middle tree to construct a tree of
+the correct shape.
+
+#### Concatenation

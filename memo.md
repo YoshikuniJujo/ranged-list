@@ -226,7 +226,7 @@ Refactor documents
 		- [x] types
 		- [x] push from left
 		- [x] push from right
-		- [ ] pop from left
+		- [x] pop from left
 		- [ ] concat
 
 refactor
