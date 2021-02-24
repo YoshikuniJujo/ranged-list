@@ -658,3 +658,20 @@ foobarbaz
 ```
 
 ### Finger Tree
+
+The next example is Finger Tree.
+
+[Finger Trees: A Simple General-purpose Data Structure](https://www.staff.city.ac.uk/~ross/papers/FingerTree.html)
+
+Let's make headers.
+
+```haskell:sample/fingertree.hs
+{-# LANGUAGE ScopedTypeVariables, TypeApplications, InstanceSigs #-}
+{-# LANGUAGE DataKinds, TypeOperators #-}You
+{-# LANGUAGE MultiParamTypeClasses, FlexibleContexts, FlexibleInstances,
+	UndecidableInstances #-}
+{-# OPTIONS_GHC -Wall -fno-warn-tabs -fplugin=Plugin.TypeCheck.Nat.Simple #-}
+
+import GHC.TypeNats
+import Data.List.Range
+```

@@ -160,7 +160,7 @@ Refactor documents
 
 ### README.md
 
-* [ ] make sample codes
+* [x] make sample codes
 	+ [x] rectangle
 	+ [x] LengthL
 		- [x] Word64 converter
@@ -185,9 +185,9 @@ Refactor documents
 				+ [x] others
 			* [x] others
 			* [ ] rename function `getRect`
-	+ [ ] RangeL
+	+ [x] RangeL
 		- [x] example to get a password
-	+ [ ] Finger Tree
+	+ [x] Finger Tree
 * [ ] make `README.md`
 	+ [x] rectangle
 	+ [x] Word64 converter
@@ -222,6 +222,13 @@ Refactor documents
 		- [x] passwordToByteString
 		- [x] main
 	+ [ ] Finger Tree
+		- [x] headers
+		- [ ] types
+		- [ ] instance Foldable
+		- [ ] push from left
+		- [ ] push from right
+		- [ ] pop from left
+		- [ ] concat
 
 refactor
 --------

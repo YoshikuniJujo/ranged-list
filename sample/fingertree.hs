@@ -8,14 +8,14 @@
 import GHC.TypeNats
 import Data.List.Range
 
-type Node = RangeL 2 3
-type DigitL = RangeL 1 4
-type DigitR = RangeR 1 4
-
 data FingerTree a
 	= Empty | Single a
 	| Deep (DigitL a) (FingerTree (Node a)) (DigitR a)
 	deriving Show
+
+type Node = RangeL 2 3
+type DigitL = RangeL 1 4
+type DigitR = RangeR 1 4
 
 reducer :: Foldable t => (a -> b -> b) -> t a -> b -> b
 reducer = flip . foldr
