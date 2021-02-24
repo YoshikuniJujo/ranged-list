@@ -223,8 +223,7 @@ Refactor documents
 		- [x] main
 	+ [ ] Finger Tree
 		- [x] headers
-		- [ ] types
-		- [ ] instance Foldable
+		- [x] types
 		- [ ] push from left
 		- [ ] push from right
 		- [ ] pop from left

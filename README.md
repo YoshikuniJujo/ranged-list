@@ -675,3 +675,22 @@ Let's make headers.
 import GHC.TypeNats
 import Data.List.Range
 ```
+
+You can describe Finger Tree as follows.
+
+```haskell:sample/fingertree.hs
+data FingerTree a
+	= Enpty | Single a
+	| Deep (DigitL a) (FingerTree (Node a)) (DigitR a)
+	deriving Show
+
+type Node = RangeL 2 3
+type DigitL = RangeL 1 4
+type DigitR = RangeR 1 4
+```
+
+A list of type `Node a` contains two or three elements of type `a`.
+A list of type `DigitL a` contains one elements at minimum and
+four elements at maximum.
+A list of type `DigitR a` contains the same number of elements as `DigitL a`.
+But you can push and pop a element from right.
