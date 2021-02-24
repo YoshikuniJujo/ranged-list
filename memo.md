@@ -224,8 +224,8 @@ Refactor documents
 	+ [ ] Finger Tree
 		- [x] headers
 		- [x] types
-		- [ ] push from left
-		- [ ] push from right
+		- [x] push from left
+		- [x] push from right
 		- [ ] pop from left
 		- [ ] concat
 

@@ -663,6 +663,8 @@ The next example is Finger Tree.
 
 [Finger Trees: A Simple General-purpose Data Structure](https://www.staff.city.ac.uk/~ross/papers/FingerTree.html)
 
+#### Language Extension and Import List
+
 Let's make headers.
 
 ```haskell:sample/fingertree.hs
@@ -675,6 +677,8 @@ Let's make headers.
 import GHC.TypeNats
 import Data.List.Range
 ```
+
+#### Types
 
 You can describe Finger Tree as follows.
 
@@ -694,3 +698,78 @@ A list of type `DigitL a` contains one elements at minimum and
 four elements at maximum.
 A list of type `DigitR a` contains the same number of elements as `DigitL a`.
 But you can push and pop a element from right.
+
+#### To push from left
+
+You define the function which Add a new element to the left of the sequence.
+First of all you define the function to push an element to a list of type `DigitL a`.
+
+```haskell:sample/fingertree.hs
+infixr 5 <||
+
+(<||) :: a -> DigitL a -> Either (DigitL a) (DigitL a, Node a)
+a <|| b :. NilL = Left $ a :. b :.. NilL
+a <|| b :. c :.. NilL = Left $ a :. b :.. c :.. NilL
+a <|| b :. c :.. d :.. NilL = Left $ a :. b :.. c :.. d :.. NilL
+a <|| b :. c :.. d :.. e :.. NilL =
+	Right (a :. b :.. NilL, c :. d :. e :.. NilL)
+```
+
+If the original list has fewer elements than four,
+then it return a left value list which contains the added value.
+If the original list has just four elements,
+then it returns a right value tuple which contain the value of type `DigitL a`
+and the value of type `Node a`.
+
+You can define the function which add a new element to the left of the sequence.
+
+```haskell:sample/fingertree.hs
+infixr 5 <|
+
+(<|) :: a -> FingerTree a -> FingerTree a
+a <| Empty = Single a
+a <| Single a = Deep (a :. NilL) Empty (NilR :+ b)
+a <| Deep pr m sf = case a <|| pr of
+	Left pr' -> Deep pr' m sf
+	Right (pr', n3) -> Deep pr' (n3 <| m) sf
+```
+
+It pushes three of the elements as a `Node`, leaving two behind.
+
+You also require the liftings of `<|`.
+
+```haskell:sample/fingertree.hs
+infixr 5 <|.
+
+(<|.) :: Foldable t => t a -> FingerTree a -> FingerTree a
+(<|.) = flip $ foldr (<|)
+```
+
+#### To push from right
+
+Adding to the right end of the sequence is the mirror image of the above.
+
+```haskell:sample/fingertree.hs
+infixl 5 ||>, |>, |>.
+
+(||>) :: DigitR a -> a -> Either (DigitR a) (Node a, DigitR a)
+NilR :+ a ||> b = Left $ NilR :++ a :+ b
+NilR :++ a :+ b ||> c = Left $ NilR :++ a :++ b :+ c
+NIlR :++ a :++ b :+ c ||> d = Left $ NilR :++ a :++ b :++ c :+ d
+NilR :++ a :++ b :++ c :+ d ||> e =
+	Right (a :. b :. c :.. NilL, NilR :++ d :+ e)
+
+(|>) :: FingerTree a -> a -> FingerTree a
+Empty |> a = Single a
+Single a |> b = Deep (a :. NilL) Empty (NilR :+ b)
+Deep pr m sf |> a = case sf ||> a of
+	Left sf' -> Deep pr m sf'
+	Right (n3, sf') -> Deep pr (m |> n3) sf'
+
+(|>.) :: Foldable t => FingerTree a -> t a -> FingerTree a
+(|>.) = foldl (|>)
+```
+
+#### To pop from left
+
+#### To concat
