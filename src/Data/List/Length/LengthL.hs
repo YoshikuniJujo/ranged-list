@@ -27,7 +27,7 @@ import Data.List.Range.RangeL (LengthL, RangeL(..), Unfoldr, unfoldrMRangeWithBa
 -- UNFOLDR
 ---------------------------------------------------------------------------
 
-unfoldr :: Unfoldr 0 n n => (s -> (a, s)) -> s -> LengthL n a
+unfoldr :: (0 <= n, Unfoldr 0 n n) => (s -> (a, s)) -> s -> LengthL n a
 unfoldr = unfoldrWithBase NilL
 
 {-^
@@ -56,7 +56,7 @@ It is like @unfoldr@. But it has already prepared values.
 
 -}
 
-unfoldrM :: (Monad m, Unfoldr 0 n n) => m a -> m (LengthL n a)
+unfoldrM :: (Monad m, 0 <= n, Unfoldr 0 n n) => m a -> m (LengthL n a)
 unfoldrM = unfoldrMWithBase NilL
 
 {-^
@@ -114,7 +114,7 @@ instance ListToLengthL 1 where
 	splitL = \case [] -> Left NilL; x : xs -> Right (x :. NilL, xs)
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, 1 <= (n - 1), ListToLengthL (n - 1)) => ListToLengthL n where
+	(1 <= n, 1 <= (n - 1), 0 <= (n - 1), ListToLengthL (n - 1)) => ListToLengthL n where
 	splitL = \case
 		[] -> Left NilL
 		x : xs -> (x :..) +++ ((x :.) `first`) $ splitL xs

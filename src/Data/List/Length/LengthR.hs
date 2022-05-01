@@ -39,7 +39,7 @@ You can push and pop an element from right.
 -- UNFOLDL
 ---------------------------------------------------------------------------
 
-unfoldl :: Unfoldl 0 n n => (s -> (s, a)) -> s -> LengthR n a
+unfoldl :: (0 <= n, Unfoldl 0 n n) => (s -> (s, a)) -> s -> LengthR n a
 unfoldl f s = unfoldlWithBase f s NilR
 
 {-^
@@ -68,7 +68,7 @@ It is like @unfoldl@. But it has already prepared values.
 
 -}
 
-unfoldlM :: (Monad m, Unfoldl 0 n n) => m a -> m (LengthR n a)
+unfoldlM :: (Monad m, 0 <= n, Unfoldl 0 n n) => m a -> m (LengthR n a)
 unfoldlM = (`unfoldlMWithBase` NilR)
 
 {-^
@@ -125,7 +125,7 @@ instance ListToLengthR 1 where
 	listToLengthR = \case [] -> Left NilR; x : xs -> Right (NilR :+ x, xs)
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, 1 <= (n - 1), ListToLengthR (n - 1)) => ListToLengthR n where
+	(1 <= n, 1 <= (n - 1), 0 <= (n - 1), ListToLengthR (n - 1)) => ListToLengthR n where
 	listToLengthR = \case
 		[] -> Left NilR
 		x : xs -> (:++ x) +++ ((:+ x) `first`) $ listToLengthR xs

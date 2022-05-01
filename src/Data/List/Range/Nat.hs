@@ -3,6 +3,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wall -fno-warn-tabs #-}
 
+{-# LANGUAGE GADTs #-}
+
 module Data.List.Range.Nat (
 	-- * RangedNatL
 	RangedNatL, natL, toIntL, fromIntL, splitAtL,
@@ -16,6 +18,8 @@ import Data.List.Range (
 	RangeL, Unfoldr, unfoldrRangeMaybe, ZipL, zipWithL,
 	RangeR, Unfoldl, unfoldlRangeMaybe, ZipR, zipWithR )
 
+import GHC.TypeNats
+
 ---------------------------------------------------------------------------
 
 -- * RANGED NAT LEFT
@@ -27,7 +31,7 @@ import Data.List.Range (
 
 type RangedNatL n m = RangeL n m ()
 
-natL :: Unfoldr 0 n n => RangedNatL n n
+natL :: (0 <= n, Unfoldr 0 n n) => RangedNatL n n
 natL = repeatL ()
 
 {-^
@@ -92,7 +96,7 @@ splitAtL (natL @2) xs :: (RangeL 2 2 Char, RangeL 1 6 Char)
 
 type RangedNatR n m = RangeR n m ()
 
-natR :: Unfoldl 0 n n => RangedNatR n n
+natR :: (0 <= n, Unfoldl 0 n n) => RangedNatR n n
 natR = repeatR ()
 
 {-^

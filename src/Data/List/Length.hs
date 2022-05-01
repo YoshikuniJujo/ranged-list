@@ -57,6 +57,8 @@ import Data.List.Length.LengthR (
 	LengthR, unfoldl, unfoldlWithBase, unfoldlM, unfoldlMWithBase,
 	ListToLengthR, listToLengthR )
 
+import GHC.TypeNats
+
 ---------------------------------------------------------------------------
 
 -- LENGTH LEFT
@@ -66,7 +68,7 @@ import Data.List.Length.LengthR (
 -- LENGTH LEFT
 ---------------------------------------------------------------------------
 
-repeatL :: Unfoldr 0 n n => a -> LengthL n a
+repeatL :: (0 <= n, Unfoldr 0 n n) => a -> LengthL n a
 repeatL = fillL NilL
 
 {-^
@@ -128,7 +130,7 @@ But if there is a not enough length fragment, then it fill with a default value.
 -- LENGTH RIGHT
 ---------------------------------------------------------------------------
 
-repeatR :: Unfoldl 0 n n => a -> LengthR n a
+repeatR :: (0 <= n, Unfoldl 0 n n) => a -> LengthR n a
 repeatR = (`fillR` NilR)
 
 {-^

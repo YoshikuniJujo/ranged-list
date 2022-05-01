@@ -279,7 +279,7 @@ class LeftToRight n m v w where
 instance LeftToRight n m 0 0 where n ++.+ _ = n
 
 instance {-# OVERLAPPABLE #-} (
-	PushR (n - 1) (m - 1), LoosenRMax n m (m + w),
+	1 <= n, PushR (n - 1) (m - 1), LoosenRMax n m (m + w),
 	LeftToRight n (m + 1) 0 (w - 1) ) => LeftToRight n m 0 w where
 	(++.+) n = \case NilL -> loosenRMax n; x :.. v -> n .:++ x ++.+ v
 
@@ -339,7 +339,7 @@ class RightToLeft n m v w where
 instance RightToLeft 0 0 v w where _ ++.. v = v
 
 instance {-# OVERLAPPABLE #-} (
-	PushL (v - 1) (w - 1), LoosenLMax v w (m + w),
+	1 <= v, PushL (v - 1) (w - 1), LoosenLMax v w (m + w),
 	RightToLeft 0 (m - 1) v (w + 1) ) => RightToLeft 0 m v w where
 	(++..) = \case NilR -> loosenLMax; n :++ x -> (n ++..) . (x .:..)
 

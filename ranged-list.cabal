@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 42c7def6fb4ed75b8b978a1de4cdf116653323fb1cee0e251bceaa00ef7be780
+-- hash: 349e85c819f827a30071512b7dc4e2e3b2add699054a5d970f833e60ce71577d
 
 name:           ranged-list
-version:        0.1.0.0
+version:        0.1.0.1
 synopsis:       The list like structure whose length or range of length can be specified
 description:    Please see the README on GitHub at <https://github.com/YoshikuniJujo/ranged-list#readme>
 category:       List

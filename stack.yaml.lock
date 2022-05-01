@@ -3,10 +3,17 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: typecheck-plugin-nat-simple-0.1.0.6@sha256:52c1b42f27068cb343e7095e04b7727afaa1492193691a7ef303bbde26d4de31,3054
+    pantry-tree:
+      size: 1742
+      sha256: ecda167e4a6bfbbcaec9c71568ca8897f484831ecae8a12950f7ce314ccb9f35
+  original:
+    hackage: typecheck-plugin-nat-simple-0.1.0.6
 snapshots:
 - completed:
-    size: 568887
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/2/25.yaml
-    sha256: ece4fbc22b6e3dcc608f68447eccb00f9c114b8b1fbaf55ff607ecf7a56e8eeb
-  original: nightly-2021-02-25
+    size: 554661
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2022/4/28.yaml
+    sha256: eb778a9c971802e22068265fb7b14d357c3eb7d76229402b9444a3db1a2bc153
+  original: nightly-2022-04-28

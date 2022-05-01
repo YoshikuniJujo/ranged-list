@@ -267,7 +267,7 @@ instance {-# OVERLAPPABLE #-}
 	loosenRMin (xs :+ x) = loosenRMin xs :++ x
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, LoosenRMin (n - 1) (m - 1) (v - 1)) => LoosenRMin n m v where
+	(1 <= n, 1 <= v, LoosenRMin (n - 1) (m - 1) (v - 1)) => LoosenRMin n m v where
 	loosenRMin (xs :+ x) = loosenRMin xs :+ x
 
 -- LOOSEN RIGHT MAX
@@ -293,11 +293,11 @@ class LoosenRMax n m w where
 instance LoosenRMax 0 0 m where loosenRMax NilR = NilR
 
 instance {-# OVERLAPPABLE #-}
-	LoosenRMax 0 (m - 1) (w - 1) => LoosenRMax 0 m w where
+	(1 <= w, LoosenRMax 0 (m - 1) (w - 1)) => LoosenRMax 0 m w where
 	loosenRMax = \case NilR -> NilR; xs :++ x -> loosenRMax xs :++ x
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, LoosenRMax (n - 1) (m - 1) (w - 1)) => LoosenRMax n m w where
+	(1 <= n, 1 <= w, LoosenRMax (n - 1) (m - 1) (w - 1)) => LoosenRMax n m w where
 	loosenRMax (xs :+ x) = loosenRMax xs :+ x
 
 ---------------------------------------------------------------------------
@@ -354,7 +354,7 @@ instance Unfoldl 0 0 0 where
 	unfoldlMRangeWithBase _ _ NilR = pure NilR
 	unfoldlMRangeMaybeWithBase p _ NilR = bool (Just NilR) Nothing <$> p
 
-instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
+instance {-# OVERLAPPABLE #-} (1 <= w, Unfoldl 0 0 (w - 1)) => Unfoldl 0 0 w where
 	unfoldlMRangeWithBase p f = \case
 		NilR -> (p >>=) . bool (pure NilR) $ f >>= \x ->
 			(:++ x) <$> unfoldlMRangeWithBase p f NilR
@@ -365,7 +365,7 @@ instance {-# OVERLAPPABLE #-} Unfoldl 0 0 (w - 1) => Unfoldl 0 0 w where
 			((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f NilR
 		xs :++ x -> ((:++ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
 
-instance {-# OVERLAPPABLE #-} Unfoldl 0 (v - 1) (w - 1) => Unfoldl 0 v w where
+instance {-# OVERLAPPABLE #-} (1 <= v, 1 <= w, Unfoldl 0 (v - 1) (w - 1)) => Unfoldl 0 v w where
 	unfoldlMRangeWithBase p f = \case
 		NilR -> f >>= \x -> (:+ x) <$> unfoldlMRangeWithBase p f NilR
 		xs :++ x -> (:+ x) <$> unfoldlMRangeWithBase p f xs
@@ -376,7 +376,7 @@ instance {-# OVERLAPPABLE #-} Unfoldl 0 (v - 1) (w - 1) => Unfoldl 0 v w where
 		xs :++ x -> ((:+ x) <$>) <$> unfoldlMRangeMaybeWithBase p f xs
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, Unfoldl (n - 1) (v - 1) (w - 1)) => Unfoldl n v w where
+	(1 <= n, 1 <= v, Unfoldl (n - 1) (v - 1) (w - 1)) => Unfoldl n v w where
 	unfoldlMRangeWithBase p f (xs :+ x) =
 		(:+ x) <$> unfoldlMRangeWithBase p f xs
 
@@ -572,7 +572,7 @@ class ZipR n m v w where
 instance ZipR n m 0 0 where zipWithMR _ xs NilR = pure (xs, NilR)
 
 instance {-# OVERLAPPABLE #-} (
-	1 <= n, LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
+	1 <= n, 1 <= m, w <= n, LoosenRMin n m (n - w), LoosenRMax (n - w) (m - 1) m,
 	ZipR (n - 1) (m - 1) 0 (w - 1) ) => ZipR n m 0 w where
 	zipWithMR _ xs NilR = pure (loosenRMin xs, NilR)
 	zipWithMR (%) (xs :+ x) (ys :++ y) =
