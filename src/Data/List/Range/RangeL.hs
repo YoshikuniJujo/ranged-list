@@ -43,6 +43,7 @@ import GHC.Exts (IsList(..))
 import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateL(..))
+import Data.Kind (Type)
 import Data.Foldable (toList)
 import Data.Bool (bool)
 import Data.Maybe (isJust, fromMaybe)
@@ -87,7 +88,7 @@ You can push and pop an element from left.
 
 -- RANGE LEFT
 
-data RangeL :: Nat -> Nat -> * -> * where
+data RangeL :: Nat -> Nat -> Type -> Type where
 	NilL :: 0 <= m => RangeL 0 m a
 	(:..) :: 1 <= m => a -> RangeL 0 (m - 1) a -> RangeL 0 m a
 	(:.) :: (1 <= n, 1 <= m) =>
@@ -131,6 +132,21 @@ instance {-# OVERLAPPABLE #-}
 instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeL (n - 1) (m - 1))) =>
 	Foldable (RangeL n m) where
 	foldr (-<) z (x :. xs) = x -< foldr (-<) z xs
+
+-- INSTANCE TRAVERSABLE
+
+instance Traversable (RangeL 0 0) where traverse _ NilL = pure NilL
+
+instance {-# OVERLAPPABLE #-}
+	Traversable (RangeL 0 (m - 1)) => Traversable (RangeL 0 m) where
+	traverse f = \case
+		NilL -> pure NilL; x :.. xs -> (:..) <$> f x <*> traverse f xs
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Traversable (RangeL (n - 1) (m - 1))) =>
+	Traversable (RangeL n m) where
+	traverse f (x :. xs) = (:.) <$> f x <*> traverse f xs
+
+-- INSTANCE APPLICATIVE
 
 instance Applicative (LengthL 0) where pure _ = NilL; _ <*> _ = NilL
 

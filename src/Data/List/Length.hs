@@ -42,7 +42,6 @@ module Data.List.Length (
 	-- * RIGHT TO LEFT
 	RightToLeft, (++..), rightToLeft ) where
 
-import GHC.TypeNats (type (-))
 import Control.Arrow (first, (***))
 import Data.List.Range (
 	RangeL(..), AddL, (++.), LoosenLMax, loosenLMax, Unfoldr,

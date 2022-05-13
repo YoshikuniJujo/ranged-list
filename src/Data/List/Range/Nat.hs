@@ -11,7 +11,6 @@ module Data.List.Range.Nat (
 	-- * RangedNatR
 	RangedNatR, natR, toIntR, fromIntR, splitAtR ) where
 
-import GHC.TypeNats (type (-))
 import Data.Bool (bool)
 import Data.List.Length (repeatL, repeatR)
 import Data.List.Range (

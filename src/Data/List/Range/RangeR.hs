@@ -42,6 +42,7 @@ import GHC.Exts
 import Control.Arrow (first, second, (***), (&&&))
 import Control.Monad.Identity (Identity(..))
 import Control.Monad.State (StateR(..))
+import Data.Kind (Type)
 import Data.Foldable
 import Data.Bool (bool)
 import Data.Maybe (isJust, fromMaybe)
@@ -74,7 +75,7 @@ import Data.Maybe (isJust, fromMaybe)
 
 -- RANGE RIGHT
 
-data RangeR :: Nat -> Nat -> * -> * where
+data RangeR :: Nat -> Nat -> Type -> Type where
 	NilR :: 0 <= m => RangeR 0 m a
 	(:++) :: 1 <= m => RangeR 0 (m - 1) a -> a -> RangeR 0 m a
 	(:+) :: (1 <= n, 1 <= m) =>
@@ -118,6 +119,21 @@ instance {-# OVERLAPPABLE #-}
 instance {-# OVERLAPPABLE #-} (1 <= n, Foldable (RangeR (n - 1) (m - 1))) =>
 	Foldable (RangeR n m) where
 	foldr (-<) z (xs :+ x) = foldr (-<) (x -< z) xs
+
+-- INSTANCE TRAVERSABLE
+
+instance Traversable (RangeR 0 0) where traverse _ NilR = pure NilR
+
+instance {-# OVERLAPPABLE #-}
+	Traversable (RangeR 0 (m - 1)) => Traversable (RangeR 0 m) where
+	traverse f = \case
+		NilR -> pure NilR; xs :++ x -> (:++) <$> traverse f xs <*> f x
+
+instance {-# OVERLAPPABLE #-} (1 <= n, Traversable (RangeR (n - 1) (m - 1))) =>
+	Traversable (RangeR n m) where
+	traverse f (xs :+ x) = (:+) <$> traverse f xs <*> f x
+
+-- INSTANCE APPLICATIVE
 
 instance Applicative (RangeR 0 0) where pure _ = NilR; _ <*> _ = NilR
 
