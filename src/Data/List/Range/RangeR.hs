@@ -94,6 +94,8 @@ You can push and pop an element from right.
 
 infixl 6 :+, :++
 
+deriving instance Eq a => Eq (RangeR n m a)
+deriving instance Ord a => Ord (RangeR n m a)
 deriving instance Show a => Show (RangeR n m a)
 
 -- INSTANCE FUNCTOR

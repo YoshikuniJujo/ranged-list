@@ -107,6 +107,8 @@ You can push and pop an element from left.
 
 infixr 6 :., :..
 
+deriving instance Eq a => Eq (RangeL n m a)
+deriving instance Ord a => Ord (RangeL n m a)
 deriving instance Show a => Show (RangeL n m a)
 
 -- INSTANCE FUNCTOR
