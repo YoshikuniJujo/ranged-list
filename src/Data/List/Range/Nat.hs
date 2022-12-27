@@ -58,7 +58,7 @@ To convert from @RangedNatL@ to @Int@.
 
 -}
 
-fromIntL :: Unfoldr 0 n m => Int -> Maybe (RangedNatL n m)
+fromIntL :: (0 <= m, Unfoldr 0 n m) => Int -> Maybe (RangedNatL n m)
 fromIntL = unfoldrRangeMaybe \s -> bool Nothing (Just ((), s - 1)) (s > 0)
 
 {-^
@@ -123,7 +123,7 @@ To convert from @RangedNatR@ to @Int@.
 
 -}
 
-fromIntR :: Unfoldl 0 n m => Int -> Maybe (RangedNatR n m)
+fromIntR :: (0 <= m, Unfoldl 0 n m) => Int -> Maybe (RangedNatR n m)
 fromIntR = unfoldlRangeMaybe \s -> bool Nothing (Just (s - 1, ())) (s > 0)
 
 {-^

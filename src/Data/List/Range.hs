@@ -59,7 +59,7 @@ import Data.List.Range.RangeR
 
 -- MIN
 
-repeatLMin :: (LoosenLMax n n m, Unfoldr 0 n n) => a -> RangeL n m a
+repeatLMin :: (0 <= n, LoosenLMax n n m, Unfoldr 0 n n) => a -> RangeL n m a
 repeatLMin = unfoldrMin \x -> (x, x)
 
 {-^
@@ -73,7 +73,7 @@ To repeat a value minimum number of times.
 -}
 
 unfoldrMin ::
-	(LoosenLMax n n m, Unfoldr 0 n n) => (s -> (a, s)) -> s -> RangeL n m a
+	(0 <= n, LoosenLMax n n m, Unfoldr 0 n n) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMin f = loosenLMax . unfoldr f
 
 {-^
@@ -88,7 +88,7 @@ The function recieve a state and return a value and a new state.
 -}
 
 unfoldrMMin ::
-	(Monad m, LoosenLMax n n w, Unfoldr 0 n n) => m a -> m (RangeL n w a)
+	(0 <= n, Monad m, LoosenLMax n n w, Unfoldr 0 n n) => m a -> m (RangeL n w a)
 unfoldrMMin f = loosenLMax <$> unfoldrM f
 
 {-^
@@ -106,7 +106,7 @@ It is like @unfoldrMin@. But it use a monad instead of a function.
 
 -- MAX
 
-repeatLMax :: (LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
+repeatLMax :: (0 <= m, LoosenLMin m m n, Unfoldr 0 m m) => a -> RangeL n m a
 repeatLMax = unfoldrMax \x -> (x, x)
 
 {-^
@@ -120,7 +120,7 @@ To repeat a value maximum number of times.
 -}
 
 unfoldrMax ::
-	(LoosenLMin m m n, Unfoldr 0 m m) => (s -> (a, s)) -> s -> RangeL n m a
+	(0 <= m, LoosenLMin m m n, Unfoldr 0 m m) => (s -> (a, s)) -> s -> RangeL n m a
 unfoldrMax f = loosenLMin . unfoldr f
 
 {-^
@@ -135,7 +135,7 @@ The function recieve a state and return a value and a new state.
 -}
 
 unfoldrMMax ::
-	(Monad m, LoosenLMin w w n, Unfoldr 0 w w) => m a -> m (RangeL n w a)
+	(0 <= w, Monad m, LoosenLMin w w n, Unfoldr 0 w w) => m a -> m (RangeL n w a)
 unfoldrMMax f = loosenLMin <$> unfoldrM f
 
 {-^
@@ -157,7 +157,7 @@ It is like @unfoldrMax@. But it use a monad instead of a function.
 
 -- MIN
 
-repeatRMin :: (LoosenRMax n n m, Unfoldl 0 n n) => a -> RangeR n m a
+repeatRMin :: (0 <= n, LoosenRMax n n m, Unfoldl 0 n n) => a -> RangeR n m a
 repeatRMin = unfoldlMin \x -> (x, x)
 
 {-^
@@ -171,7 +171,7 @@ To repeat a value minimum number of times.
 -}
 
 unfoldlMin ::
-	(LoosenRMax n n m, Unfoldl 0 n n) => (s -> (s, a)) -> s -> RangeR n m a
+	(0 <= n, LoosenRMax n n m, Unfoldl 0 n n) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMin f = loosenRMax . unfoldl f
 
 {-^
@@ -186,7 +186,7 @@ The function recieves a state and return a value and a new state.
 -}
 
 unfoldlMMin ::
-	(Monad m, LoosenRMax n n w, Unfoldl 0 n n) => m a -> m (RangeR n w a)
+	(0 <= n, Monad m, LoosenRMax n n w, Unfoldl 0 n n) => m a -> m (RangeR n w a)
 unfoldlMMin f = loosenRMax <$> unfoldlM f
 
 {-^
@@ -204,7 +204,7 @@ It is like @unfoldlMax@. But it uses a monad instead of a function.
 
 -- MAX
 
-repeatRMax :: (LoosenRMin m m n, Unfoldl 0 m m) => a -> RangeR n m a
+repeatRMax :: (0 <= m, LoosenRMin m m n, Unfoldl 0 m m) => a -> RangeR n m a
 repeatRMax = unfoldlMax \x -> (x, x)
 
 {-^
@@ -218,7 +218,7 @@ To repeat a value maximum number of times.
 -}
 
 unfoldlMax ::
-	(LoosenRMin m m n, Unfoldl 0 m m) => (s -> (s, a)) -> s -> RangeR n m a
+	(0 <= m, LoosenRMin m m n, Unfoldl 0 m m) => (s -> (s, a)) -> s -> RangeR n m a
 unfoldlMax f = loosenRMin . unfoldl f
 
 {-^
@@ -233,7 +233,7 @@ The function recieves a state and return a value and a new state.
 -}
 
 unfoldlMMax ::
-	(Monad m, LoosenRMin w w n, Unfoldl 0 w w) => m a -> m (RangeR n w a)
+	(0 <= w, Monad m, LoosenRMin w w n, Unfoldl 0 w w) => m a -> m (RangeR n w a)
 unfoldlMMax f = loosenRMin <$> unfoldlM f
 
 {-^
@@ -279,12 +279,14 @@ class LeftToRight n m v w where
 instance LeftToRight n m 0 0 where n ++.+ _ = n
 
 instance {-# OVERLAPPABLE #-} (
-	1 <= n, PushR (n - 1) (m - 1), LoosenRMax n m (m + w),
+	1 <= n, 1 <= m + 1, PushR (n - 1) m, LoosenRMax n m (m + w),
 	LeftToRight n (m + 1) 0 (w - 1) ) => LeftToRight n m 0 w where
-	(++.+) n = \case NilL -> loosenRMax n; x :.. v -> n .:++ x ++.+ v
+	(++.+) :: forall a . RangeR n m a -> RangeL 0 w a -> RangeR n (m + w) a
+	(++.+) n = \case NilL -> loosenRMax n; x :.. v -> (n .:++ x :: RangeR n (m + 1) a) ++.+ v
 
-instance {-# OVERLAPPABLE #-}
-	(1 <= v, LeftToRight (n + 1) (m + 1) (v - 1) (w - 1)) =>
+instance {-# OVERLAPPABLE #-} (
+	1 <= n + 1, 1 <= m + 1, 1 <= v,
+	LeftToRight (n + 1) (m + 1) (v - 1) (w - 1)) =>
 	LeftToRight n m v w where
 	(++.+) :: forall a .
 		RangeR n m a -> RangeL v w a -> RangeR (n + v) (m + w) a
@@ -339,12 +341,15 @@ class RightToLeft n m v w where
 instance RightToLeft 0 0 v w where _ ++.. v = v
 
 instance {-# OVERLAPPABLE #-} (
-	1 <= v, PushL (v - 1) (w - 1), LoosenLMax v w (m + w),
+	1 <= v, 1 <= w + 1, PushL (v - 1) w, LoosenLMax v w (m + w),
 	RightToLeft 0 (m - 1) v (w + 1) ) => RightToLeft 0 m v w where
-	(++..) = \case NilR -> loosenLMax; n :++ x -> (n ++..) . (x .:..)
+	(++..) :: forall a . RangeR 0 m a -> RangeL v w a -> RangeL v (m + w) a
+	NilR ++.. l = loosenLMax l
+	(n :++ x) ++.. l = n ++.. (x .:.. l :: RangeL v (w + 1) a)
 
 instance {-# OVERLAPPABLE #-} (
-	1 <= n, RightToLeft (n - 1) (m - 1) (v + 1) (w + 1) ) =>
+	1 <= n, 1 <= v + 1, 1 <= w + 1,
+	RightToLeft (n - 1) (m - 1) (v + 1) (w + 1) ) =>
 	RightToLeft n m v w where
 	(++..) :: forall a .
 		RangeR n m a -> RangeL v w a -> RangeL (n + v) (m + w) a

@@ -1,13 +1,11 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: a22ce50d50583c3a0ac25b09f771d7f4456aa22f8154625866fdb128f05eb4b9
 
 name:           ranged-list
-version:        0.1.2.0
+version:        0.1.2.1
 synopsis:       The list like structure whose length or range of length can be specified
 description:    Please see the README on GitHub at <https://github.com/YoshikuniJujo/ranged-list#readme>
 category:       List
@@ -52,7 +50,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
-    , typecheck-plugin-nat-simple
+    , typecheck-plugin-nat-simple >=0.1.0.9
   default-language: Haskell2010
 
 test-suite ranged-list-doctest
@@ -67,7 +65,7 @@ test-suite ranged-list-doctest
       base >=4.7 && <5
     , doctest
     , ranged-list
-    , typecheck-plugin-nat-simple
+    , typecheck-plugin-nat-simple >=0.1.0.9
   default-language: Haskell2010
 
 test-suite ranged-list-test
@@ -81,5 +79,5 @@ test-suite ranged-list-test
   build-depends:
       base >=4.7 && <5
     , ranged-list
-    , typecheck-plugin-nat-simple
+    , typecheck-plugin-nat-simple >=0.1.0.9
   default-language: Haskell2010

@@ -152,30 +152,39 @@ instance {-# OVERLAPPABLE #-} (1 <= n, Traversable (RangeL (n - 1) (m - 1))) =>
 
 instance Applicative (LengthL 0) where pure _ = NilL; _ <*> _ = NilL
 
-instance {-# OVERLAPPABLE #-} (Functor (RangeL 0 m), Applicative (RangeL 0 (m - 1)), Unfoldr 0 0 m) => Applicative (RangeL 0 m) where
+instance {-# OVERLAPPABLE #-} (
+	0 <= m,
+	Functor (RangeL 0 m), Applicative (RangeL 0 (m - 1)), Unfoldr 0 0 m) =>
+	Applicative (RangeL 0 m) where
 	pure = unfoldrRange (const True) (\x -> (x, x))
 	NilL <*> _ = NilL
 	_ <*> NilL = NilL
 	f :.. fs <*> x :.. xs = f x :.. (fs <*> xs)
 
-instance {-# OVERLAPPABLE #-} (1 <= n, Functor (RangeL n m), Applicative (RangeL (n - 1) (m - 1)), Unfoldr 0 n m) => Applicative (RangeL n m) where
+instance {-# OVERLAPPABLE #-} (
+	1 <= n, 0 <= m,
+	Functor (RangeL n m), Applicative (RangeL (n - 1) (m - 1)),
+	Unfoldr 0 n m) =>
+	Applicative (RangeL n m) where
 	pure = unfoldrRange (const True) (\x -> (x, x))
 	f :. fs <*> x :. xs = f x :. (fs <*> xs)
 
 instance Applicative (LengthL 0) => Monad (LengthL 0) where
 	NilL >>= _ = NilL
 
-instance {-# OVERLAPPABLE #-} (1 <= n, Applicative (LengthL n), Monad (LengthL (n - 1))) => Monad (LengthL n) where
+instance {-# OVERLAPPABLE #-} (
+	1 <= n, Applicative (LengthL n), Monad (LengthL (n - 1)) ) =>
+	Monad (LengthL n) where
 	x :. xs >>= f = y :. (xs >>= \z -> case f z of _ :. zs -> zs)
 		where y :. _ = f x
 
 -- INSTANCE ISSTRING
 
-instance Unfoldr 0 n m => IsString (RangeL n m Char) where
+instance (0 <= m, Unfoldr 0 n m) => IsString (RangeL n m Char) where
 	fromString s = fromMaybe (error $ "The string " ++ show s ++ " is not within range.")
 		$ unfoldrRangeMaybe (\case "" -> Nothing; c : cs -> Just (c, cs)) s
 
-instance (Foldable (RangeL n m), Unfoldr 0 n m) => IsList (RangeL n m a) where
+instance (0 <= m, Foldable (RangeL n m), Unfoldr 0 n m) => IsList (RangeL n m a) where
 	type Item (RangeL n m a) = a
 	fromList lst = fromMaybe (error $ "The list is not within range.")
 		$ unfoldrRangeMaybe (\case [] -> Nothing; x : xs -> Just (x, xs)) lst
@@ -188,7 +197,7 @@ instance (Foldable (RangeL n m), Unfoldr 0 n m) => IsList (RangeL n m a) where
 infixr 5 .:..
 
 class PushL n m where
-	(.:..) :: a -> RangeL n m a -> RangeL n (m + 1) a
+	(.:..) :: a -> RangeL n (m - 1) a -> RangeL n m a
 
 	{-^
 
@@ -203,10 +212,9 @@ class PushL n m where
 
 	-}
 
-instance PushL 0 m where
-	(.:..) x = \case NilL -> x :.. NilL; xs@(_ :.. _) -> x :.. xs
+instance 1 <= m => PushL 0 m where (.:..) = (:..)
 
-instance {-# OVERLAPPABLE #-} (1 <= n, PushL (n - 1) (m - 1)) => PushL n m where
+instance {-# OVERLAPPABLE #-} (1 <= n, 1 <= m, PushL (n - 1) (m - 1)) => PushL n m where
 	x .:.. y :. ys = x :. (y .:.. ys)
 
 ---------------------------------------------------------------------------
@@ -236,14 +244,15 @@ class AddL n m v w where
 instance AddL 0 0 v w where NilL ++. ys = ys
 
 instance {-# OVERLAPPABLE #-}
-	(PushL v (m + w - 1), AddL 0 (m - 1) v w, LoosenLMax v w (m + w)) =>
+	(PushL v (m + w), AddL 0 (m - 1) v w, LoosenLMax v w (m + w)) =>
 	AddL 0 m v w where
 	(++.) :: forall a .  RangeL 0 m a -> RangeL v w a -> RangeL v (m + w) a
 	NilL ++. ys = loosenLMax ys
 	x :.. xs ++. ys = x .:.. (xs ++. ys :: RangeL v (m + w - 1) a)
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= n, AddL (n - 1) (m - 1) v w) => AddL n m v w where
+	(1 <= n, 1 <= n + v, 1 <= m + w, AddL (n - 1) (m - 1) v w) =>
+	AddL n m v w where
 	x :. xs ++. ys = x :. (xs ++. ys)
 
 ---------------------------------------------------------------------------
@@ -317,10 +326,10 @@ class LoosenLMax n m w where
 
 	-}
 
-instance LoosenLMax 0 0 w where loosenLMax NilL = NilL
+instance 0 <= w => LoosenLMax 0 0 w where loosenLMax NilL = NilL
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= w, LoosenLMax 0 (m - 1) (w - 1)) => LoosenLMax 0 m w where
+	(0 <= w, 1 <= w, LoosenLMax 0 (m - 1) (w - 1)) => LoosenLMax 0 m w where
 	loosenLMax = \case NilL -> NilL; (x :.. xs) -> x :.. loosenLMax xs
 
 instance {-# OVERLAPPABLE #-}
@@ -380,7 +389,8 @@ instance Unfoldr 0 0 0 where
 	unfoldrMRangeWithBase NilL _ _ = pure NilL
 	unfoldrMRangeMaybeWithBase NilL p _ = bool (Just NilL) Nothing <$> p
 
-instance {-# OVERLAPPABLE #-} (1 <= w, Unfoldr 0 0 (w - 1)) => Unfoldr 0 0 w where
+instance {-# OVERLAPPABLE #-} (0 <= w - 1, 1 <= w, Unfoldr 0 0 (w - 1)) =>
+	Unfoldr 0 0 w where
 	unfoldrMRangeWithBase NilL p f =
 		(p >>=) . bool (pure NilL) $ f >>= \x ->
 			(x :..) <$> unfoldrMRangeWithBase NilL p f
@@ -394,7 +404,7 @@ instance {-# OVERLAPPABLE #-} (1 <= w, Unfoldr 0 0 (w - 1)) => Unfoldr 0 0 w whe
 		((x :..) <$>) <$> unfoldrMRangeMaybeWithBase xs p f
 
 instance {-# OVERLAPPABLE #-}
-	(1 <= v, 1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
+	(1 <= v, 0 <= w - 1, 1 <= w, Unfoldr 0 (v - 1) (w - 1)) => Unfoldr 0 v w where
 	unfoldrMRangeWithBase NilL p f =
 		f >>= \x -> (x :.) <$> unfoldrMRangeWithBase NilL p f
 	unfoldrMRangeWithBase (x :.. xs) p f =
@@ -416,7 +426,7 @@ instance {-# OVERLAPPABLE #-}
 
 -- UNFOLDR RANGE
 
-unfoldrRange :: Unfoldr 0 v w =>
+unfoldrRange :: (0 <= w, Unfoldr 0 v w) =>
 	(s -> Bool) -> (s -> (a, s)) -> s -> RangeL v w a
 unfoldrRange = unfoldrRangeWithBase NilL
 
@@ -473,7 +483,7 @@ But it return not only a list but also a state value.
 
 -}
 
-unfoldrMRange :: (Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
+unfoldrMRange :: (0 <= w, Unfoldr 0 v w, Monad m) => m Bool -> m a -> m (RangeL v w a)
 unfoldrMRange = unfoldrMRangeWithBase NilL
 
 {-^
@@ -491,7 +501,7 @@ It is like @unfoldrRange@. But it use a monad instead of a function.
 
 -- UNFOLDR RANGE MAYBE
 
-unfoldrRangeMaybe :: Unfoldr 0 v w =>
+unfoldrRangeMaybe :: (0 <= w, Unfoldr 0 v w) =>
 	(s -> Maybe (a, s)) -> s -> Maybe (RangeL v w a)
 unfoldrRangeMaybe = unfoldrRangeMaybeWithBase NilL
 
@@ -541,7 +551,7 @@ unfoldrRangeMaybeWithBaseGen :: Unfoldr n v w =>
 unfoldrRangeMaybeWithBaseGen xs p f =
 	runStateL $ unfoldrMRangeMaybeWithBase xs (StateL p) (StateL f)
 
-unfoldrMRangeMaybe :: (Unfoldr 0 v w, Monad m) =>
+unfoldrMRangeMaybe :: (0 <= w, Unfoldr 0 v w, Monad m) =>
 	m Bool -> m a -> m (Maybe (RangeL v w a))
 unfoldrMRangeMaybe = unfoldrMRangeMaybeWithBase NilL
 
