@@ -1,5 +1,5 @@
 name:                ranged-list
-version:             0.1.2.1
+version:             0.1.2.2
 github:              "YoshikuniJujo/ranged-list"
 license:             BSD3
 author:              "Yoshikuni Jujo"
@@ -21,6 +21,7 @@ description:         Please see the README on GitHub at <https://github.com/Yosh
 
 dependencies:
 - base >= 4.7 && < 5
+- ghc-internal
 - typecheck-plugin-nat-simple >= 0.1.0.9
 
 library:

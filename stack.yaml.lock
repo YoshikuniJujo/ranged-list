@@ -3,10 +3,21 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    commit: cea81435f01480248b44c55654dd4a39fbc43e76
+    git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple.git
+    name: typecheck-plugin-nat-simple
+    pantry-tree:
+      sha256: 95d6329c04bce860d45c1cf5e39d76b88073f4e355927ad3b6ae0c4c580da541
+      size: 1999
+    version: 0.1.0.10
+  original:
+    commit: cea81435f01480248b44c55654dd4a39fbc43e76
+    git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple.git
 snapshots:
 - completed:
-    sha256: 9313df78f49519315342f4c51ffc5da12659d3735f8ac3c54a1fb98ff874474e
-    size: 640036
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/21/12.yaml
-  original: lts-21.12
+    sha256: 176e8e87a19f7f3788415e5c390cdf2c24ce5eac756dbb1dec0d306168a2bc87
+    size: 602620
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2024/12/11.yaml
+  original: nightly-2024-12-11
