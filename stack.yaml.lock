@@ -5,16 +5,12 @@
 
 packages:
 - completed:
-    commit: cea81435f01480248b44c55654dd4a39fbc43e76
-    git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple.git
-    name: typecheck-plugin-nat-simple
+    hackage: typecheck-plugin-nat-simple-0.1.0.11@sha256:d24fc47b7b60bf3499775a2bcb1ac14af83bdb02edcaa9956472a51e78c6084e,3122
     pantry-tree:
-      sha256: 95d6329c04bce860d45c1cf5e39d76b88073f4e355927ad3b6ae0c4c580da541
-      size: 1999
-    version: 0.1.0.10
+      sha256: 91084aa742cd2b463b1eed50dd6891310ea0ea19b8c0ba578b9cf5d7c96d3b8b
+      size: 1743
   original:
-    commit: cea81435f01480248b44c55654dd4a39fbc43e76
-    git: https://github.com/YoshikuniJujo/typecheck-plugin-nat-simple.git
+    hackage: typecheck-plugin-nat-simple-0.1.0.11
 snapshots:
 - completed:
     sha256: 176e8e87a19f7f3788415e5c390cdf2c24ce5eac756dbb1dec0d306168a2bc87
